@@ -10,7 +10,7 @@ Welcome to Auframe
 Documents
 -------------
 
-关于模块化开发的具体的集成方式和项目的构建方式，请参考www.aufuture.cn
+关于模块化开发的具体的集成方式和项目的构建方式，请参考 https://www.aufuture.cn
 
 > **Note:**
 
