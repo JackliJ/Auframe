@@ -1,4 +1,4 @@
-Welcome to Auframe
+Android模块化开发基础框架
 ===================
 
 
@@ -20,10 +20,68 @@ Documents
 
 
 ----------
+Introduction
+-------------
+项目中模块化开发的跳转方式使用的是**阿里云路由**  https://github.com/alibaba/ARouter
+
+请保证主项目中的
+```java
+minSdkVersion 16
+targetSdkVersion 25
+```
+**与library中一致   并且上面的包也要在其中引用 不然注解无法生效**
+
+然后我们在library项目中需要跳转的Activity上添加注解
+```java
+@Route(path = "/small/model/ui/testActivity")
+public class TestSmallUiActivity extends Activity {
+```
+项目中的跳转示例
+```java
+List<TestSmallBean> list = new ArrayList<>();
+TestSmallBean bean = null;
+for (int i = 0; i < 3; i++) {
+    bean = new TestSmallBean();
+    bean.setID(i);
+    bean.setName("name is " + i);
+}
+
+ARouter.getInstance().build("/small/model/ui/testActivity")
+             .withString("testString", "我是一个字符串")
+             .withBoolean("testBoolean", true)
+             .withSerializable("testBean", (Serializable) list)
+             .navigation();
+```
 
 
-Synchronization
--------------------
 
-StackEdit can be combined with <i class="icon-provider-gdrive"></i> **Google Drive** and <i class="icon-provider-dropbox"></i> **Dropbox** to have your documents saved in the *Cloud*. The synchronization mechanism takes care of uploading your modifications or downloading the latest version of your documents.
+然后就是取值   取值有两种  一种是通过getIntent() 正常取值  一种是通过注解的方式
+
+```java
+@Autowired(name = "testString")
+public String mName;
+@Autowired(name = "testBoolean")
+public boolean mboolean;
+@Autowired(name = "testBean")
+public List<TestSmallBean> mData;
+```
+
+在onCreate中
+```java
+ARouter.getInstance().inject(this);
+```
+
+另外一种方式为：
+```java
+mData = (List<TestSmallBean>) getIntent().getSerializableExtra("testBean");
+```
+
+TestSmallBean写在library中  方便主项目调用
+
+
+我们通过gradle.properties中的 **isBuildModel** 来切换   当我们在开发过程中的时候  将其设置为true 
+  
+在运行工程中选择为model   那么model就可以作为独立的项目进行运行   设置为false 则项目model作为library应用于主项目
+
+**需要注意的是  我们应该尽量的规避主项目中使用到的jar资源文件出现在library中**  
 
