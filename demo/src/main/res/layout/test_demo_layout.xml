@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/test_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="account"
+            android:text="8059316" />
+
+        <EditText
+            android:id="@+id/test_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="password"
+            android:text="000000" />
+
+        <Button
+            android:id="@+id/button_demo_library_demo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_http_button" />
+
+        <TextView
+            android:id="@+id/text_tv_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:id="@+id/text_button_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查询用户信息" />
+
+    </LinearLayout>
+</ScrollView>

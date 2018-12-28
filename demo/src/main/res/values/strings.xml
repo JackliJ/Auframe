@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Demo</string>
+
+    <string name="get_http_button">login</string>
+</resources>

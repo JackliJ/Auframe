@@ -1,0 +1,94 @@
+apply plugin: 'com.android.library'
+//数据库
+apply plugin: 'org.greenrobot.greendao'
+
+//数据库依赖路径
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+    }
+}
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 20
+        targetSdkVersion 26
+        versionCode 427
+        versionName "4.2.7"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    //配置数据库基础参数
+    greendao {
+        schemaVersion 417  //版本
+        daoPackage 'mge_data' // 一般为app包名+生成文件的文件夹名
+        targetGenDir 'src/main/java' //生成文件路径
+    }
+
+    buildTypes {
+        release {
+            //是否开启混淆
+            minifyEnabled true
+            //debug模式
+            debuggable false
+            // 服务器HTTP URL
+            buildConfigField "String", "API_HOST", "\"http://api.maiguoer.com/\""
+            // 服务器HTTPS URL
+            buildConfigField "String", "API_HOST_S", "\"https://api.maiguoer.com/\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            //是否开启混淆
+            minifyEnabled false
+            //debug模式
+            debuggable true
+            // 服务器HTTP URL
+            buildConfigField "String", "API_HOST", "\"http://testapi.maiguoer.com/\""
+            // 服务器HTTPS URL
+            buildConfigField "String", "API_HOST_S", "\"http://testapi.maiguoer.com/\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support:support-annotations:26.1.0') {
+        force = true
+    }
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //OkHttp https://github.com/jeasonlzy/okhttp-OkGo
+    compile 'com.lzy.net:okgo:3.0.4'
+    //基于RxJava 2.0的封装版本
+    compile 'com.lzy.net:okrx2:2.0.2'
+    //断点续传 断点下载使用的封装库
+    compile 'com.lzy.net:okserver:2.0.5'
+    //fastjson 解析库  https://github.com/alibaba/fastjson
+    compile 'com.alibaba:fastjson:1.2.54'
+    //android util https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/README-CN.md
+    compile 'com.blankj:utilcode:1.22.1'
+    //数据库 https://github.com/greenrobot/greenDAO
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'org.greenrobot:greendao-generator:3.2.2'
+
+
+}
