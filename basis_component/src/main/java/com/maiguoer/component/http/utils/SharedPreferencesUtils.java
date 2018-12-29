@@ -3,6 +3,8 @@ package com.maiguoer.component.http.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.maiguoer.component.http.BuildConfig;
+
 /**
  * SharedPreferences 帮助类
  * Create by www.lijin@foxmail.com on 2018/12/16 0016.
@@ -170,6 +172,25 @@ public class SharedPreferencesUtils {
      */
     public static String GetLoginUserAvatar(Context context) {
         return (String) getParam(context, "login_avatar", "");
+    }
+
+
+    /**
+     * 保存最后一次打开客户端时候的版本号
+     *
+     * @param context
+     */
+    public static void SaveLastApplicationVersion(Context context) {
+        setParam(context, "last_application_version", BuildConfig.VERSION_CODE);
+    }
+
+    /**
+     * 获取最后一次打开客户端的版本号
+     *
+     * @param context
+     */
+    public static int getLastApplicationVersion(Context context) {
+        return (Integer) getParam(context, "last_application_version", -1);
     }
 
 

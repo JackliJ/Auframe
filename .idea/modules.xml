@@ -4,8 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Auframe.iml" filepath="$PROJECT_DIR$/Auframe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basis_component/basis_component.iml" filepath="$PROJECT_DIR$/basis_component/basis_component.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mge_http/mge_http.iml" filepath="$PROJECT_DIR$/mge_http/mge_http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/guide_library/guide_library.iml" filepath="$PROJECT_DIR$/guide_library/guide_library.iml" />
     </modules>
   </component>
 </project>

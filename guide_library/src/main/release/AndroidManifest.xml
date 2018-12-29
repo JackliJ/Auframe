@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.guide.business.library">
+
+    <application>
+        <activity
+            android:name=".ui.GuiDeMain"
+            android:label="引导首页">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="登录页"></activity>
+    </application>
+
+</manifest>

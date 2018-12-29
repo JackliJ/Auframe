@@ -1,1 +1,1 @@
-include ':app', ':demo', ':mge_http'
+include ':app', ':demo', ':basis_component', ':guide_library'
