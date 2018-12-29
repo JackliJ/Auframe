@@ -83,5 +83,9 @@ TestSmallBean写在library中  方便主项目调用
   
 在运行工程中选择为model   那么model就可以作为独立的项目进行运行   设置为false 则项目model作为library应用于主项目
 
-**需要注意的是  我们应该尽量的规避主项目中使用到的jar资源文件出现在library中**  
+**需要注意的是**
+
+ 1. 我们应该尽量的规避主项目中使用到的jar资源文件出现在library中.
+ 2. 在library中，请尽量避免使用switch case 去判断资源文件
+ 3. 在声明Route Path的时候，以 **"/"** 开头，并保证第一个斜杠后的library名字与其他的不同
 
