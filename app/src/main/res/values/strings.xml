@@ -2,6 +2,8 @@
     <string name="app_name">mgev5_android</string>
     
     <string name="main_test_component_demo">组件演示</string>
-    
-    
+
+    <string name="guide_login_tv_account">账户：</string>
+    <string name="guide_login_tv_password">密码：</string>
+    <string name="guide_login_bu_login">登    录</string>
 </resources>

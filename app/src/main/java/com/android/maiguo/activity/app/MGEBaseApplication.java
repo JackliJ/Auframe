@@ -1,16 +1,15 @@
 package com.android.maiguo.activity.app;
 
-import android.app.Application;
-
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.android.maiguo.activity.BuildConfig;
+import com.maiguoer.component.http.app.BaseHttpApplication;
 
 /**
  * Create by www.lijin@foxmail.com on 2018/12/13 0013.
  * <br/>
  */
 
-public class MGEBaseApplication extends Application {
+public class MGEBaseApplication extends BaseHttpApplication {
 
     @Override
     public void onCreate() {

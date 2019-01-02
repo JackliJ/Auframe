@@ -201,8 +201,8 @@ public class GuiDeMain extends FragmentActivity implements ViewPager.OnPageChang
         } else if (i == R.id.button) {//存储标识
             SharedPreferencesUtils.SaveLastApplicationVersion(mContext);
             //跳转到登录页面
-            startActivity(new Intent(mContext, LoginActivity.class));
-            finish();
+            ARouter.getInstance().build("/main/LoginActivity")
+                    .navigation();
 
         }
     }
@@ -256,8 +256,8 @@ public class GuiDeMain extends FragmentActivity implements ViewPager.OnPageChang
             //取消倒计时
             mTimeCount.cancel();
             // 跳转首页
-            Intent intent = new Intent(mContext, LoginActivity.class);
-            startActivity(intent);
+            ARouter.getInstance().build("/main/LoginActivity")
+                    .navigation();
             finish();
         }
 
