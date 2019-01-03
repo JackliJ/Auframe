@@ -12,8 +12,14 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
-import com.hyphenate.util.NetUtils;
+import com.guide.business.library.LanguageUtil;
 import com.maiguoer.component.http.app.BaseHttpApplication;
+import com.maiguoer.component.http.utils.SharedPreferencesUtils;
+
+import skin.support.SkinCompatManager;
+import skin.support.app.SkinCardViewInflater;
+import skin.support.constraint.app.SkinConstraintViewInflater;
+import skin.support.design.app.SkinMaterialViewInflater;
 
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +41,13 @@ public class MGEBaseApplication extends BaseHttpApplication {
     }
 
     private void initSDK() {
+        //换肤
+        SkinCompatManager.withoutActivity(this)                 // 基础控件换肤初始化
+                .addInflater(new SkinMaterialViewInflater())    // material design 控件换肤初始化[可选]
+                .addInflater(new SkinConstraintViewInflater())  // ConstraintLayout 控件换肤初 始化[可选]
+                .addInflater(new SkinCardViewInflater())        // CardView v7 控件换肤初始化[可选]
+                .loadSkin();
+
         //阿里云路由注解初始化
         if (BuildConfig.DEBUG) { // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog(); // 打印日志
@@ -42,7 +55,6 @@ public class MGEBaseApplication extends BaseHttpApplication {
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
-
     private void initChat() {
         //初始化环信
         Context appContext = this;
@@ -153,5 +165,10 @@ public class MGEBaseApplication extends BaseHttpApplication {
 //                }
             }
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LanguageUtil.attachBaseContext(base, SharedPreferencesUtils.getAppLanguage(base)));
     }
 }

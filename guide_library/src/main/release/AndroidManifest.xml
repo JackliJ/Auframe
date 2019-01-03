@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.guide.business.library">
 
-    <application>
+    <application
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.GuiDeMain"
             android:label="引导首页">
@@ -12,6 +13,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.TestSkin"
+            android:label="测试页"/>
+
+        <activity
+            android:label="语言设置"
+            android:name=".ui.TestLanguageActivity"/>
+
+        <activity
+            android:label="仿QQ相册"
+            android:name=".ui.SendPhotoAlbumActivity"/>
     </application>
 
 </manifest>

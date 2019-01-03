@@ -80,6 +80,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
     compile 'com.android.support:design:26.1.0'
+
     //OkHttp https://github.com/jeasonlzy/okhttp-OkGo
     compile 'com.lzy.net:okgo:3.0.4'
     //基于RxJava 2.0的封装版本

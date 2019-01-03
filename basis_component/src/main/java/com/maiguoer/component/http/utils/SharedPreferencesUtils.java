@@ -193,5 +193,26 @@ public class SharedPreferencesUtils {
         return (Integer) getParam(context, "last_application_version", -1);
     }
 
+    /**
+     * 获取当前app的语言
+     *
+     * @param context
+     * @return
+     */
+    public static String getAppLanguage(Context context) {
+        return (String)getParam(context, "app_language", "zh");
+
+    }
+
+    /**
+     * 保存当前app的语言
+     *
+     * @param context
+     * @return
+     */
+    public static void saveAppLanguage(Context context, String value) {
+        setParam(context,"app_language", value);
+    }
+
 
 }
