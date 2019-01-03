@@ -1,6 +1,17 @@
 apply plugin: 'com.android.application'
 
+allprojects {
+    repositories {
+        //环信远程 maven仓库
+        maven {
+            url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository"
+        }
+    }
+}
+
 android {
+    //Android6.0 中默认移除了 httpclient 的代码，用这个库兼容环信
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.android.maiguo.activity"
@@ -62,14 +73,21 @@ dependencies {
     //阿里云依赖注解 https://github.com/alibaba/ARouter
     implementation 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
-    if(!isBuildModule.toBoolean()){
+    if (!isBuildModule.toBoolean()) {
         compile project(':demo')
     }
-    if(!isBuildModule.toBoolean()){
+    if (!isBuildModule.toBoolean()) {
         compile project(':guide_library')
     }
-    if(!isBuildModule.toBoolean()){
+    if (!isBuildModule.toBoolean()) {
         compile project(':basis_component')
     }
+    if (!isBuildModule.toBoolean()) {
+        compile project(':chat_library')
+    }
+
+
+    //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
+    compile 'com.hyphenate:hyphenate-sdk:3.3.0'
 
 }
