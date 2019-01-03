@@ -71,6 +71,9 @@ dependencies {
     if(!isBuildModule.toBoolean()){
         compile project(':basis_component')
     }
+    if(!isBuildModule.toBoolean()){
+        compile project(':map')
+    }
 
     //换肤 https://github.com/ximsfei/Android-skin-support
     compile 'skin.support:skin-support:2.1.5'
