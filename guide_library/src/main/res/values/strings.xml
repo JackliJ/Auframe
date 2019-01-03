@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">guide_library</string>
     <string name="splash_skip">跳过</string>
+    <string name="current_source_file">当前工程资源文件</string>
 </resources>

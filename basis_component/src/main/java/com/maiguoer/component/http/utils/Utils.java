@@ -1,9 +1,14 @@
 package com.maiguoer.component.http.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.view.View;
+import android.view.WindowManager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -101,6 +106,37 @@ public class Utils {
         }
 
         return hex.toString();
+    }
+
+    /**
+     * 设置状态栏透明
+     * @param activity
+     */
+    public static void setTranslucent(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        // Android 4.4
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 设置状态栏透明
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    /**
+     * 获取状态栏高度
+     * @param activity
+     * @return
+     */
+    public static  int getStatusBarHeight(Activity activity) {
+        // 获得状态栏高度
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+        return statusBarHeight;
     }
 
 }
