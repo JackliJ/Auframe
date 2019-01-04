@@ -50,6 +50,7 @@ public class SkinActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Utils.setLightStatusBar(this,true);
         setContentView(R.layout.skin_activity);
         init();
     }
@@ -102,7 +103,7 @@ public class SkinActivity extends AppCompatActivity  {
     @Override
     public void onResume() {
         super.onResume();
-        Utils.setTranslucent(this);
+        Utils.setTranslucent(this, com.guide.business.library.R.color.b2);
         ViewGroup.LayoutParams mLayoutParams = vStatusBarV.getLayoutParams();
         mLayoutParams.height = Utils.getStatusBarHeight(this);
         vStatusBarV.setLayoutParams(mLayoutParams);

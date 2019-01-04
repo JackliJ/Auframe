@@ -96,6 +96,7 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.2.2'
     //android swipe https://github.com/ikew0ng/SwipeBackLayout
     compile 'me.imid.swipebacklayout.lib:library:1.1.0'
-
+    //设置透明状态栏的开源库 https://github.com/jgilfelt/SystemBarTint
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 
 }
