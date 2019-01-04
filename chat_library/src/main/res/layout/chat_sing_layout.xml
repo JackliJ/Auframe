@@ -8,11 +8,15 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/b1">
+        android:background="@color/T5">
 
-        <TextView
-            android:id="@+id/btn_back"
-            style="@style/TitleBarBackStyle" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/communication_return" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -24,8 +28,94 @@
 
         <ImageView
             android:id="@+id/btn_confirm"
-            style="@style/TitleBarRightStyle"
-            android:background="@mipmap/comm_chatting_setting_chat" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/communication_invitefriends" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_ry_father"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/chat_message_chat_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/activity_chat_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/chat_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#F3F4F5"
+                        android:scrollbarStyle="outsideOverlay"
+                        android:stackFromBottom="true">
+
+                    </android.support.v7.widget.RecyclerView>
+
+
+                    <LinearLayout
+                        android:id="@+id/chat_li_screen_unread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/chat_tv_screen_unread"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/message_oval_red"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/sp_11"
+                            android:visibility="visible" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+
+            <LinearLayout
+                android:id="@+id/chat_copy_paste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal"></LinearLayout>
+
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/chat_fr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

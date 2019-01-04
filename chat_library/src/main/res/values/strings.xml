@@ -3,4 +3,9 @@
 
     <string name="back">返回</string>
     <string name="chat_browse_txt">预览</string>
+    <string name="btn_send">发送</string>
+    <string name="chat_classics_emoj">经典笑脸</string>
+    <string name="chat_extend_emoj">扩展表情</string>
+    <string name="chat_phoenix_emoj">凤凰表情</string>
+    <string name="chat_other_emoj">其他笑脸</string>
 </resources>
