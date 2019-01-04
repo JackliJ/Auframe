@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/b5"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/b1" />
+
+
+    <RelativeLayout style="@style/TitleBarBgColorStylet">
+
+        <TextView
+            android:id="@+id/btn_back"
+            style="@style/TitleBarBackStyle" />
+
+        <TextView
+            style="@style/TitleBarTitleTextStyle"
+            android:text="测试"/>
+
+        <TextView
+            android:id="@+id/tv_send_location"
+            style="@style/TitleBarRightStyle"
+            android:text="相册"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

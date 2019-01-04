@@ -1,0 +1,101 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--***********************************         字体SP单位         ****************************************-->
+    <dimen name="sp_1">1sp</dimen>
+    <dimen name="sp_2">2sp</dimen>
+    <dimen name="sp_3">3sp</dimen>
+    <dimen name="sp_4">4sp</dimen>
+    <dimen name="sp_5">5sp</dimen>
+    <dimen name="sp_6">6sp</dimen>
+    <dimen name="sp_7">7sp</dimen>
+    <dimen name="sp_8">8sp</dimen>
+    <dimen name="sp_9">9sp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_11">11sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_15">15sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_17">17sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_19">19sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_21">21sp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+    <dimen name="sp_23">23sp</dimen>
+    <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_25">25sp</dimen>
+    <dimen name="sp_26">26sp</dimen>
+    <dimen name="sp_27">27sp</dimen>
+    <dimen name="sp_28">28sp</dimen>
+    <dimen name="sp_29">29sp</dimen>
+    <dimen name="sp_30">30sp</dimen>
+    <dimen name="sp_31">31sp</dimen>
+    <dimen name="sp_32">32sp</dimen>
+    <dimen name="sp_33">33sp</dimen>
+    <dimen name="sp_34">34sp</dimen>
+    <dimen name="sp_35">35sp</dimen>
+    <dimen name="sp_36">36sp</dimen>
+    <dimen name="sp_37">37sp</dimen>
+    <dimen name="sp_38">38sp</dimen>
+    <dimen name="sp_39">39sp</dimen>
+    <dimen name="sp_40">40sp</dimen>
+    <dimen name="sp_41">41sp</dimen>
+    <dimen name="sp_42">42sp</dimen>
+    <dimen name="sp_43">43sp</dimen>
+    <dimen name="sp_44">44sp</dimen>
+    <dimen name="sp_45">45sp</dimen>
+    <dimen name="sp_46">46sp</dimen>
+    <dimen name="sp_47">47sp</dimen>
+    <dimen name="sp_48">48sp</dimen>
+    <dimen name="sp_49">49sp</dimen>
+    <dimen name="sp_50">50sp</dimen>
+
+
+    <dimen name="dp_240">240dp</dimen>
+    <dimen name="dp_380">380dp</dimen>
+    <dimen name="dp_155">155dp</dimen>
+
+    <dimen name="alivc_dialog_err_width">220dp</dimen>
+    <dimen name="alivc_dialog_err_height">120dp</dimen>
+
+    <!--loading-->
+    <dimen name="alivc_loading_height">120dp</dimen>
+    <dimen name="alivc_loading_width">130dp</dimen>
+    <dimen name="alivc_loading_pbar_height">28dp</dimen>
+
+    <!--download-->
+    <dimen name="alivc_download_dialog_height">275sp</dimen>
+    <dimen name="alivc_download_title_font">16sp</dimen>
+    <dimen name="alivc_download_choose_quality_font">14sp</dimen>
+    <dimen name="alivc_download_font_size">14sp</dimen>
+
+    <!-- more-->
+    <dimen name="alivc_more_dialog_height">275sp</dimen>
+    <dimen name="alivc_more_features_font">12sp</dimen>
+
+    <dimen name="alivc_dialog_loading_width">200dp</dimen>
+    <dimen name="alivc_dialog_loading_height">200dp</dimen>
+
+    <dimen name="alivc_dialog_netchange_width">280dp</dimen>
+    <dimen name="alivc_dialog_netchange_height">120dp</dimen>
+
+    <!--rate-->
+    <dimen name="alivc_rate_item_height">32dp</dimen>
+    <dimen name="alivc_rete_font_size">14sp</dimen>
+
+    <!--**********************************  小视频点赞start  ***********************************-->
+    <dimen name="heart_anim_bezier_x_rand">40.0dp</dimen>
+    <dimen name="heart_anim_init_x">50.0dp</dimen>
+    <dimen name="heart_anim_init_y">25.0dp</dimen>
+    <dimen name="heart_anim_length">100.0dp</dimen>
+    <dimen name="heart_anim_length_rand">150.0dp</dimen>
+    <dimen name="heart_anim_x_point_factor">30.0dp</dimen>
+    <dimen name="heart_size_height">27.3dp</dimen>
+    <dimen name="heart_size_width">32.5dp</dimen>
+    <!--**********************************  小视频点赞end  ***********************************-->
+</resources>
