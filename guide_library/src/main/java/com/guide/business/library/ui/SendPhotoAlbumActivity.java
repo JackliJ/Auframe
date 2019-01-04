@@ -36,7 +36,7 @@ public class SendPhotoAlbumActivity extends FragmentActivity{
     @Override
     public void onResume() {
         super.onResume();
-        Utils.setTranslucent(this);
+        Utils.setTranslucent(this,R.color.b2);
         ViewGroup.LayoutParams mLayoutParams = vStatusBarV.getLayoutParams();
         mLayoutParams.height = Utils.getStatusBarHeight(this);
         vStatusBarV.setLayoutParams(mLayoutParams);
