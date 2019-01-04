@@ -81,12 +81,19 @@ public class SkinActivity extends AppCompatActivity  {
                 ARouter.getInstance().build("/guide/TestSkin").navigation();
             }
         });
+        findViewById(R.id.tv_btn4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build("/map/LocationActivity").navigation();
+            }
+        });
+
 
     }
 
     private void onclicked(){
         if (TextUtils.isEmpty(SkinPreference.getInstance().getSkinName())) {
-            SkinCompatManager.getInstance().loadSkin("skin-bule-release.skin", null);
+            SkinCompatManager.getInstance().loadSkin("skin-bule-release.skin", SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
         } else {
             SkinCompatManager.getInstance().restoreDefaultTheme();
         }

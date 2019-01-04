@@ -14,7 +14,7 @@
 
     <!--冷启动主题样式-->
     <style name="AppTheme.Launcher">
-        <item name="android:windowBackground">@drawable/start_page</item>
+        <!--<item name="android:windowBackground">@drawable/start_page</item>-->
     </style>
 
     <!--主页样式-->
@@ -47,41 +47,7 @@
     <style name="TitleBarBgColorStylet">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">44dp</item>
-        <item name="android:background">@color/b1</item>
-    </style>
-
-    <!-- 标题栏 样式 -->
-    <style name="TitleBarBgColorStyletWhite">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">44dp</item>
-        <item name="android:background">@color/b6</item>
-    </style>
-
-    <!-- 标题栏 返回按钮 左侧白色图片 样式 -->
-    <style name="TitleBarBackStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:text">@string/back</item>
-        <item name="android:textColor">@drawable/default_text_click</item>
-        <item name="android:textSize">@dimen/sp_15</item>
-        <item name="android:drawableLeft">@drawable/btn_white_back</item>
-        <item name="android:drawablePadding">5dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:clickable">true</item>
-    </style>
-    <!-- 标题栏 返回按钮 左侧黑色图片 样式 2018年10月10日18:03:17  张路 添加 UI和产品设计了新的样式 -->
-    <style name="TitleBarBackStyleBlack">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:text">@string/back</item>
-        <item name="android:textColor">@drawable/default_text_click</item>
-        <item name="android:textSize">@dimen/sp_15</item>
-        <item name="android:drawableLeft">@drawable/btn_black_back</item>
-        <item name="android:drawablePadding">5dp</item>
-        <item name="android:layout_marginLeft">17dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:clickable">true</item>
+        <item name="android:background">@color/b2</item>
     </style>
 
     <!-- 标题栏 返回按钮 不带返回文字样式 -->
@@ -94,23 +60,28 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <!-- 标题栏 返回按钮 不带返回文字样式 -->
-    <style name="TitleBarBackWithOutTxtStyleGrey">
+
+    <!-- 标题栏 返回按钮 左侧文字 样式 -->
+    <style name="TitleBarBackStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:text">@string/back</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:layout_marginLeft">15dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:src">@drawable/home_return</item>
         <item name="android:clickable">true</item>
     </style>
+
 
     <!--标题栏 标题文字 样式 -->
     <style name="TitleBarTitleTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/T12</item>
+        <item name="android:textColor">@color/T4</item>
         <item name="android:textSize">@dimen/sp_18</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_centerInParent">true</item>
     </style>
 
@@ -118,7 +89,7 @@
     <style name="TitleBarTitleTextStyleBlack">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/T8</item>
+        <item name="android:textColor">@color/T4</item>
         <item name="android:textSize">@dimen/sp_18</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_centerInParent">true</item>
@@ -131,7 +102,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:textColor">@drawable/default_text_click</item>
+        <item name="android:textColor">@color/T4</item>
         <item name="android:clickable">true</item>
         <item name="android:textSize">@dimen/sp_15</item>
     </style>
@@ -143,7 +114,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:textColor">@drawable/default_text_click</item>
+        <item name="android:textColor">@color/T4</item>
         <item name="android:clickable">true</item>
         <item name="android:textSize">@dimen/sp_15</item>
     </style>
@@ -152,12 +123,12 @@
     <style name="ButtonDefaultStyle" parent="@android:style/Widget.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">44dp</item>
-        <item name="android:textColor">@color/T12</item>
+        <item name="android:textColor">@color/T5</item>
         <item name="android:textSize">@dimen/sp_18</item>
-        <item name="android:background">@drawable/default_button</item>
+        <!--<item name="android:background">@drawable/default_button</item>-->
     </style>
 
-    <!--默认EditText 样式-->
+   <!-- &lt;!&ndash;默认EditText 样式&ndash;&gt;
     <style name="EditTextDefultStyle" parent="@android:style/Widget.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">44dp</item>
@@ -169,7 +140,7 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <!--默认搜索框 样式-->
+    &lt;!&ndash;默认搜索框 样式&ndash;&gt;
     <style name="SearchEdutTextDefaultStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">28dp</item>
@@ -182,63 +153,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawableLeft">@drawable/nav_search_box</item>
         <item name="android:background">@drawable/public_search_bg_b6_radius999</item>
-    </style>
-
-    <!--默认搜索框 样式 灰色 -->
-    <style name="SearchEdutTextDefaultStyleGray">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">28dp</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:textSize">@dimen/sp_15</item>
-        <item name="android:textColorHint">@color/T11</item>
-        <item name="android:textColor">@color/T8</item>
-        <item name="android:drawablePadding">5dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:drawableLeft">@drawable/nav_search_box</item>
-        <item name="android:background">@drawable/public_search_bg_eeeeee_radius999</item>
-    </style>
+    </style>-->
 
 
-    <!--脉友印象&评价 的标签样式-->
-    <style name="WarpLinearLayoutDefault">
-        <item name="grivate">left</item>
-        <item name="horizontal_Space">20dp</item>
-        <item name="vertical_Space">20dp</item>
-        <item name="isFull">false</item>
-    </style>
-
-    <!--Activity转换Dialog样式-->
-    <style name="DialogStyleActivity" parent="AppTheme">
-        <item name="colorPrimary">@android:color/transparent</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
-        <item name="colorAccent">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <!-- pupupwindow的弹出和消失动画 -->
-    <style name="popup_window_anim">
-        <item name="android:windowEnterAnimation">@anim/popwid_in</item>
-        <item name="android:windowExitAnimation">@anim/popwid_out</item>
-    </style>
-
-    <!-- 星星等级样式-->
-    <style name="RatingBarStyle" parent="@android:style/Widget.Holo.RatingBar.Indicator">
-        <item name="android:progressDrawable">@drawable/bg_rating_bar</item>
-        <item name="android:numStars">5</item>
-        <item name="android:rating">0</item>
-    </style>
-
-    <!-- 单选框 CheckBox样式 -->
-    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/checkbox_style</item>
-    </style>
-
-    <!--首页Title字体大小-->
-    <style name="TabLayoutTextStyle">
-        <item name="android:textSize">16sp</item>
-    </style>
 
 </resources>
