@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
-            android:textColor="@color/T12" />
+            android:textColor="@color/T4" />
 
         <TextView
             android:id="@+id/tv_title"
