@@ -42,7 +42,7 @@
     <LinearLayout
         android:id="@+id/ll_devoicefrls"
         android:layout_width="fill_parent"
-        android:layout_height="275dp"
+        android:layout_height="200dp"
         android:background="#F5F5F5"
         android:orientation="vertical"
         android:visibility="gone"></LinearLayout>

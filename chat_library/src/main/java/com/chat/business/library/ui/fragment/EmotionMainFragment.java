@@ -7,17 +7,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chat.business.library.R;
 import com.chat.business.library.emotionkeyboardview.EmotionKeyboard;
@@ -25,6 +31,7 @@ import com.chat.business.library.emotionkeyboardview.NoHorizontalScrollerViewPag
 import com.chat.business.library.model.ImageModel;
 import com.chat.business.library.util.EmotionUtils;
 import com.chat.business.library.util.GlobalOnItemClickManagerUtils;
+import com.chat.business.library.util.SoftKeyBoardListener;
 import com.maiguoer.component.http.base.BasisFragment;
 import com.maiguoer.component.http.utils.Constant;
 import com.maiguoer.component.http.utils.SharedPreferencesUtils;
@@ -80,7 +87,7 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     private LinearLayout rebotton;
     private String mHuanxinID;
     //加号按钮
-    private ImageButton vImgAdd;
+    private LinearLayout vImgAdd;
     //传递数据的回调
     private FragmentListener listener = null;
     // 对方用户昵称 username 对方用户头像 avatar  对方用户实名认证状态 authStatus 对方用户企业认证状态 businessAuthStatus
@@ -142,7 +149,57 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
         mOtherBusinessAuthStatus = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERABUSINESSAU);
         mOtherVipLevel = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERVIPLEVEL);
         mOtherNamgeCardBgImage = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERNAMGECARSBGIMAGE);
+        //初始化展现动画
+        //控件显示的动画 缩放动画
+        /* 仿造微信安卓版的效果
+                参数解释：
+                    第一个参数：X轴水平缩放起始位置的大小（fromX）。1代表正常大小
+                    第二个参数：X轴水平缩放完了之后（toX）的大小，0代表完全消失了
+                    第三个参数：Y轴垂直缩放起始时的大小（fromY）
+                    第四个参数：Y轴垂直缩放结束后的大小（toY）
+                    第五个参数：pivotXType为动画在X轴相对于物件位置类型
+                    第六个参数：pivotXValue为动画相对于物件的X坐标的开始位置
+                    第七个参数：pivotXType为动画在Y轴相对于物件位置类型
+                    第八个参数：pivotYValue为动画相对于物件的Y坐标的开始位置
 
+                   （第五个参数，第六个参数），（第七个参数,第八个参数）是用来指定缩放的中心点
+                    0.5f代表从中心缩放
+        */
+        mSShowAnim = new ScaleAnimation(0.5f, 1, 0.5f, 1,
+                1, 0.5f, 1, 0.5f);
+        mSShowAnim.setDuration(150);
+
+
+        //控件隐藏的动画 上移动画
+        /* 位移动画 模拟将发送按钮发送出去的效果
+                    fromXDelta：起始X坐标
+                    toXDelta： 结束X坐标
+                    fromYDelta：起始Y坐标
+                    toYDelta： 结束Y坐标
+         */
+        HiddenAmin = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF
+                , 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
+        HiddenAmin.setDuration(50);
+
+        /*以view中心点正向旋转45度
+                toDegrees：旋转的结束角度。
+                pivotXType：X轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
+                pivotXValue：X坐标的伸缩值。
+                pivotYType：Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
+                pivotYValue：Y坐标的伸缩值
+                 * */
+        mRotaAnimDown = new RotateAnimation(0, 45,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotaAnimDown.setDuration(100);
+        //动画执行完毕后是否停在结束时的角度上
+        mRotaAnimDown.setFillAfter(true);
+        //还原动画
+        mRotaAnimOut = new RotateAnimation(0, 0,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotaAnimOut.setDuration(100);
+        //动画执行完毕后是否停在结束时的角度上
+        mRotaAnimOut.setFillAfter(true);
         //获取判断绑定对象的参数
         isBindToBarEditText = args.getBoolean(EmotionMainFragment.BIND_TO_EDITTEXT);
         initView(rootView);
@@ -181,6 +238,93 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
         bar_edit_text.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         bar_edit_text.setSingleLine(true);
 
+        bar_btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = bar_edit_text.getText().toString().trim();
+                if (!TextUtils.isEmpty(content)) {
+                    listener.thank(content, mHuanxinID);
+                    bar_edit_text.setText("");
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.chat_send_editost), Toast.LENGTH_SHORT);
+                }
+            }
+        });
+        bar_edit_text.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                /*判断是否是“SEND”键*/
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    String content = bar_edit_text.getText().toString().trim();
+                    if (!TextUtils.isEmpty(content)) {
+                        listener.thank(content, mHuanxinID);
+                        bar_edit_text.setText("");
+                    } else {
+                        Toast.makeText(context, getResources().getString(R.string.chat_send_editost), Toast.LENGTH_SHORT);
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
+        bar_edit_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //监听输入 隐藏创建模块
+                if (!TextUtils.isEmpty(bar_edit_text.getText().toString().trim())) {
+                    bar_btn_send.setBackgroundResource(R.drawable.public_btn_submit_select_click);
+                    if (mIsAnim) {
+                        bar_btn_send.startAnimation(mSShowAnim);
+                        vImgAdd.startAnimation(HiddenAmin);
+                        mIsAnim = false;
+                    }
+                    bar_btn_send.setVisibility(View.VISIBLE);
+                    vImgAdd.setVisibility(View.GONE);
+                } else {
+                    if (!mIsAnim) {
+                        bar_btn_send.startAnimation(HiddenAmin);
+                        vImgAdd.startAnimation(mSShowAnim);
+                        mIsAnim = true;
+                    }
+                    bar_btn_send.setVisibility(View.GONE);
+                    vImgAdd.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+        //监听软键盘弹起的类
+        SoftKeyBoardListener.setListener((Activity) context, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {//键盘打开
+                if (rebotton != null) {
+                    rebotton.setVisibility(View.GONE);
+                }
+                if (ll_emotion_layout != null) {
+                    ll_emotion_layout.setVisibility(View.GONE);
+                }
+                if (vImgAdd != null) {
+                    if (bar_edit_text.getText().toString().trim().length() == 0) {
+                        vImgAdd.startAnimation(mRotaAnimOut);
+                    }
+                }
+            }
+
+            @Override
+            public void keyBoardHide(int height) {//键盘收起
+
+            }
+        });
         return rootView;
     }
 
@@ -200,12 +344,15 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     protected void initView(View rootView) {
         viewPager = rootView.findViewById(R.id.vp_emotionview_layout);
         recyclerview_horizontal = rootView.findViewById(R.id.recyclerview_horizontal);
+        vImgAdd = rootView.findViewById(R.id.include_chat_emotion_add);
         rebotton = rootView.findViewById(R.id.ll_devoicefrls);
         ll_emotion_layout = rootView.findViewById(R.id.ll_emotion_layout);
         bar_btn_send = rootView.findViewById(R.id.bar_btn_send);
         re_top = rootView.findViewById(R.id.emf_lrm);
         bar_edit_text = rootView.findViewById(R.id.bar_edit_text);
         rl_editbar_bg = rootView.findViewById(R.id.rl_editbar_bg);
+
+        bar_edit_text.setOnClickListener(this);
         if (isHidenBarEditTextAndBtn) {//隐藏
             bar_edit_text.setVisibility(View.GONE);
             rl_editbar_bg.setBackgroundResource(R.color.b15);
@@ -300,10 +447,23 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
         viewPager.setAdapter(adapter);
     }
 
-    @Override
-    public void onClick(View v) {
-
+    /**
+     * 是否拦截返回键操作，如果此时表情布局未隐藏，先隐藏表情布局
+     *
+     * @return true则隐藏表情布局，拦截返回键操作
+     * false 则不拦截返回键操作
+     */
+    public boolean isInterceptBackPress() {
+        return mEmotionKeyboard.interceptBackPress();
     }
+
+    /**
+     * 表情布局没隐藏的时候隐藏它
+     */
+    public void isShowInterceptBackPress() {
+        mEmotionKeyboard.interceptback();
+    }
+
 
     @Override
     public void onResume() {
@@ -324,6 +484,34 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     public void onDestroy() {
         super.onDestroy();
         globalOnItemClickManager.detachFromEditText();
+    }
+
+    boolean mIsEditext = true;
+
+    @Override
+    public void onClick(View v) {
+        //加好
+        if (v.getId() == R.id.include_chat_emotion_add) {
+            ll_emotion_layout.setVisibility(View.GONE);
+            if (isvoide) {
+                rebotton.setVisibility(View.GONE);
+                isvoide = false;
+            } else {
+                rebotton.setVisibility(View.VISIBLE);
+                isvoide = true;
+            }
+        } else if (v.getId() == R.id.bar_edit_text) {
+            if (re_top != null && btn_longvoice != null) {
+                re_top.setVisibility(View.VISIBLE);
+                btn_longvoice.setVisibility(View.GONE);
+            }
+            if (rebotton != null) {
+                rebotton.setVisibility(View.GONE);
+            }
+            mEmotionKeyboard.intercept();
+            mIsEditext = false;
+            isvoide = false;
+        }
     }
 
 }

@@ -110,7 +110,7 @@ public class EmotionKeyboard {
      */
     public EmotionKeyboard bindToEmotionButton(View emotionButton, final LinearLayout rebotton,
                                                final LinearLayout re_top, final Button btn_longvoice
-                                                ,final ImageButton vImgAdd) {
+                                                ,final LinearLayout vImgAdd) {
         emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +162,7 @@ public class EmotionKeyboard {
      * @param emotionButton 表情按钮
      * @return
      */
-    public EmotionKeyboard bindToViewButton(View emotionButton, final LinearLayout ll_emotion_layout, final ImageButton vImgAdd) {
+    public EmotionKeyboard bindToViewButton(View emotionButton, final LinearLayout ll_emotion_layout, final LinearLayout vImgAdd) {
         emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,12 +265,15 @@ public class EmotionKeyboard {
     }
 
     private void showEmotionLayout() {
-        int softInputHeight = getSupportSoftInputHeight();
+        int softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 0);
         if (softInputHeight == 0) {
-            softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 578);
+            softInputHeight = getSupportSoftInputHeight();
+        }
+        if(softInputHeight == 0){
+            softInputHeight = 200;
         }
         hideSoftInput();
-        mEmotionLayout.getLayoutParams().height = softInputHeight + 200;
+        mEmotionLayout.getLayoutParams().height = softInputHeight;
         mEmotionLayout.setVisibility(View.VISIBLE);
     }
 

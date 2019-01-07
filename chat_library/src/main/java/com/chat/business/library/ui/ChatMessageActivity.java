@@ -15,6 +15,8 @@ import com.chat.business.library.R;
 import com.chat.business.library.model.ChatVoiceEMMessage;
 import com.chat.business.library.model.PreviewBean;
 import com.chat.business.library.ui.fragment.EmotionMainFragment;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.maiguoer.component.http.app.BaseSwipeBackActivity;
 import com.maiguoer.component.http.utils.Constant;
@@ -158,6 +160,19 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements  Emoti
         transaction.addToBackStack(null);
         //提交修改
         transaction.commit();
+    }
+
+    /**
+     * 拦截返回键
+     */
+    @Override
+    public void onBackPressed() {
+        mEmotionMainFragment.isShowInterceptBackPress();
+//        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mHXid);
+//        //指定会话消息未读数清零
+//        if (conversation != null) {
+//            conversation.markAllMessagesAsRead();
+//        }
     }
 
     @Override
