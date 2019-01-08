@@ -46,4 +46,10 @@
 
     <color name="b14">#CE72FF</color> <!--TA的详情  推荐 -渐变色  -->
     <color name="b15">#DDA3FF</color> <!--TA的详情  推荐 -渐变色  -->
+
+
+
+    <!-- 05 特殊单独用色 -->
+    <color name="s1">#0486E2</color> <!--确定 字体用色  -->
+    <color name="s2">#FF4D46</color> <!--取消 字体用色  -->
 </resources>

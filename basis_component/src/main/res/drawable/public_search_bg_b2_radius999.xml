@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--搜索框默认背景-->
+<!--圆角999dp b2背景色-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/b2" />
+    <corners android:radius="999dp"/>
+</shape>

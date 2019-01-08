@@ -98,5 +98,8 @@ dependencies {
     compile 'me.imid.swipebacklayout.lib:library:1.1.0'
     //设置透明状态栏的开源库 https://github.com/jgilfelt/SystemBarTint
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    // Android适配AutoLayout https://github.com/hongyangAndroid/AndroidAutoLayout
+    compile 'com.zhy:autolayout:1.4.5'
+
 
 }
