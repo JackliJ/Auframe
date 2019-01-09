@@ -9,4 +9,10 @@
     <string name="chat_phoenix_emoj">凤凰表情</string>
     <string name="chat_other_emoj">其他笑脸</string>
     <string name="chat_send_editost">请输入内容</string>
+
+    <string name="chat_before_hour">小时前</string>
+    <string name="chat_yesterday">昨天</string>
+    <string name="chat_year">年</string>
+    <string name="chat_month">月</string>
+    <string name="chat_day">日</string>
 </resources>

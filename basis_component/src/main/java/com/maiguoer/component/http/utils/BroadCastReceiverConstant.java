@@ -7,6 +7,7 @@ package com.maiguoer.component.http.utils;
  */
 public class BroadCastReceiverConstant {
 
+    //Chat消息收到的广播
     public static final String BROAD_MESSAGERECEIVED = "BROAD_MESSAGERECEIVED";
     public static final String BROAD_MESSAGEVOICE = "BROAD_MESSAGEVOICE";
     public static final String BROAD_CALLRESPONSE = "BROAD_CALLRESPONSE";

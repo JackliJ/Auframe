@@ -12,6 +12,8 @@ import com.chat.business.library.ui.ChatMessageActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.maiguoer.component.http.app.BaseSwipeBackActivity;
+import com.maiguoer.component.http.permissions.PermissionsUtil;
+import com.zhy.m.permission.MPermissions;
 
 /**
  * Create by www.lijin@foxmail.com on 2019/1/4 0004.
@@ -24,6 +26,8 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_login_layout);
+        //申请权限
+        MPermissions.requestPermissions(ChatLoginActivity.this, PermissionsUtil.REQUEST_CODE_PERMISSION, PermissionsUtil.PERMISSION_STRS);
         final EditText vAccount = (EditText) findViewById(R.id.chat_login_account);
         findViewById(R.id.chat_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override

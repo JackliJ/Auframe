@@ -8,7 +8,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        //数据库的class
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        //动态权限申请的class
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
 
@@ -26,6 +29,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath = true
             }
         }
     }
@@ -98,5 +102,8 @@ dependencies {
     compile 'me.imid.swipebacklayout.lib:library:1.1.0'
     //设置透明状态栏的开源库 https://github.com/jgilfelt/SystemBarTint
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    // 权限管理 https://github.com/hongyangAndroid/MPermissions
+    annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.zhy:mpermission-api:1.0.0'
 
 }

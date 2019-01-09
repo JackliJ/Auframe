@@ -1,5 +1,9 @@
 package com.maiguoer.component.http.data;
 
+import android.content.Context;
+
+import com.maiguoer.component.http.utils.SharedPreferencesUtils;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -347,6 +351,21 @@ public class User {
      */
     @Property(nameInDb = "makerLevel")
     public int makerLevel;
+
+    /**
+     * 获得正在登录的用户信息
+     *
+     * @param context
+     * @return 没有登录则返回null
+     */
+    public static User GetLoginedUser(Context context) {
+        int uid = SharedPreferencesUtils.GetLoginUid(context);
+        if (uid <= 0)
+            return null;
+        return null;
+    }
+
+
     @Generated(hash = 452260631)
     public User(int uid, int storeId, String hxname, String username, int vipLevel,
             String company, String position, int gender, String bornDate,
