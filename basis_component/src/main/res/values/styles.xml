@@ -1,10 +1,194 @@
 <resources>
 
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!--<item name="colorPrimary">@color/b1</item>-->
+        <!--<item name="colorPrimaryDark">@color/b1</item>-->
+        <!--<item name="colorAccent">@color/b1</item>-->
+    </style>
+
+    <style name="ActivityAppTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <!--冷启动主题样式-->
+    <style name="AppTheme.Launcher">
+        <!--<item name="android:windowBackground">@drawable/start_page</item>-->
+    </style>
+
+    <!--主页样式-->
+    <style name="AppTheme.NoTranslucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+
+    <style name="MaterialDesignTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/b1</item>
+    </style>
+
+
+    <!-- 分割栏 样式 -->
+    <style name="DividerStyle">
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/d1</item>
+    </style>
+
+
+    <!--重点 分割栏 样式-->
+    <style name="DividerImportantStyle">
+        <item name="android:layout_height">4px</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/d2</item>
+    </style>
+
+    <!-- 标题栏 样式 -->
+    <style name="TitleBarBgColorStylet">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@color/b2</item>
+    </style>
+
+    <!--标题栏 标题文字 加粗  样式 -->
+    <style name="TitleBarTitleTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+    <!-- 标题栏 返回按钮 左侧 不带返回文字样式 图片  -->
+    <style name="TitleBarBackWithOutTxtStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:src">@drawable/btn_white_back</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+
+    <!-- 标题栏 返回按钮 左侧 文字 样式 -->
+    <style name="TitleBarBackStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:text">@string/back</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+
+    <!-- 标题栏 右侧 图片或者 文字 样式 -->
+    <style name="TitleBarRightStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+    </style>
+
+
+
+    <!-- 默认Button 样式 -->
+    <style name="ButtonDefaultStyle" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:textColor">@color/T5</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:background">@drawable/default_button</item>
+    </style>
+
+    <!--默认EditText 样式-->
+    <style name="EditTextDefultStyle" parent="@android:style/Widget.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textColorHint">@color/T6</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <!-- 带放大镜的  搜索框 样式-->
+    <style name="SearchEdutTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textColorHint">@color/T6</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableLeft">@drawable/nav_search_box</item>
+        <item name="android:background">@drawable/public_search_bg_b1_radius999</item>
+    </style>
+
+
+    <!-- 默认搜索框 样式-->
+    <style name="SearchEdutTextDefaultStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textColorHint">@color/T6</item>
+        <item name="android:textColor">@color/T4</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/public_search_bg_b2_radius999</item>
+    </style>
+
+
+
+
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="CustomStyleDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="loadingDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+
+
 
 </resources>

@@ -2,4 +2,10 @@
     <string name="app_name">mge_http</string>
     <string name="testtt">测试</string>
     <string name="test_language">中文，你好世界!</string>
+
+
+    <string name="back">返回</string>
+    <string name="widget_cancel">取消</string>
+    <string name="widget_ok">确定</string>
+
 </resources>

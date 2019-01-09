@@ -1,1 +1,1 @@
-include ':app', ':demo', ':basis_component', ':guide_library'
+include ':app', ':demo', ':basis_component', ':guide_library', ':map','chat_library'

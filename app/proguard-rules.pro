@@ -30,3 +30,7 @@
   **[] $VALUES;
   public *;
 }
+
+# 环信混淆
+-keep class com.hyphenate.** {*;}
+-dontwarn  com.hyphenate.**

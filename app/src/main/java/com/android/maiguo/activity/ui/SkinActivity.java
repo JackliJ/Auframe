@@ -58,6 +58,7 @@ public class SkinActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Utils.setLightStatusBar(this,true);
         setContentView(R.layout.skin_activity);
         init();
     }
@@ -89,12 +90,19 @@ public class SkinActivity extends AppCompatActivity  {
                 ARouter.getInstance().build("/guide/TestSkin").navigation();
             }
         });
+        findViewById(R.id.tv_btn4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build("/map/LocationActivity").navigation();
+            }
+        });
+
 
     }
 
     private void onclicked(){
         if (TextUtils.isEmpty(SkinPreference.getInstance().getSkinName())) {
-            SkinCompatManager.getInstance().loadSkin("skin-bule-release.skin", null);
+            SkinCompatManager.getInstance().loadSkin("skin-bule-release.skin", SkinCompatManager.SKIN_LOADER_STRATEGY_ASSETS);
         } else {
             SkinCompatManager.getInstance().restoreDefaultTheme();
         }
@@ -103,7 +111,7 @@ public class SkinActivity extends AppCompatActivity  {
     @Override
     public void onResume() {
         super.onResume();
-        Utils.setTranslucent(this);
+        Utils.setTranslucent(this, com.guide.business.library.R.color.b2);
         ViewGroup.LayoutParams mLayoutParams = vStatusBarV.getLayoutParams();
         mLayoutParams.height = Utils.getStatusBarHeight(this);
         vStatusBarV.setLayoutParams(mLayoutParams);

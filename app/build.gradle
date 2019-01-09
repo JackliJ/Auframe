@@ -1,6 +1,22 @@
 apply plugin: 'com.android.application'
 
+allprojects {
+    repositories {
+        //环信远程 maven仓库
+        maven {
+            url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository"
+        }
+    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
+
 android {
+    //Android6.0 中默认移除了 httpclient 的代码，用这个库兼容环信
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.android.maiguo.activity"
@@ -9,6 +25,8 @@ android {
         versionCode 5000
         versionName "5.0.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // 突破65536
+        multiDexEnabled true
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
             abiFilters "armeabi", "armeabi-v7a"
@@ -49,6 +67,7 @@ android {
 }
 
 dependencies {
+<<<<<<< HEAD
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
@@ -58,6 +77,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+=======
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+>>>>>>> b96f56b0d08fb52ab58a492149af4ed79804d74d
     //阿里云依赖注解 https://github.com/alibaba/ARouter
     implementation 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
@@ -68,8 +91,22 @@ dependencies {
         compile project(':guide_library')
     }
     if (!isBuildModule.toBoolean()) {
+<<<<<<< HEAD
         compile project(':basis_component')
     }
+=======
+        compile project(':chat_library')
+    }
+    if (!isBuildModule.toBoolean()) {
+        compile project(':map')
+    }
+
+    compile project(':basis_component')
+
+    //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
+    compile 'com.hyphenate:hyphenate-sdk:3.3.0'
+
+>>>>>>> b96f56b0d08fb52ab58a492149af4ed79804d74d
     //换肤 https://github.com/ximsfei/Android-skin-support
     compile 'skin.support:skin-support:2.1.5'
     // skin-support 基础控件支持

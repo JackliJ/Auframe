@@ -47,7 +47,6 @@ public class LanguageUtil {
         return context.createConfigurationContext(configuration);
     }
 
-    @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context,
                                           Locale locale) {
         Resources resources = context.getResources();
