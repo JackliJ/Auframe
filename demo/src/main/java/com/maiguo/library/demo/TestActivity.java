@@ -33,7 +33,7 @@ import mge_data.UserDao;
  * <br/>
  */
 
-@Route(path = "/library/demo/testActivity")
+@Route(path = "/test/testActivity")
 public class TestActivity extends Activity {
 
     private Button vBtn, vBtnUser;

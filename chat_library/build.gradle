@@ -19,7 +19,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
 
@@ -53,9 +53,7 @@ dependencies {
 
     compile project(':basis_component')
 
-    if(isBuildModule.toBoolean()){
-        //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
-        compile 'com.hyphenate:hyphenate-sdk:3.3.0'
-    }
+    //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
+    compile 'com.hyphenate:hyphenate-sdk:3.3.0'
 
 }
