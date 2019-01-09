@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="com.blankj:utilcode-1.22.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/utilcode-1.22.1.aar/3ccf7ab0616cc64774884bc3070e15b5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/utilcode-1.22.1.aar/3ccf7ab0616cc64774884bc3070e15b5/res" />
+      <root url="jar://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/utilcode-1.22.1.aar/77677eb3bd5e9a90a11ca46b51833b3e/jars/classes.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/utilcode-1.22.1.aar/77677eb3bd5e9a90a11ca46b51833b3e/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

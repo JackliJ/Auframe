@@ -1,20 +1,16 @@
 package com.guide.business.library.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.guide.business.library.LanguageUtil;
+import com.maiguoer.component.http.utils.LanguageUtil;
 import com.guide.business.library.R;
 import com.maiguoer.component.http.utils.SharedPreferencesUtils;
 import com.maiguoer.component.http.utils.Utils;

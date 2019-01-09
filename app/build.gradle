@@ -67,7 +67,6 @@ android {
 }
 
 dependencies {
-<<<<<<< HEAD
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
@@ -77,10 +76,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-=======
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
->>>>>>> b96f56b0d08fb52ab58a492149af4ed79804d74d
     //阿里云依赖注解 https://github.com/alibaba/ARouter
     implementation 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
@@ -91,12 +87,11 @@ dependencies {
         compile project(':guide_library')
     }
     if (!isBuildModule.toBoolean()) {
-<<<<<<< HEAD
         compile project(':basis_component')
     }
-=======
+ /*   if (!isBuildModule.toBoolean()) {
         compile project(':chat_library')
-    }
+    }*/
     if (!isBuildModule.toBoolean()) {
         compile project(':map')
     }
@@ -106,7 +101,6 @@ dependencies {
     //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
     compile 'com.hyphenate:hyphenate-sdk:3.3.0'
 
->>>>>>> b96f56b0d08fb52ab58a492149af4ed79804d74d
     //换肤 https://github.com/ximsfei/Android-skin-support
     compile 'skin.support:skin-support:2.1.5'
     // skin-support 基础控件支持

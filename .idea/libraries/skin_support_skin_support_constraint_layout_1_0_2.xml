@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="skin.support:skin-support-constraint-layout-1.0.2">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/a6676ece23a65c737aa9507d6556d545/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/a6676ece23a65c737aa9507d6556d545/jars/classes.jar!/" />
+      <root url="jar://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/d62e21b3a88c70514f982b7539f4c26d/jars/classes.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/d62e21b3a88c70514f982b7539f4c26d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
