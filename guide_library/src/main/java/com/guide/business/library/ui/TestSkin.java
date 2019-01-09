@@ -15,6 +15,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.guide.business.library.R;
 import com.maiguoer.component.http.utils.Utils;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * 引导页和广告页面 判断用户是否首次登陆 如果是则展示引导页面  否则展示广告页面  默认五秒
  * Create by www.lijin@foxmail.com on 2018/12/28 0028.
@@ -39,6 +41,14 @@ public class TestSkin extends FragmentActivity{
             @Override
             public void onClick(View v) {
                 ARouter.getInstance().build("/guide/TestLanguageActivity").navigation();
+            }
+        });
+
+        //仿QQ相册
+        findViewById(R.id.tv_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build("/guide/SendPhotoAlbumActivity").navigation();
             }
         });
     }

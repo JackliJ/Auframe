@@ -80,11 +80,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
-
+    compile 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:design:26.1.0'
-
     //OkHttp https://github.com/jeasonlzy/okhttp-OkGo
     compile 'com.lzy.net:okgo:3.0.4'
     //基于RxJava 2.0的封装版本
@@ -105,5 +103,13 @@ dependencies {
     // 权限管理 https://github.com/hongyangAndroid/MPermissions
     annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
+    // Android适配AutoLayout https://github.com/hongyangAndroid/AndroidAutoLayout
+    compile 'com.zhy:autolayout:1.4.5'
 
+    // Glide图片加载框架 https://github.com/bumptech/glide
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:glide:4.0.0'
+
+    // EventBus https://github.com/greenrobot/EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

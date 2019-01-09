@@ -42,9 +42,9 @@ android {
     buildTypes {
         release {
             //是否开启混淆
-            minifyEnabled true
+            minifyEnabled false
             // 移除无用的resource文件
-            shrinkResources true
+            shrinkResources false
             //Zipalign优化
             zipAlignEnabled true
             //debug模式
@@ -67,7 +67,15 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support:support-annotations:26.1.0') {
+        force = true
+    }
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //阿里云依赖注解 https://github.com/alibaba/ARouter
     implementation 'com.alibaba:arouter-api:1.4.1'
@@ -79,8 +87,11 @@ dependencies {
         compile project(':guide_library')
     }
     if (!isBuildModule.toBoolean()) {
-        compile project(':chat_library')
+        compile project(':basis_component')
     }
+ /*   if (!isBuildModule.toBoolean()) {
+        compile project(':chat_library')
+    }*/
     if (!isBuildModule.toBoolean()) {
         compile project(':map')
     }
@@ -94,11 +105,8 @@ dependencies {
     compile 'skin.support:skin-support:2.1.5'
     // skin-support 基础控件支持
     compile 'skin.support:skin-support-design:1.2.5'
-
     // skin-support-design material design 控件支持[可选]
     compile 'skin.support:skin-support-cardview:1.2.0'
-
     // skin-support-cardview CardView 控件支持[可选]
     compile 'skin.support:skin-support-constraint-layout:1.0.2'
-
 }

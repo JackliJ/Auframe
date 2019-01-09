@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="skin.support:skin-support-constraint-layout-1.0.2">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/d62e21b3a88c70514f982b7539f4c26d/jars/classes.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-constraint-layout-1.0.2.aar/d62e21b3a88c70514f982b7539f4c26d/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/skin.support/skin-support-constraint-layout/1.0.2/be2f78484ee16f3c13ec352484356c6711f2e120/skin-support-constraint-layout-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

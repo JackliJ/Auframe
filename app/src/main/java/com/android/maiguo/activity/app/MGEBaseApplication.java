@@ -12,8 +12,8 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
-import com.guide.business.library.LanguageUtil;
 import com.maiguoer.component.http.app.BaseHttpApplication;
+import com.maiguoer.component.http.utils.LanguageUtil;
 import com.maiguoer.component.http.utils.SharedPreferencesUtils;
 
 import skin.support.SkinCompatManager;

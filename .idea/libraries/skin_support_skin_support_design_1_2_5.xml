@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="skin.support:skin-support-design-1.2.5">
+    <CLASSES>
+      <root url="jar://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-design-1.2.5.aar/bd3d95de721d20a7845d47b6ca678c23/jars/classes.jar!/" />
+      <root url="file://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-design-1.2.5.aar/bd3d95de721d20a7845d47b6ca678c23/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/skin.support/skin-support-design/1.2.5/1c8a15710dac81386f349204c54b75ba0a7909ef/skin-support-design-1.2.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

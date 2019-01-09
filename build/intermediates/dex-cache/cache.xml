@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\project_5.0\basis_component\build\intermediates\intermediate-jars\release\classes.jar"
+        jumboMode="false"
+        min-sdk-version="20"
+        optimize="true"
+        revision="26.0.2"
+        sha1="eb112153dfa30b1d1c8d4511ebc09583181163e7">
+        <dex dex="E:\project_5.0\app\build\intermediates\transforms\preDex\release\45.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\project_5.0\guide_library\build\intermediates\intermediate-jars\release\classes.jar"
+        jumboMode="false"
+        min-sdk-version="20"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b27352df47a73046a7f1ac70b407238f3d4a1eef">
+        <dex dex="E:\project_5.0\app\build\intermediates\transforms\preDex\release\44.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\project_5.0\demo\build\intermediates\intermediate-jars\release\classes.jar"
+        jumboMode="false"
+        min-sdk-version="20"
+        optimize="true"
+        revision="26.0.2"
+        sha1="489366e3dd9feb68ac852cf5929a0003843b2a73">
+        <dex dex="E:\project_5.0\app\build\intermediates\transforms\preDex\release\43.jar" />
+    </item>
+
+</items>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="skin.support:skin-support-cardview-1.2.0">
+    <CLASSES>
+      <root url="file://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-cardview-1.2.0.aar/861296755344291f4e90cc6b40e55996/res" />
+      <root url="jar://$APPLICATION_HOME_DIR$/gradle/caches/transforms-1/files-1.1/skin-support-cardview-1.2.0.aar/861296755344291f4e90cc6b40e55996/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/skin.support/skin-support-cardview/1.2.0/6dca0a7cd9bc57078381d93585bc17f61832c922/skin-support-cardview-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

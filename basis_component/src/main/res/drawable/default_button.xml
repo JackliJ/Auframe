@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><!--默认按钮 获得焦点b1 移除焦点b9-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/default_button_pre" android:state_enabled="true" />
+
+    <item android:drawable="@drawable/default_button_nor" android:state_enabled="false" android:state_focused="false" />
+</selector>

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/b5"
+    android:clipChildren="true"
     android:orientation="vertical">
 
     <View
@@ -12,14 +13,30 @@
         android:background="@color/b1" />
 
     <ImageView
-        android:id="@+id/iv_thumb_img"
-        android:scaleType="fitCenter"
+        android:id="@+id/iv_image"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:scaleType="fitXY" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp">
 
+        <TextView
+            android:text="fsagkhgklsfkhfdsddflghlkgjdflkstuhorfngklfdhgfkjghfdkgfgf"
+            android:layout_gravity="center"
+            android:background="#666666"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:paddingTop="200dp"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:layout_alignParentBottom="true" />
+
+    </FrameLayout>
 </LinearLayout>
