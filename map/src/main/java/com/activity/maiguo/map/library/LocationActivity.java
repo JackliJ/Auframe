@@ -70,6 +70,8 @@ public class LocationActivity extends BaseSwipeBackActivity implements View.OnCl
                 })
                 .build();
         vDialog.show();
+
+
     }
 
 
