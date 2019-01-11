@@ -46,9 +46,7 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
                                         //将会话由本地数据库加载到内存中
                                         EMClient.getInstance().groupManager().loadAllGroups();
                                         EMClient.getInstance().chatManager().loadAllConversations();
-                                        //跳转到聊天
                                         Toast.makeText(ChatLoginActivity.this, "login success", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(ChatLoginActivity.this, ChatMessageActivity.class));
                                     }
                                 });
                             }
@@ -58,7 +56,9 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        EMClient.getInstance().logout(false);
                                         Toast.makeText(ChatLoginActivity.this, "login error", Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
 
@@ -69,7 +69,7 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-
+                                        EMClient.getInstance().logout(false);
                                     }
                                 });
                             }
@@ -89,6 +89,12 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
                         LogUtils.d("onError", code + "---" + message);
                     }
                 });
+            }
+        });
+        findViewById(R.id.chat_test_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(ChatLoginActivity.this, ChatMessageActivity.class));
             }
         });
     }

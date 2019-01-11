@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="60dp"
-            android:background="@drawable/general_chatbubbles_theotherparty"
+            android:background="@drawable/chat_icon_left"
             android:padding="10dp">
 
             <TextView

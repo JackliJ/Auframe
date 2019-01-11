@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@drawable/general_chatbubbles_oneself"
+            android:background="@drawable/chat_icon_reight"
             android:padding="10dp"
             android:layout_toLeftOf="@+id/iv_avatar"
             android:layout_marginRight="10dp">
