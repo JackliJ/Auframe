@@ -96,13 +96,6 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
             mOtherNamgeCardBgImage;
     //对方用户VIP等级 vipLevel
     private String mOtherVipLevel;
-    //平移动画
-    private TranslateAnimation HiddenAmin;
-    //缩放动画
-    private ScaleAnimation mSShowAnim;
-    //加号的旋转动画
-    private RotateAnimation mRotaAnimDown;
-    private RotateAnimation mRotaAnimOut;
     //是否在删除的时候不加载动画
     private boolean mIsAnim = true;
     //表情布局
@@ -149,57 +142,6 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
         mOtherBusinessAuthStatus = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERABUSINESSAU);
         mOtherVipLevel = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERVIPLEVEL);
         mOtherNamgeCardBgImage = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERNAMGECARSBGIMAGE);
-        //初始化展现动画
-        //控件显示的动画 缩放动画
-        /* 仿造微信安卓版的效果
-                参数解释：
-                    第一个参数：X轴水平缩放起始位置的大小（fromX）。1代表正常大小
-                    第二个参数：X轴水平缩放完了之后（toX）的大小，0代表完全消失了
-                    第三个参数：Y轴垂直缩放起始时的大小（fromY）
-                    第四个参数：Y轴垂直缩放结束后的大小（toY）
-                    第五个参数：pivotXType为动画在X轴相对于物件位置类型
-                    第六个参数：pivotXValue为动画相对于物件的X坐标的开始位置
-                    第七个参数：pivotXType为动画在Y轴相对于物件位置类型
-                    第八个参数：pivotYValue为动画相对于物件的Y坐标的开始位置
-
-                   （第五个参数，第六个参数），（第七个参数,第八个参数）是用来指定缩放的中心点
-                    0.5f代表从中心缩放
-        */
-        mSShowAnim = new ScaleAnimation(0.5f, 1, 0.5f, 1,
-                1, 0.5f, 1, 0.5f);
-        mSShowAnim.setDuration(150);
-
-
-        //控件隐藏的动画 上移动画
-        /* 位移动画 模拟将发送按钮发送出去的效果
-                    fromXDelta：起始X坐标
-                    toXDelta： 结束X坐标
-                    fromYDelta：起始Y坐标
-                    toYDelta： 结束Y坐标
-         */
-        HiddenAmin = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF
-                , 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
-        HiddenAmin.setDuration(50);
-
-        /*以view中心点正向旋转45度
-                toDegrees：旋转的结束角度。
-                pivotXType：X轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
-                pivotXValue：X坐标的伸缩值。
-                pivotYType：Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
-                pivotYValue：Y坐标的伸缩值
-                 * */
-        mRotaAnimDown = new RotateAnimation(0, 45,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mRotaAnimDown.setDuration(100);
-        //动画执行完毕后是否停在结束时的角度上
-        mRotaAnimDown.setFillAfter(true);
-        //还原动画
-        mRotaAnimOut = new RotateAnimation(0, 0,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mRotaAnimOut.setDuration(100);
-        //动画执行完毕后是否停在结束时的角度上
-        mRotaAnimOut.setFillAfter(true);
         //获取判断绑定对象的参数
         isBindToBarEditText = args.getBoolean(EmotionMainFragment.BIND_TO_EDITTEXT);
         initView(rootView);
@@ -285,19 +227,14 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 if (!TextUtils.isEmpty(bar_edit_text.getText().toString().trim())) {
                     bar_btn_send.setBackgroundResource(R.drawable.public_btn_submit_select_click);
                     if (mIsAnim) {
-                        bar_btn_send.startAnimation(mSShowAnim);
-                        vImgAdd.startAnimation(HiddenAmin);
                         mIsAnim = false;
                     }
                     bar_btn_send.setVisibility(View.VISIBLE);
                     vImgAdd.setVisibility(View.GONE);
                 } else {
                     if (!mIsAnim) {
-                        bar_btn_send.startAnimation(HiddenAmin);
-                        vImgAdd.startAnimation(mSShowAnim);
                         mIsAnim = true;
                     }
-                    bar_btn_send.setVisibility(View.GONE);
                     vImgAdd.setVisibility(View.VISIBLE);
                 }
 
@@ -312,11 +249,6 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 }
                 if (ll_emotion_layout != null) {
                     ll_emotion_layout.setVisibility(View.GONE);
-                }
-                if (vImgAdd != null) {
-                    if (bar_edit_text.getText().toString().trim().length() == 0) {
-                        vImgAdd.startAnimation(mRotaAnimOut);
-                    }
                 }
             }
 
@@ -354,10 +286,8 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
 
         bar_edit_text.setOnClickListener(this);
         if (isHidenBarEditTextAndBtn) {//隐藏
-            bar_edit_text.setVisibility(View.GONE);
-            rl_editbar_bg.setBackgroundResource(R.color.b15);
+            rl_editbar_bg.setBackgroundResource(R.color.T5);
         } else {
-            bar_edit_text.setVisibility(View.VISIBLE);
             rl_editbar_bg.setBackgroundResource(R.drawable.shape_bg_reply_edittext);
         }
     }
@@ -501,13 +431,6 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 isvoide = true;
             }
         } else if (v.getId() == R.id.bar_edit_text) {
-            if (re_top != null && btn_longvoice != null) {
-                re_top.setVisibility(View.VISIBLE);
-                btn_longvoice.setVisibility(View.GONE);
-            }
-            if (rebotton != null) {
-                rebotton.setVisibility(View.GONE);
-            }
             mEmotionKeyboard.intercept();
             mIsEditext = false;
             isvoide = false;

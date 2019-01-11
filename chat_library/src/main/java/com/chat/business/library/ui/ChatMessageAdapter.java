@@ -22,6 +22,7 @@ import com.chat.business.library.util.TimeUtils;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.maiguoer.component.http.utils.Constant;
+import com.maiguoer.component.http.utils.ImageUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -161,6 +162,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         mAvatar = message.getStringAttribute(Constant.STRING_ATTRIBUTE_GROUP_USERAVATAR, null);
         if (!TextUtils.isEmpty(mAvatar)) {
 //            ImageDisplayUtils.displayWithTransform(mContext, mAvatar, vAvatarIv, new CircleTransform());
+            ImageUtils.loadImage(mContext, mAvatar, vAvatarIv);
         }
         vAvatarIv.setOnClickListener(new View.OnClickListener() {
             @Override
