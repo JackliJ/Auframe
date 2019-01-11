@@ -265,12 +265,14 @@ public class EmotionKeyboard {
     }
 
     private void showEmotionLayout() {
+        //先从本地缓存中取出上次保存的键盘高度
         int softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 0);
         if (softInputHeight == 0) {
             softInputHeight = getSupportSoftInputHeight();
         }
+        //如果取出的值为0 则设置一个默认值 防止出现问题
         if(softInputHeight == 0){
-            softInputHeight = 200;
+            softInputHeight = 1000;
         }
         hideSoftInput();
         mEmotionLayout.getLayoutParams().height = softInputHeight;

@@ -22,4 +22,10 @@
         android:layout_height="wrap_content"
         android:text="login" />
 
+    <Button
+        android:id="@+id/chat_test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转到聊天"/>
+
 </LinearLayout>
