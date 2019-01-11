@@ -6,6 +6,9 @@ allprojects {
         maven {
             url "https://raw.githubusercontent.com/HyphenateInc/Hyphenate-SDK-Android/master/repository"
         }
+        flatDir {
+            dirs 'libs', '../basis_component/libs'//第一个表示A模块本身的lib文件夹，第二个表示相对于A模块，c.jar所在的路径
+        }
     }
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
@@ -15,9 +18,20 @@ allprojects {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            // 新版签名机制
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     //Android6.0 中默认移除了 httpclient 的代码，用这个库兼容环信
     useLibrary 'org.apache.http.legacy'
+
     compileSdkVersion 26
+
     defaultConfig {
         applicationId "com.android.maiguo.activity"
         minSdkVersion 20
@@ -36,9 +50,20 @@ android {
             annotationProcessorOptions {
                 //阿里云依赖注解  https://github.com/alibaba/ARouter
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
+                // 新版打包需要
+                includeCompileClasspath = true
             }
         }
+
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     buildTypes {
         release {
             //是否开启混淆
@@ -64,7 +89,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+    packagingOptions {
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/NOTICE.txt")
+        // 重复jar忽略
+        exclude("META-INF/rxjava.properties")
+    }
+
+    // 增加编译内存空间
+    dexOptions {
+        incremental true
+        maxProcessCount 2
+        javaMaxHeapSize "8g"
+    }
+
 }
+
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -76,7 +119,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     //阿里云依赖注解 https://github.com/alibaba/ARouter
     implementation 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
@@ -89,18 +131,15 @@ dependencies {
     if (!isBuildModule.toBoolean()) {
         compile project(':basis_component')
     }
- /*   if (!isBuildModule.toBoolean()) {
-        compile project(':chat_library')
-    }*/
+    /*   if (!isBuildModule.toBoolean()) {
+                compile project(':chat_library')
+            }*/
     if (!isBuildModule.toBoolean()) {
         compile project(':map')
     }
-
     compile project(':basis_component')
-
     //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
     compile 'com.hyphenate:hyphenate-sdk:3.3.0'
-
     //换肤 https://github.com/ximsfei/Android-skin-support
     compile 'skin.support:skin-support:2.1.5'
     // skin-support 基础控件支持
@@ -109,4 +148,6 @@ dependencies {
     compile 'skin.support:skin-support-cardview:1.2.0'
     // skin-support-cardview CardView 控件支持[可选]
     compile 'skin.support:skin-support-constraint-layout:1.0.2'
+
+
 }

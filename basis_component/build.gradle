@@ -6,6 +6,9 @@ apply plugin: 'org.greenrobot.greendao'
 buildscript {
     repositories {
         mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
     }
     dependencies {
         //数据库的class
@@ -47,23 +50,45 @@ android {
             minifyEnabled true
             //debug模式
             debuggable false
+            // 新版打包需要
+            matchingFallbacks = ['pre_release', 'debug']
             // 服务器HTTP URL
             buildConfigField "String", "API_HOST", "\"http://api.maiguoer.com/\""
             // 服务器HTTPS URL
             buildConfigField "String", "API_HOST_S", "\"https://api.maiguoer.com/\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
 
-        debug {
+            signingConfig signingConfigs.debug
+        }
+        pre_release {
             //是否开启混淆
             minifyEnabled false
             //debug模式
             debuggable true
+            // 新版打包需要
+            matchingFallbacks = ['release', 'debug']
             // 服务器HTTP URL
             buildConfigField "String", "API_HOST", "\"http://testapi.maiguoer.com/\""
             // 服务器HTTPS URL
             buildConfigField "String", "API_HOST_S", "\"http://testapi.maiguoer.com/\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            //是否开启混淆
+            minifyEnabled false
+            //debug模式
+            debuggable true
+            // 新版打包需要
+            matchingFallbacks = ['release', 'pre_release']
+            // 服务器HTTP URL
+            buildConfigField "String", "API_HOST", "\"http://testapi.maiguoer.com/\""
+            // 服务器HTTPS URL
+            buildConfigField "String", "API_HOST_S", "\"http://testapi.maiguoer.com/\""
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -71,7 +96,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
@@ -115,4 +140,11 @@ dependencies {
 
     // EventBus https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    // 内存泄漏检测库 https://github.com/square/leakcanary
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    pre_releaseCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    //高德地图
+    implementation files('libs/AMap3DMap_6.6.0_AMapSearch_6.5.0_AMapLocation_4.4.0_20181221.jar')
 }

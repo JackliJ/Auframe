@@ -4,6 +4,14 @@ if (isBuildModule.toBoolean()) {
     apply plugin: 'com.android.library'
 }
 
+allprojects {
+    repositories {
+        flatDir {
+            dirs 'libs', '../basis_component/libs'//第一个表示A模块本身的lib文件夹，第二个表示相对于A模块，c.jar所在的路径
+        }
+    }
+}
+
 android {
     compileSdkVersion 26
 
@@ -40,8 +48,6 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.4.1'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 
-    //高德地图
-    implementation files('libs/AMap3DMap_6.6.0_AMapSearch_6.5.0_AMapLocation_4.4.0_20181221.jar')
     //引用基础的library
     compile project(':basis_component')
 }

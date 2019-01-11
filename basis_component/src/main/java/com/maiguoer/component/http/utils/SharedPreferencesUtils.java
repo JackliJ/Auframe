@@ -200,8 +200,7 @@ public class SharedPreferencesUtils {
      * @return
      */
     public static String getAppLanguage(Context context) {
-        return (String)getParam(context, "app_language", "zh");
-
+        return (String) getParam(context, "app_language", "zh");
     }
 
     /**
@@ -211,8 +210,53 @@ public class SharedPreferencesUtils {
      * @return
      */
     public static void saveAppLanguage(Context context, String value) {
-        setParam(context,"app_language", value);
+        setParam(context, "app_language", value);
     }
+
+
+    /**
+     * 保存当前定位城市
+     *
+     * @param context
+     * @param city    当前城市
+     * @return
+     */
+    public static void SaveLocationCity(Context context, String city) {
+        setParam(context, "location_city", city);
+    }
+
+    /**
+     * 获取当前定位城市
+     *
+     * @param context
+     * @return
+     */
+    public static String GetLocationCity(Context context) {
+        return (String) getParam(context, "location_city", "");
+    }
+
+    /**
+     * 保存当前定位的所有信息
+     *
+     * @param context
+     * @param info    所有信息
+     * @return
+     */
+    public static void SaveLocationInfo(Context context, String city) {
+        setParam(context, "location_info", city);
+    }
+
+
+    /**
+     * 获取当前所有信息
+     *
+     * @param context
+     * @return
+     */
+    public static String GetLocationInfo(Context context) {
+        return (String)getParam(context,"location_info", "");
+    }
+
 
 
 }

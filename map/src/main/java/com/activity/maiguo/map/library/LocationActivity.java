@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.maiguoer.component.http.app.BaseSwipeBackActivity;
 import com.maiguoer.component.http.utils.Utils;
 import com.maiguoer.widget.MgeToast;
@@ -38,6 +39,11 @@ public class LocationActivity extends BaseSwipeBackActivity implements View.OnCl
      */
     private void init() {
         vStatusBarV = findViewById(R.id.v_status_bar);
+
+        MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类
+        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);//定位一次，且将视角移动到地图中心点。
+
     }
 
 
@@ -50,35 +56,13 @@ public class LocationActivity extends BaseSwipeBackActivity implements View.OnCl
         vStatusBarV.setLayoutParams(mLayoutParams);
     }
 
-    private void aa() {
-        // 清理缓存
-        CustomDialog vDialog = new CustomDialog.Builder(this, CustomDialog.MODE_MESSAGE)
-                .setTitle("测试")
-                .setMessage(getResources().getString(R.string.setup_clear_message))
-                .isCanckl(false)
-                .setConfirm(getResources().getString(R.string.confirm), new CustomDialog.DlgCallback() {
-                    @Override
-                    public void onClick(CustomDialog dialog) {
-                        dialog.dismiss();
-                    }
-                })
-                .setCancel(getResources().getString(R.string.cancel), new CustomDialog.DlgCallback() {
-                    @Override
-                    public void onClick(CustomDialog dialog) {
-                        dialog.dismiss();
-                    }
-                })
-                .build();
-        vDialog.show();
 
-
-    }
 
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.v_1) {
-            aa();
+
         }else if (v.getId() == R.id.v_2) {
             MgeToast.showErrorToast(LocationActivity.this,"6666666");
         }

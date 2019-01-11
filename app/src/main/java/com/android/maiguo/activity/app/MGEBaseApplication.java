@@ -15,6 +15,8 @@ import com.hyphenate.chat.EMOptions;
 import com.maiguoer.component.http.app.BaseHttpApplication;
 import com.maiguoer.component.http.utils.LanguageUtil;
 import com.maiguoer.component.http.utils.SharedPreferencesUtils;
+import com.squareup.leakcanary.LeakCanary;
+import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import skin.support.SkinCompatManager;
 import skin.support.app.SkinCardViewInflater;
@@ -36,6 +38,10 @@ public class MGEBaseApplication extends BaseHttpApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化内存泄漏检测
+        initLeakCanary();
+        // Android AoutLayout
+        AutoLayoutConifg.getInstance().useDeviceSize();
         initSDK();
         initChat();
     }
@@ -171,4 +177,20 @@ public class MGEBaseApplication extends BaseHttpApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LanguageUtil.attachBaseContext(base, SharedPreferencesUtils.getAppLanguage(base)));
     }
+
+    /**
+     * 初始化内存泄漏检测
+     */
+    private void initLeakCanary() {
+        // 只有在debug 打开的时候，才会打开内存泄漏
+        if (BuildConfig.DEBUG) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            LeakCanary.install(this);
+        }
+    }
+
 }
