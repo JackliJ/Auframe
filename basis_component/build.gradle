@@ -145,6 +145,4 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     pre_releaseCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    //高德地图
-    implementation files('libs/AMap3DMap_6.6.0_AMapSearch_6.5.0_AMapLocation_4.4.0_20181221.jar')
 }
