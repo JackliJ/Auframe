@@ -1,6 +1,8 @@
 package com.maiguoer.component.http.permissions;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 
 /**
  * 全局的权限管理
@@ -24,5 +26,17 @@ public class PermissionsUtil {
             Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE, Manifest.permission.CALL_PHONE, Manifest.permission.READ_CALL_LOG, Manifest.permission.WRITE_CALL_LOG, Manifest.permission.USE_SIP, Manifest.permission.PROCESS_OUTGOING_CALLS,
             Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_WAP_PUSH, Manifest.permission.RECEIVE_MMS,
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    /**
+     * 录音权限检测
+     * @param context
+     * @param permission
+     * @return
+     */
+    public static boolean hasSelfPermission(Context context, String permission) {
+        boolean hasPermission = context.checkPermission(permission, android.os.Process.myPid(), android.os.Process.myUid())
+                == PackageManager.PERMISSION_GRANTED;
+        return hasPermission;
+    }
 
 }

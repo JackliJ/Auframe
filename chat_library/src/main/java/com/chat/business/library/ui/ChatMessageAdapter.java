@@ -43,9 +43,42 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
      */
     private static final int RECEIVE_TXT_MESSAGE_VIEW = 0x01;
     /**
+     * 接收方图片
+     */
+    private static final int RECEIVE_IMAGE_MESSAGE_VIEW = 0x02;
+    /**
+     * 接收方语音
+     */
+    private static final int RECEIVE_VOICE_MESSAGE_VIEW = 0x03;
+    /**
+     * 接收方视频消息
+     */
+    private static final int RECEIVE_VOIDE_MESSAGE_VIEW = 0x04;
+    /**
+     * 接收方位置消息
+     */
+    private static final int RECEIVE_ADDRESS_MESSAGE_VIEW = 0x05;
+    /**
      * 发送方文字
      */
     private static final int SEND_TXT_MESSAGE_VIEW = 0x10;
+    /**
+     * 发送方图片
+     */
+    private static final int SEND_IMAGE_MESSAGE_VIEW = 0x11;
+    /**
+     * 发送方语音消息
+     */
+    private static final int SEND_VOICE_MESSAGE_VIEW = 0x12;
+    /**
+     * 发送方视频消息
+     */
+    private static final int SEND_VOIDE_MESSAGE_VIEW = 0x13;
+    /**
+     * 发送方位置消息
+     */
+    private static final int SEND_ADDRESS_MESSAGE_VIEW = 0x15;
+
 
     /**
      * 文本扩展字段
@@ -81,6 +114,18 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             } else {
                 return message.direct() == EMMessage.Direct.RECEIVE ? RECEIVE_TXT_MESSAGE_VIEW : SEND_TXT_MESSAGE_VIEW;
             }
+        } else if (message.getType() == EMMessage.Type.IMAGE) {
+            // 图片消息
+            return message.direct() == EMMessage.Direct.RECEIVE ? RECEIVE_IMAGE_MESSAGE_VIEW : SEND_IMAGE_MESSAGE_VIEW;
+        } else if (message.getType() == EMMessage.Type.VOICE) {
+            // 语音消息
+            return message.direct() == EMMessage.Direct.RECEIVE ? RECEIVE_VOICE_MESSAGE_VIEW : SEND_VOICE_MESSAGE_VIEW;
+        } else if (message.getType() == EMMessage.Type.VIDEO) {
+            //视频消息
+            return message.direct() == EMMessage.Direct.RECEIVE ? RECEIVE_VOIDE_MESSAGE_VIEW : SEND_VOIDE_MESSAGE_VIEW;
+        } else if (message.getType() == EMMessage.Type.LOCATION) {
+            //位置信息
+            return message.direct() == EMMessage.Direct.RECEIVE ? RECEIVE_ADDRESS_MESSAGE_VIEW : SEND_ADDRESS_MESSAGE_VIEW;
         } else {
             return -1;
         }
@@ -95,11 +140,22 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                 viewRes = R.layout.row_receive_chat_txt_message;
             }
             break;
+            case RECEIVE_VOICE_MESSAGE_VIEW: {
+                //语音消息接收方
+                viewRes = R.layout.row_receive_chat_voice_message;
+            }
+            break;
             case SEND_TXT_MESSAGE_VIEW: {
                 // 文字消息
                 viewRes = R.layout.row_send_chat_txt_message;
             }
             break;
+            case SEND_VOICE_MESSAGE_VIEW: {
+                //语音消息发送方
+                viewRes = R.layout.row_send_chat_voice_message;
+            }
+            break;
+
         }
         return new ViewHolder(LayoutInflater.from(mContext).inflate(viewRes, parent, false), mListener);
     }
@@ -131,6 +187,30 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                             holder.vMessageContentTv.setText(SpanStringUtils.getEmotionContentText(EmotionUtils.EMOTION_TOTAL, mContext, holder.vMessageContentTv, messageContent));
                         }
                         break;
+                    case RECEIVE_VOICE_MESSAGE_VIEW://文字消息
+                        ReceiveAvatar(message, holder.vAvatarIv);
+                        //截取本地路径
+                        String reqResult = message.getBody() + "";
+                        String length = null;
+                        try {
+                            String[] getSignInfo = reqResult.split(",");
+                            String getlenth = getSignInfo[3];
+                            String[] getlengths = getlenth.split(":");
+                            //截取语音长度
+                            length = getlengths[1];
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                        if (!TextUtils.isEmpty(length)) {
+                            holder.vMessageContentTv.setText("    " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                        }
+                        //判断语音是否已听
+                        if (message.isListened()) {
+                            holder.vImgRead.setVisibility(View.INVISIBLE);
+                        } else {
+                            holder.vImgRead.setVisibility(View.VISIBLE);
+                        }
+                        break;
                 }
             }
             break;
@@ -143,6 +223,48 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                         String messageContent = ((EMTextMessageBody) message.getBody()).getMessage();
                         if (!TextUtils.isEmpty(messageContent)) {
                             holder.vMessageContentTv.setText(SpanStringUtils.getEmotionContentText(EmotionUtils.EMOTION_TOTAL, mContext, holder.vMessageContentTv, messageContent));
+                        }
+                        break;
+                    case SEND_VOICE_MESSAGE_VIEW:
+                        MessageStatus(message, holder, position);
+                        //截取本地路径
+                        String length = null;
+                        try {
+                            String reqResult = message.getBody() + "";
+                            String[] getSignInfo = reqResult.split(",");
+                            String getlenth = getSignInfo[3];
+                            String[] getlengths = getlenth.split(":");
+                            //截取语音长度
+                            length = getlengths[1];
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        //根据语音长度设置框的长度
+                        if (!TextUtils.isEmpty(length)) {
+                            if (Integer.parseInt(length) >= 0 && Integer.parseInt(length) <= 20) {
+                                holder.vMessageContentTv.setText("    " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else if (Integer.parseInt(length) > 20 && Integer.parseInt(length) <= 50) {
+                                holder.vMessageContentTv.setText("        " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else if (Integer.parseInt(length) > 50 && Integer.parseInt(length) <= 80) {
+                                holder.vMessageContentTv.setText("             " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else if (Integer.parseInt(length) > 80 && Integer.parseInt(length) < 110) {
+                                holder.vMessageContentTv.setText("                 " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else if (Integer.parseInt(length) > 110 && Integer.parseInt(length) < 140) {
+                                holder.vMessageContentTv.setText("                           " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else if (Integer.parseInt(length) > 140 && Integer.parseInt(length) < 180) {
+                                holder.vMessageContentTv.setText("                                   " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            } else {
+                                holder.vMessageContentTv.setText("                                            " + TimeUtils.LongGetMinute(Integer.parseInt(length)) + "”    ");
+                            }
+
+                        }
+                        //判断语音是否已听
+                        if (message.isListened()) {
+                            holder.vImgRead.setVisibility(View.INVISIBLE);
+                        } else {
+                            holder.vImgRead.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
@@ -249,6 +371,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
          * 消息发送中
          */
         ProgressBar vStatusProgress;
+        /**
+         * 消息的红点
+         */
+        ImageView vImgRead;
 
 
         private ChatItemClickListener mListener;
@@ -265,7 +391,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             vLiStatus = itemView.findViewById(R.id.msg_status_li);
             vImgStatusError = itemView.findViewById(R.id.msg_status_error);
             vStatusProgress = itemView.findViewById(R.id.msg_status_progress);
-
+            vImgRead = itemView.findViewById(R.id.img_voice_read);
         }
 
         @Override

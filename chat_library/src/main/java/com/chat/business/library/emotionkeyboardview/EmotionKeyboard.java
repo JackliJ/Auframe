@@ -102,37 +102,43 @@ public class EmotionKeyboard {
 
     /**
      * 绑定表情按钮
+     *
      * @param emotionButton 表情按钮
-     * @param rebotton 表情展示区域
-     * @param re_top 输入区域
+     * @param rebotton      表情展示区域
+     * @param re_top        输入区域
      * @param btn_longvoice 语音发送区域
      * @return
      */
-    public EmotionKeyboard bindToEmotionButton(View emotionButton, final LinearLayout rebotton,
+    public EmotionKeyboard bindToEmotionButton(View emotionButton, final LinearLayout rebotton, final LinearLayout reAudio,
                                                final LinearLayout re_top, final Button btn_longvoice
-                                                ,final LinearLayout vImgAdd) {
+            , final LinearLayout vImgAdd) {
         emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //还原动画
-                RotateAnimation mRotaAnimOut = new RotateAnimation(0,0,
-                        Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                RotateAnimation mRotaAnimOut = new RotateAnimation(0, 0,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 mRotaAnimOut.setDuration(100);
                 //动画执行完毕后是否停在结束时的角度上
                 mRotaAnimOut.setFillAfter(true);
                 //去初始化加号按钮动画 防止来回点击动画没有初始化
-                if(vImgAdd != null){
-                    if(mEditText.getText().toString().trim().length() == 0){
+                if (vImgAdd != null) {
+                    if (mEditText.getText().toString().trim().length() == 0) {
                         vImgAdd.startAnimation(mRotaAnimOut);
                     }
 
                 }
-                if(re_top != null && btn_longvoice != null){
+                if (re_top != null && btn_longvoice != null) {
                     re_top.setVisibility(View.VISIBLE);
                     btn_longvoice.setVisibility(View.GONE);
                 }
-                if(rebotton != null){
+                //隐藏加号
+                if (rebotton != null) {
                     rebotton.setVisibility(View.GONE);
+                }
+                //隐藏语音
+                if (reAudio != null) {
+                    reAudio.setVisibility(View.GONE);
                 }
                 EmotionMainFragment.isvoide = false;
                 if (mEmotionLayout.isShown()) {
@@ -159,10 +165,11 @@ public class EmotionKeyboard {
 
     /**
      * 绑定加号
+     *
      * @param emotionButton 表情按钮
      * @return
      */
-    public EmotionKeyboard bindToViewButton(View emotionButton, final LinearLayout ll_emotion_layout, final LinearLayout vImgAdd) {
+    public EmotionKeyboard bindToViewButton(View emotionButton, final LinearLayout ll_emotion_layout, final LinearLayout reAudio, final LinearLayout vImgAdd) {
         emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,20 +181,25 @@ public class EmotionKeyboard {
                 pivotYType：Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
                 pivotYValue：Y坐标的伸缩值
                  * */
-                RotateAnimation mRotaAnimDown = new RotateAnimation(0,45,
-                        Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                RotateAnimation mRotaAnimDown = new RotateAnimation(0, 45,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 mRotaAnimDown.setDuration(100);
                 //动画执行完毕后是否停在结束时的角度上
                 mRotaAnimDown.setFillAfter(true);
                 //以view中心点反向旋转45度
-                RotateAnimation mRotaAnimOut = new RotateAnimation(45,0,
-                        Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                RotateAnimation mRotaAnimOut = new RotateAnimation(45, 0,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 mRotaAnimOut.setDuration(100);
                 //动画执行完毕后是否停在结束时的角度上
                 mRotaAnimOut.setFillAfter(true);
 
-                if(ll_emotion_layout != null){
+                //隐藏表情键盘区域
+                if (ll_emotion_layout != null) {
                     ll_emotion_layout.setVisibility(View.GONE);
+                }
+                //隐藏语音区域
+                if (reAudio != null) {
+                    reAudio.setVisibility(View.GONE);
                 }
                 if (mEmotionLayout.isShown()) {
                     vImgAdd.startAnimation(mRotaAnimOut);
@@ -196,6 +208,56 @@ public class EmotionKeyboard {
                     unlockContentHeightDelayed();//软件盘显示后，释放内容高度
                 } else {
                     vImgAdd.startAnimation(mRotaAnimDown);
+                    if (isSoftInputShown()) {//同上
+                        lockContentHeight();
+                        showEmotionLayout();
+                        unlockContentHeightDelayed();
+                    } else {
+                        showEmotionLayout();//两者都没显示，直接显示表情布局
+                    }
+                }
+            }
+        });
+        return this;
+    }
+
+    /**
+     * 绑定语音发送
+     *
+     * @param emotionButton 表情按钮
+     * @return
+     */
+    public EmotionKeyboard bindToBasisView(View emotionButton, final LinearLayout ll_emotion_layout,
+                                           final LinearLayout rebotton, final LinearLayout vImgAdd) {
+        emotionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //隐藏表情区域
+                if (ll_emotion_layout != null) {
+                    ll_emotion_layout.setVisibility(View.GONE);
+                }
+                //隐藏加号区域
+                if (rebotton != null) {
+                    //还原动画
+                    RotateAnimation mRotaAnimOut = new RotateAnimation(0, 0,
+                            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    mRotaAnimOut.setDuration(100);
+                    //动画执行完毕后是否停在结束时的角度上
+                    mRotaAnimOut.setFillAfter(true);
+                    //去初始化加号按钮动画 防止来回点击动画没有初始化
+                    if (vImgAdd != null) {
+                        if (mEditText.getText().toString().trim().length() == 0) {
+                            vImgAdd.startAnimation(mRotaAnimOut);
+                        }
+
+                    }
+                    rebotton.setVisibility(View.GONE);
+                }
+                if (mEmotionLayout.isShown()) {
+                    lockContentHeight();//显示软件盘时，锁定内容高度，防止跳闪。
+                    hideEmotionLayout(true);//隐藏表情布局，显示软件盘
+                    unlockContentHeightDelayed();//软件盘显示后，释放内容高度
+                } else {
                     if (isSoftInputShown()) {//同上
                         lockContentHeight();
                         showEmotionLayout();
@@ -271,7 +333,7 @@ public class EmotionKeyboard {
             softInputHeight = getSupportSoftInputHeight();
         }
         //如果取出的值为0 则设置一个默认值 防止出现问题
-        if(softInputHeight == 0){
+        if (softInputHeight == 0) {
             softInputHeight = 1000;
         }
         hideSoftInput();

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -19,7 +21,9 @@ import com.chat.business.library.R;
 import com.chat.business.library.model.ChatVoiceEMMessage;
 import com.chat.business.library.model.PreviewBean;
 import com.chat.business.library.ui.fragment.EmotionMainFragment;
+import com.chat.business.library.util.ChatItemClickListener;
 import com.chat.business.library.util.SendUtil;
+import com.chat.business.library.util.TimeUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
@@ -35,7 +39,7 @@ import java.util.List;
  * Create by www.lijin@foxmail.com on 2019/1/3 0003.
  * <br/>
  */
-public class ChatMessageActivity extends BaseSwipeBackActivity implements EmotionMainFragment.FragmentListener, SwipeRefreshLayout.OnRefreshListener {
+public class ChatMessageActivity extends BaseSwipeBackActivity implements EmotionMainFragment.FragmentListener, SwipeRefreshLayout.OnRefreshListener, ChatItemClickListener {
 
     /**
      * 下拉刷新
@@ -115,6 +119,9 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
         initView();
         //数据查询与赋值
         initData();
+        //注册语音消息发送的广播
+        mFilter = new IntentFilter(BroadCastReceiverConstant.BROAD_MESSAGEVOICE);
+        registerReceiver(mReceiver, mFilter);
         //注册收到消息的广播
         mFilter = new IntentFilter(BroadCastReceiverConstant.BROAD_MESSAGERECEIVED);
         mContext.registerReceiver(mReceiver, mFilter);
@@ -142,8 +149,7 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //获取收到的消息
-            if (intent.getAction().equals(BroadCastReceiverConstant.BROAD_MESSAGERECEIVED)) {
+            if (intent.getAction().equals(BroadCastReceiverConstant.BROAD_MESSAGERECEIVED)) {//获取收到的消息
                 //获取是否定位刷新
                 final boolean isSendRefrsh = intent.getBooleanExtra(Constant.isSendRefrsh, false);
                 ChatMessageActivity.this.runOnUiThread(new Runnable() {
@@ -156,6 +162,19 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
                         }
                     }
                 });
+            } else if (intent.getAction().equals(BroadCastReceiverConstant.BROAD_MESSAGEVOICE)) {//语音消息的发送
+                //获取长度
+                long time = intent.getLongExtra(Constant.MEG_INTNT_CHATMESSAGE_VOICTIME, 0);
+                //获取路径
+                final String path = intent.getStringExtra(Constant.MEG_INTNT_CHATMESSAGE_VOICEPATH);
+                //转化为Int类型
+                final int second = TimeUtils.long25Int(time);
+                if (path != null && time != 0) {
+                    //filePath为语音文件路径，length为录音时间(秒)
+                    SendUtil.SendVoice(mContext, mHXid, mOtherUid, path, second, mOtherUsername, mOtherUserAvatar,
+                            mOtherVipLevel, mOtherAuthStatus, mOtherBusinessAuthStatus, mOtherNamgeCardBgImage);
+                    initRefresh(mHXid, false, true);
+                }
             }
         }
     };
@@ -366,5 +385,319 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
         if (mFilter != null) {
             unregisterReceiver(mReceiver);
         }
+    }
+
+    private AnimationDrawable mVoiceAnim;
+
+    @Override
+    public void onItemClick(View view,final int postion) {
+        if (messages.get(postion).getType().equals(EMMessage.Type.TXT)) {//文本消息
+        } else if (messages.get(postion).getType().equals(EMMessage.Type.VOICE)) {//语音消息
+            if (messages.get(postion).direct() == EMMessage.Direct.SEND) {
+                //如果是发送方 则直接播放
+                try {
+                    //初始化动画
+                    final ImageView img = (ImageView) view.findViewById(R.id.tv_message_content_image);
+                    if (mIsVoiceStart) {
+                        mIsVoiceStart = false;
+                        //注销语音播放器
+                        if (player != null) {
+                            player.stop();
+                            player.reset();
+                        }
+                        //注销语音动画
+                        if (mVoiceAnim != null) {
+                            //结束
+                            mVoiceAnim.selectDrawable(0);
+                            mVoiceAnim.stop();
+                        }
+                        //初始化播放数组
+                        if (mVoiceView != null) {
+                            mVoiceView.clear();
+                        }
+                        if (mVoiceBody != null) {
+                            mVoiceBody.clear();
+                        }
+                        mVoicePosition = 0;
+                    } else {
+                        mIsVoiceStart = true;
+                        //注销语音播放器
+                        if (player != null) {
+                            player.stop();
+                            player.reset();
+                        }
+                        //注销语音动画
+                        if (mVoiceAnim != null) {
+                            //结束
+                            mVoiceAnim.selectDrawable(0);
+                            mVoiceAnim.stop();
+                        }
+                        //初始化播放数组
+                        if (mVoiceView != null) {
+                            mVoiceView.clear();
+                        }
+                        if (mVoiceBody != null) {
+                            mVoiceBody.clear();
+                        }
+                        mVoicePosition = 0;
+
+                        messages.get(postion).setListened(true);
+                        EMClient.getInstance().chatManager().setVoiceMessageListened(messages.get(postion));
+                        if (messages.get(postion).direct() == EMMessage.Direct.RECEIVE) {//接收方
+                            mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                            img.setBackgroundDrawable(mVoiceAnim);
+                        } else if (messages.get(postion).direct() == EMMessage.Direct.SEND) {//发送方
+                            mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                            img.setBackgroundDrawable(mVoiceAnim);
+                        }
+                        //初始化播放器
+                        player.stop();
+                        player.reset();
+                        //截取本地路径
+                        String mVoicePath = null;
+                        try {
+                            String reqResult = messages.get(postion).getBody() + "";
+                            String[] mGetSignInfo = reqResult.split(",");
+                            String GetVoice = mGetSignInfo[1];
+                            String[] mGetVoices = GetVoice.split(":");
+                            mVoicePath = mGetVoices[1];
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                        //播放语音
+                        String path = mVoicePath;
+                        player.setDataSource(path);
+                        player.prepare();
+                        player.start();
+                        mVoiceAnim.start();//开始播放动画
+                        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                //结束
+                                mVoiceAnim.selectDrawable(0);
+                                mVoiceAnim.stop();
+                                mAdapter.notifyItemChanged(postion);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();//输出异常信息
+                }
+            } else {
+                //判断当前消息是已读还是未读
+                if (messages.get(postion).isListened()) {
+                    //如果是已读 则直接播放
+                    try {
+                        //初始化动画
+                        final ImageView img = (ImageView) view.findViewById(R.id.tv_message_content_image);
+                        if (mIsVoiceStart) {
+                            mIsVoiceStart = false;
+                            //注销语音播放器
+                            if (player != null) {
+                                player.stop();
+                                player.reset();
+                            }
+                            //注销语音动画
+                            if (mVoiceAnim != null) {
+                                //结束
+                                mVoiceAnim.selectDrawable(0);
+                                mVoiceAnim.stop();
+                            }
+                            //初始化播放数组
+                            if (mVoiceView != null) {
+                                mVoiceView.clear();
+                            }
+                            if (mVoiceBody != null) {
+                                mVoiceBody.clear();
+                            }
+                            mVoicePosition = 0;
+
+                        } else {
+                            mIsVoiceStart = true;
+                            //注销语音播放器
+                            if (player != null) {
+                                player.stop();
+                                player.reset();
+                            }
+                            //注销语音动画
+                            if (mVoiceAnim != null) {
+                                //结束
+                                mVoiceAnim.selectDrawable(0);
+                                mVoiceAnim.stop();
+                            }
+                            //初始化播放数组
+                            if (mVoiceView != null) {
+                                mVoiceView.clear();
+                            }
+                            if (mVoiceBody != null) {
+                                mVoiceBody.clear();
+                            }
+                            mVoicePosition = 0;
+                            messages.get(postion).setListened(true);
+                            EMClient.getInstance().chatManager().setVoiceMessageListened(messages.get(postion));
+                            if (messages.get(postion).direct() == EMMessage.Direct.RECEIVE) {//接收方
+                                mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                                img.setBackgroundDrawable(mVoiceAnim);
+                            } else if (messages.get(postion).direct() == EMMessage.Direct.SEND) {//发送方
+                                mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                                img.setBackgroundDrawable(mVoiceAnim);
+                            }
+                            //初始化播放器
+                            player.stop();
+                            player.reset();
+                            //截取本地路径
+                            String mVoicePath = null;
+                            try {
+                                String reqResult = messages.get(postion).getBody() + "";
+                                String[] mGetSignInfo = reqResult.split(",");
+                                String GetVoice = mGetSignInfo[1];
+                                String[] mGetVoices = GetVoice.split(":");
+                                mVoicePath = mGetVoices[1];
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
+                            //播放语音
+                            String path = mVoicePath;
+                            player.setDataSource(path);
+                            player.prepare();
+                            player.start();
+                            mVoiceAnim.start();//开始播放动画
+                            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                    //结束
+                                    mVoiceAnim.selectDrawable(0);
+                                    mVoiceAnim.stop();
+                                    mAdapter.notifyItemChanged(postion);
+                                }
+                            });
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();//输出异常信息
+                    }
+                } else {
+                    //注销语音播放器
+                    if (player != null) {
+                        player.stop();
+                        player.reset();
+                    }
+                    //注销语音动画
+                    if (mVoiceAnim != null) {
+                        //结束
+                        mVoiceAnim.selectDrawable(0);
+                        mVoiceAnim.stop();
+                    }
+                    //初始化播放数组
+                    if (mVoiceView != null) {
+                        mVoiceView.clear();
+                    }
+                    if (mVoiceBody != null) {
+                        mVoiceBody.clear();
+                    }
+                    mVoicePosition = 0;
+                    for (int i = 0; i < messages.size() - postion; i++) {
+                        //只取接收到的消息
+                        if (messages.get(postion + i).direct() == EMMessage.Direct.RECEIVE) {
+                            //只取语音消息
+                            if (messages.get(postion + i).getType().equals(EMMessage.Type.VOICE)) {
+                                //只取未读消息
+                                if (messages.get(postion + i).isListened() == false) {
+                                    chatVoiceEMMessage = new ChatVoiceEMMessage();
+                                    chatVoiceEMMessage.setEmMessage(messages.get(postion + i));
+                                    chatVoiceEMMessage.setPosition(postion + i);
+                                    //加入到数组
+                                    mVoiceBody.add(chatVoiceEMMessage);
+                                    //获取点击项的view
+                                    try {
+                                        //获取第一个可见view的位置
+                                        int mFirstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition();
+                                        //得到要更新的item的view
+                                        View views = vCRecyclerView.getChildAt((postion + i) - mFirstVisiblePosition);
+                                        mVoiceView.add(views);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //去播放未读数组
+                    stratVoiceList(mVoiceBody, mVoiceView);
+                }
+            }
+        }
+    }
+
+    private void stratVoiceList(final List<ChatVoiceEMMessage> mVoiceBody, final List<View> view) {
+        try {
+            //初始化动画
+            final ImageView img = (ImageView) view.get(mVoicePosition).findViewById(R.id.tv_message_content_image);
+            mFastView = view.get(mVoicePosition);
+            //注销语音播放器
+            if (player != null) {
+                player.stop();
+                player.reset();
+            }
+            //注销语音动画
+            if (mVoiceAnim != null) {
+                //结束
+                mVoiceAnim.selectDrawable(0);
+                mVoiceAnim.stop();
+            }
+            mVoiceBody.get(mVoicePosition).getEmMessage().setListened(true);
+            mAdapter.notifyItemChanged(mVoiceBody.get(mVoicePosition).getPosition());
+            EMClient.getInstance().chatManager().setVoiceMessageListened(mVoiceBody.get(mVoicePosition).getEmMessage());
+            if (mVoiceBody.get(mVoicePosition).getEmMessage().direct() == EMMessage.Direct.RECEIVE) {//接收方
+                mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                img.setBackgroundDrawable(mVoiceAnim);
+            }
+            //初始化播放器
+            player.stop();
+            player.reset();
+            //截取本地路径
+            String mVoicePath = null;
+            try {
+                String reqResult = mVoiceBody.get(mVoicePosition).getEmMessage().getBody() + "";
+                String[] mGetSignInfo = reqResult.split(",");
+                String GetVoice = mGetSignInfo[1];
+                String[] mGetVoices = GetVoice.split(":");
+                mVoicePath = mGetVoices[1];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+            //播放语音
+            String path = mVoicePath;
+            player.setDataSource(path);
+            player.prepare();
+            player.start();
+            mVoiceAnim.start();//开始播放动画
+            final int finalI = mVoicePosition;
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mVoiceBody.get(mVoicePosition).getEmMessage().setListened(true);
+                    //结束
+                    mVoiceAnim.selectDrawable(0);
+                    mVoiceAnim.stop();
+                    mAdapter.notifyItemChanged(mVoiceBody.get(mVoicePosition).getPosition());
+                    //去执行下一次
+                    if (mVoiceBody.size() > mVoicePosition) {
+                        mVoicePosition = mVoicePosition + 1;
+                        stratVoiceList(mVoiceBody, view);
+                    } else {
+                        mVoicePosition = 0;
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();//输出异常信息
+        }
+    }
+
+    @Override
+    public void onLongClick(View view, int position) {
+
     }
 }

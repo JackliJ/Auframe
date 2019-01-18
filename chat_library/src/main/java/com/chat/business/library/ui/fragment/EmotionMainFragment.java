@@ -1,9 +1,13 @@
 package com.chat.business.library.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,19 +30,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chat.business.library.R;
+import com.chat.business.library.audio.LineWaveVoiceView;
+import com.chat.business.library.audio.RecordAudioView;
 import com.chat.business.library.emotionkeyboardview.EmotionKeyboard;
 import com.chat.business.library.emotionkeyboardview.NoHorizontalScrollerViewPager;
 import com.chat.business.library.model.ImageModel;
 import com.chat.business.library.util.EmotionUtils;
 import com.chat.business.library.util.GlobalOnItemClickManagerUtils;
 import com.chat.business.library.util.SoftKeyBoardListener;
+import com.maiguoer.component.http.app.BaseHttpApplication;
 import com.maiguoer.component.http.base.BasisFragment;
+import com.maiguoer.component.http.permissions.PermissionsUtil;
+import com.maiguoer.component.http.utils.BroadCastReceiverConstant;
 import com.maiguoer.component.http.utils.Constant;
 import com.maiguoer.component.http.utils.SharedPreferencesUtils;
+import com.maiguoer.component.http.utils.StringUtil;
 
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * Created by lijin
@@ -46,7 +62,7 @@ import java.util.List;
  * Email www.lijin@foxmail.com
  * Description:表情主界面
  */
-public class EmotionMainFragment extends BasisFragment implements View.OnClickListener {
+public class EmotionMainFragment extends BasisFragment implements View.OnClickListener, RecordAudioView.IRecordAudioListener {
 
     private Context context;
     //是否绑定当前Bar的编辑框的flag
@@ -85,9 +101,12 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     private LinearLayout re_top;
     //底部选择框
     private LinearLayout rebotton;
+    private LinearLayout reAudio;
     private String mHuanxinID;
     //加号按钮
     private LinearLayout vImgAdd;
+    //语音按钮
+    private LinearLayout vImgAudio;
     //传递数据的回调
     private FragmentListener listener = null;
     // 对方用户昵称 username 对方用户头像 avatar  对方用户实名认证状态 authStatus 对方用户企业认证状态 businessAuthStatus
@@ -104,6 +123,156 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     //开放给fragment
     public static boolean isvoide = false;
 
+    //-------------------------------录音--------------------------------
+    private RecordAudioView recordAudioView;
+    private LineWaveVoiceView mHorVoiceView;
+    private TextView tvRecordTips;
+    private LinearLayout layoutCancelView;
+
+    public static final long DEFAULT_MAX_RECORD_TIME = 60000;
+    public static final long DEFAULT_MIN_RECORD_TIME = 2000;
+    protected static final int DEFAULT_MIN_TIME_UPDATE_TIME = 1000;
+    private long recordTotalTime;
+    private Timer timer;
+    private TimerTask timerTask;
+    private Handler mainHandler;
+    private long maxRecordTime = DEFAULT_MAX_RECORD_TIME;
+    private long minRecordTime = DEFAULT_MIN_RECORD_TIME;
+    private String audioFileName;
+    private String[] recordStatusDescription;
+
+    /**
+     * 初始化计时器用来更新倒计时
+     */
+    private void initTimer() {
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //每隔1000毫秒更新一次ui
+                        recordTotalTime += 1000;
+                        updateTimerUI();
+                    }
+                });
+            }
+        };
+    }
+
+    private void updateTimerUI() {
+        if (recordTotalTime >= maxRecordTime) {
+            recordAudioView.invokeStop();
+        } else {
+            String string = StringUtil.formatRecordTime(recordTotalTime, maxRecordTime);
+            mHorVoiceView.setText(string);
+        }
+    }
+
+    public String createAudioName() {
+        long time = System.currentTimeMillis();
+        String fileName = UUID.randomUUID().toString() + time + ".amr";
+        return fileName;
+    }
+
+    private void updateCancelUi() {
+        mHorVoiceView.setVisibility(View.INVISIBLE);
+        tvRecordTips.setVisibility(View.VISIBLE);
+        layoutCancelView.setVisibility(View.INVISIBLE);
+        tvRecordTips.setText(recordStatusDescription[0]);
+        mHorVoiceView.stopRecord();
+        deleteTempFile();
+    }
+
+    private void updateSuccessCancelUi() {
+        mHorVoiceView.setVisibility(View.INVISIBLE);
+        tvRecordTips.setVisibility(View.VISIBLE);
+        layoutCancelView.setVisibility(View.INVISIBLE);
+        tvRecordTips.setText(recordStatusDescription[0]);
+        mHorVoiceView.stopRecord();
+    }
+
+    private void deleteTempFile() {
+        //取消录制后删除文件
+        if (audioFileName != null) {
+            File tempFile = new File(audioFileName);
+            if (tempFile.exists()) {
+                tempFile.delete();
+            }
+        }
+    }
+
+
+    @Override
+    public boolean onRecordPrepare() {
+        //检查录音权限
+        if (!PermissionsUtil.hasSelfPermission(context, Manifest.permission.RECORD_AUDIO)) {
+            String[] pp = new String[]{
+                    Manifest.permission.RECORD_AUDIO
+            };
+            ActivityCompat.requestPermissions(getActivity(), pp, 0x2);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String onRecordStart() {
+        recordTotalTime = 0;
+        initTimer();
+        timer.schedule(timerTask, 0, DEFAULT_MIN_TIME_UPDATE_TIME);
+        audioFileName = BaseHttpApplication.getInstances().getExternalCacheDir() + File.separator + createAudioName();
+        mHorVoiceView.startRecord();
+        return audioFileName;
+    }
+
+    @Override
+    public boolean onRecordStop() {
+        if (recordTotalTime >= minRecordTime) {
+            //结束计时
+            timer.cancel();
+            //录制完成还原UI
+            updateSuccessCancelUi();
+            //录制完成发送EventBus通知
+            if (!TextUtils.isEmpty(audioFileName)) {
+                Toast.makeText(context, "filepath--->" + audioFileName, Toast.LENGTH_SHORT).show();
+                //发送录音结束的广播  通知消息发送
+                Intent in = new Intent(BroadCastReceiverConstant.BROAD_MESSAGEVOICE);
+                in.putExtra(Constant.MEG_INTNT_CHATMESSAGE_VOICEPATH, audioFileName);
+                in.putExtra(Constant.MEG_INTNT_CHATMESSAGE_VOICTIME, recordTotalTime);
+                context.sendBroadcast(in);
+            }
+        } else {
+            onRecordCancel();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onRecordCancel() {
+        if (timer != null) {
+            timer.cancel();
+        }
+        updateCancelUi();
+        return false;
+    }
+
+    @Override
+    public void onSlideTop() {
+        mHorVoiceView.setVisibility(View.INVISIBLE);
+        tvRecordTips.setVisibility(View.INVISIBLE);
+        layoutCancelView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFingerPress() {
+        mHorVoiceView.setVisibility(View.VISIBLE);
+        tvRecordTips.setVisibility(View.VISIBLE);
+        tvRecordTips.setText(recordStatusDescription[1]);
+        layoutCancelView.setVisibility(View.INVISIBLE);
+    }
+    //-------------------------------录音--------------------------------
 
     public interface FragmentListener {
         void thank(String text, String UserName);
@@ -133,6 +302,11 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.chat_sing_button_layout, container, false);
         context = getActivity();
+        recordStatusDescription = new String[]{
+                getString(R.string.ar_feed_sound_press_record),
+                getString(R.string.ar_feed_sound_slide_cancel)
+        };
+        mainHandler = new Handler();
         isHidenBarEditTextAndBtn = args.getBoolean(EmotionMainFragment.HIDE_BAR_EDITTEXT_AND_BTN);
         mHuanxinID = args.getString(Constant.MEG_INTNT_CHATMESSAGE_HXID);
         mOtherUsername = args.getString(Constant.MEG_INTNT_CHATMESSAGE_OTHERUSERNAME);
@@ -150,7 +324,7 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 .setEmotionView(rootView.findViewById(R.id.ll_emotion_layout))
                 .bindToContent(contentView)
                 .bindToEditText(!isBindToBarEditText ? ((EditText) contentView) : ((EditText) rootView.findViewById(R.id.bar_edit_text)))
-                .bindToEmotionButton(rootView.findViewById(R.id.include_chat_emotion), rebotton, re_top, btn_longvoice, vImgAdd)
+                .bindToEmotionButton(rootView.findViewById(R.id.include_chat_emotion), rebotton, reAudio, re_top, btn_longvoice, vImgAdd)
                 .build();
         initDatas();
 
@@ -159,7 +333,14 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 .setEmotionView(rootView.findViewById(R.id.ll_devoicefrls))
                 .bindToContent(contentView)
                 .bindToEditText(!isBindToBarEditText ? ((EditText) contentView) : ((EditText) rootView.findViewById(R.id.bar_edit_text)))
-                .bindToViewButton(rootView.findViewById(R.id.include_chat_emotion_add), ll_emotion_layout, vImgAdd)
+                .bindToViewButton(rootView.findViewById(R.id.include_chat_emotion_add), ll_emotion_layout, reAudio, vImgAdd)
+                .build();
+        //绑定语音布局
+        EmotionKeyboard.with(getActivity())
+                .setEmotionView(rootView.findViewById(R.id.ll_audio))
+                .bindToContent(contentView)
+                .bindToEditText(!isBindToBarEditText ? ((EditText) contentView) : ((EditText) rootView.findViewById(R.id.bar_edit_text)))
+                .bindToBasisView(rootView.findViewById(R.id.include_chat_audio), ll_emotion_layout, rebotton, vImgAdd)
                 .build();
 
         //创建全局监听
@@ -230,12 +411,10 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                         mIsAnim = false;
                     }
                     bar_btn_send.setVisibility(View.VISIBLE);
-                    vImgAdd.setVisibility(View.GONE);
                 } else {
                     if (!mIsAnim) {
                         mIsAnim = true;
                     }
-                    vImgAdd.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -246,6 +425,9 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
             public void keyBoardShow(int height) {//键盘打开
                 if (rebotton != null) {
                     rebotton.setVisibility(View.GONE);
+                }
+                if (reAudio != null) {
+                    reAudio.setVisibility(View.GONE);
                 }
                 if (ll_emotion_layout != null) {
                     ll_emotion_layout.setVisibility(View.GONE);
@@ -283,7 +465,14 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
         re_top = rootView.findViewById(R.id.emf_lrm);
         bar_edit_text = rootView.findViewById(R.id.bar_edit_text);
         rl_editbar_bg = rootView.findViewById(R.id.rl_editbar_bg);
-
+        vImgAudio = rootView.findViewById(R.id.include_chat_audio);
+        reAudio = rootView.findViewById(R.id.ll_audio);
+        recordAudioView = rootView.findViewById(R.id.iv_recording);
+        recordAudioView.setRecordAudioListener(this);
+        mHorVoiceView = rootView.findViewById(R.id.horvoiceview);
+        tvRecordTips = rootView.findViewById(R.id.record_tips);
+        layoutCancelView = rootView.findViewById(R.id.pp_layout_cancel);
+        vImgAudio.setOnClickListener(this);
         bar_edit_text.setOnClickListener(this);
         if (isHidenBarEditTextAndBtn) {//隐藏
             rl_editbar_bg.setBackgroundResource(R.color.T5);
@@ -420,8 +609,7 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        //加好
-        if (v.getId() == R.id.include_chat_emotion_add) {
+        if (v.getId() == R.id.include_chat_emotion_add) {  //加号
             ll_emotion_layout.setVisibility(View.GONE);
             if (isvoide) {
                 rebotton.setVisibility(View.GONE);
@@ -430,10 +618,19 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
                 rebotton.setVisibility(View.VISIBLE);
                 isvoide = true;
             }
-        } else if (v.getId() == R.id.bar_edit_text) {
+        } else if (v.getId() == R.id.bar_edit_text) { //输入框
             mEmotionKeyboard.intercept();
             mIsEditext = false;
             isvoide = false;
+        } else if (v.getId() == R.id.include_chat_audio) {//语音按钮
+            ll_emotion_layout.setVisibility(View.GONE);
+            if (isvoide) {
+                reAudio.setVisibility(View.GONE);
+                isvoide = false;
+            } else {
+                reAudio.setVisibility(View.VISIBLE);
+                isvoide = true;
+            }
         }
     }
 

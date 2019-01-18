@@ -26,8 +26,13 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat_login_layout);
-        //申请权限
-        MPermissions.requestPermissions(ChatLoginActivity.this, PermissionsUtil.REQUEST_CODE_PERMISSION, PermissionsUtil.PERMISSION_STRS);
+        findViewById(R.id.chat_test_qx).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //申请权限
+                MPermissions.requestPermissions(ChatLoginActivity.this, PermissionsUtil.REQUEST_CODE_PERMISSION, PermissionsUtil.PERMISSION_STRS);
+            }
+        });
         final EditText vAccount = (EditText) findViewById(R.id.chat_login_account);
         findViewById(R.id.chat_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +99,7 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
         findViewById(R.id.chat_test_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    startActivity(new Intent(ChatLoginActivity.this, ChatMessageActivity.class));
+                startActivity(new Intent(ChatLoginActivity.this, ChatMessageActivity.class));
             }
         });
     }
