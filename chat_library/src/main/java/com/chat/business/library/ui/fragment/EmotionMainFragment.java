@@ -236,7 +236,6 @@ public class EmotionMainFragment extends BasisFragment implements View.OnClickLi
             updateSuccessCancelUi();
             //录制完成发送EventBus通知
             if (!TextUtils.isEmpty(audioFileName)) {
-                Toast.makeText(context, "filepath--->" + audioFileName, Toast.LENGTH_SHORT).show();
                 //发送录音结束的广播  通知消息发送
                 Intent in = new Intent(BroadCastReceiverConstant.BROAD_MESSAGEVOICE);
                 in.putExtra(Constant.MEG_INTNT_CHATMESSAGE_VOICEPATH, audioFileName);

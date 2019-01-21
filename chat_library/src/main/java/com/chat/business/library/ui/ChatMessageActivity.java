@@ -258,7 +258,7 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
 //                            mPay.startPay();
                         }
                     });
-//                    mAdapter.setOnItemClickListener(this);
+                    mAdapter.setOnItemClickListener(this);
                     ChatMessageActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -282,7 +282,7 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
             } else {
                 //在null的情况下去加载数据
                 mAdapter = new ChatMessageAdapter(mContext, messages, null);
-//                mAdapter.setOnItemClickListener(this);
+                mAdapter.setOnItemClickListener(this);
                 ChatMessageActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -397,7 +397,7 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
                 //如果是发送方 则直接播放
                 try {
                     //初始化动画
-                    final ImageView img = (ImageView) view.findViewById(R.id.tv_message_content_image);
+                    final ImageView img = view.findViewById(R.id.tv_message_content_image);
                     if (mIsVoiceStart) {
                         mIsVoiceStart = false;
                         //注销语音播放器
@@ -447,7 +447,7 @@ public class ChatMessageActivity extends BaseSwipeBackActivity implements Emotio
                             mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
                             img.setBackgroundDrawable(mVoiceAnim);
                         } else if (messages.get(postion).direct() == EMMessage.Direct.SEND) {//发送方
-                            mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_animation);
+                            mVoiceAnim = (AnimationDrawable) mContext.getResources().getDrawable(R.drawable.ar_sound_play_me);
                             img.setBackgroundDrawable(mVoiceAnim);
                         }
                         //初始化播放器

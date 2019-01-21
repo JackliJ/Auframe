@@ -181,13 +181,14 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             case RECEIVE: {
                 switch (getItemViewType(position)) {
                     case RECEIVE_TXT_MESSAGE_VIEW://文字消息
+                        ReceiveAvatar(message, holder.vAvatarIv);
                         // 消息内容
                         String messageContent = ((EMTextMessageBody) message.getBody()).getMessage();
                         if (!TextUtils.isEmpty(messageContent)) {
                             holder.vMessageContentTv.setText(SpanStringUtils.getEmotionContentText(EmotionUtils.EMOTION_TOTAL, mContext, holder.vMessageContentTv, messageContent));
                         }
                         break;
-                    case RECEIVE_VOICE_MESSAGE_VIEW://文字消息
+                    case RECEIVE_VOICE_MESSAGE_VIEW://语音消息
                         ReceiveAvatar(message, holder.vAvatarIv);
                         //截取本地路径
                         String reqResult = message.getBody() + "";
@@ -225,7 +226,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                             holder.vMessageContentTv.setText(SpanStringUtils.getEmotionContentText(EmotionUtils.EMOTION_TOTAL, mContext, holder.vMessageContentTv, messageContent));
                         }
                         break;
-                    case SEND_VOICE_MESSAGE_VIEW:
+                    case SEND_VOICE_MESSAGE_VIEW://语音消息
                         MessageStatus(message, holder, position);
                         //截取本地路径
                         String length = null;
@@ -264,7 +265,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
                         if (message.isListened()) {
                             holder.vImgRead.setVisibility(View.INVISIBLE);
                         } else {
-                            holder.vImgRead.setVisibility(View.VISIBLE);
+                            holder.vImgRead.setVisibility(View.INVISIBLE);
                         }
                         break;
                 }
@@ -284,7 +285,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         mAvatar = message.getStringAttribute(Constant.STRING_ATTRIBUTE_GROUP_USERAVATAR, null);
         if (!TextUtils.isEmpty(mAvatar)) {
 //            ImageDisplayUtils.displayWithTransform(mContext, mAvatar, vAvatarIv, new CircleTransform());
-            ImageUtils.loadImage(mContext, mAvatar, vAvatarIv);
+            ImageUtils.loadCircleImage(mContext, mAvatar, vAvatarIv);
         }
         vAvatarIv.setOnClickListener(new View.OnClickListener() {
             @Override

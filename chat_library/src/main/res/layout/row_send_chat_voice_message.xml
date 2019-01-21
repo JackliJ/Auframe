@@ -16,8 +16,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:layout_margin="10dp">
 
         <RelativeLayout
             android:id="@+id/rl_message_bg"
@@ -28,7 +27,8 @@
             android:layout_marginRight="60dp"
             android:layout_toLeftOf="@+id/iv_avatar"
             android:background="@drawable/chat_icon_reight"
-            android:padding="10dp">
+            android:padding="1dp"
+            android:layout_centerVertical="true">
 
             <TextView
                 android:id="@+id/tv_message_content"
@@ -44,9 +44,10 @@
                 android:id="@+id/tv_message_content_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_message_content"
-                android:background="@drawable/ar_sound_play_animation" />
+                android:background="@drawable/ar_sound_play_me" />
 
             <ImageView
                 android:id="@+id/img_voice_read"
@@ -54,6 +55,7 @@
                 android:layout_height="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="5dp"
+                android:visibility="invisible"
                 android:background="@drawable/bg_oval_red" />
         </RelativeLayout>
 
