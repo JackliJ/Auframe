@@ -18,20 +18,20 @@ public class AudioRecordManager {
     private String audioFileName;
     private RecordStatus recordStatus = RecordStatus.STOP;
 
-    public enum RecordStatus{
+    public enum RecordStatus {
         READY,
         START,
         STOP
     }
 
-    private AudioRecordManager(){
+    private AudioRecordManager() {
 
     }
 
-    public static AudioRecordManager getInstance(){
-        if(INSTANCE == null){
-            synchronized (AudioRecordManager.class){
-                if(INSTANCE == null){
+    public static AudioRecordManager getInstance() {
+        if (INSTANCE == null) {
+            synchronized (AudioRecordManager.class) {
+                if (INSTANCE == null) {
                     INSTANCE = new AudioRecordManager();
                 }
             }
@@ -39,14 +39,14 @@ public class AudioRecordManager {
         return INSTANCE;
     }
 
-    public void init(String audioFileName){
+    public void init(String audioFileName) {
         this.audioFileName = audioFileName;
         recordStatus = RecordStatus.READY;
     }
 
-    public void startRecord(){
-        if(recordStatus == RecordStatus.READY){
-            LogUtils.d(TAG,"startRecord()");
+    public void startRecord() {
+        if (recordStatus == RecordStatus.READY) {
+            LogUtils.d(TAG, "startRecord()");
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
@@ -60,43 +60,50 @@ public class AudioRecordManager {
             }
             mediaRecorder.start();
             recordStatus = RecordStatus.START;
-        }else{
-            LogUtils.e(TAG,"startRecord() invoke init first.");
+        } else {
+            LogUtils.e(TAG, "startRecord() invoke init first.");
         }
     }
 
-    public void stopRecord(){
-        if(recordStatus == RecordStatus.START){
-            LogUtils.d(TAG,"startRecord()");
+    public void stopRecord() {
+        if (recordStatus == RecordStatus.START) {
+            LogUtils.d(TAG, "startRecord()");
             mediaRecorder.stop();
             mediaRecorder.release();
             mediaRecorder = null;
             recordStatus = RecordStatus.STOP;
             audioFileName = null;
-        }else{
-            LogUtils.e(TAG,"startRecord() invoke start first.");
+        } else {
+            LogUtils.e(TAG, "startRecord() invoke start first.");
         }
     }
 
-    public void cancelRecord(){
-        if(recordStatus == RecordStatus.START){
-            LogUtils.d(TAG,"cancelRecord()");
+    public void cancelRecord() {
+        if (recordStatus == RecordStatus.START) {
+            LogUtils.d(TAG, "cancelRecord()");
             String file = audioFileName;
             stopRecord();
             File file1 = new File(file);
             file1.delete();
-        }else{
-            LogUtils.e(TAG,"startRecord() invoke start first.");
+        } else {
+            LogUtils.e(TAG, "startRecord() invoke start first.");
         }
     }
 
     /**
      * 获得录音的音量，范围 0-32767, 归一化到0 ~ 1
+     *
      * @return
      */
     public float getMaxAmplitude() {
-        if(recordStatus == RecordStatus.START) {
-            return mediaRecorder.getMaxAmplitude() * 1.0f / 32768;
+        if (recordStatus == RecordStatus.START) {
+            try {
+                float amplitude = mediaRecorder.getMaxAmplitude() * 1.0f / 32768;
+                return amplitude;
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                return 0;
+            }
         }
         return 0;
     }

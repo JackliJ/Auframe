@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation-list
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item
-        android:drawable="@drawable/ar_sound_item_volume_1"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_1"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_2"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_2"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_3"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_3"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_4"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_4"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_5"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_5"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_6"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_6"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_7"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_7"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_8"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_8"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_9"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_9"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_8"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_10"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_7"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_11"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_6"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_12"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_5"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_13"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_4"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_14"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_3"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_15"
+        android:duration="200" />
     <item
-        android:drawable="@drawable/ar_sound_item_volume_2"
-        android:duration="85"/>
+        android:drawable="@drawable/voiceplayback_action_me_16"
+        android:duration="200" />
 </animation-list>
