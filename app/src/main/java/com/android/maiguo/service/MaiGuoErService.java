@@ -1,3 +1,4 @@
+/*
 package com.android.maiguo.service;
 
 import android.app.Service;
@@ -19,10 +20,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+*/
 /**
  * Created by laotie on 2019/1/11.
  * 全局Service
- */
+ *//*
+
 
 public class MaiGuoErService extends Service {
 
@@ -67,9 +70,11 @@ public class MaiGuoErService extends Service {
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
 
-    /**
+    */
+/**
      * 高德定位
-     */
+     *//*
+
     private void initMapLocation() {
         //声明定位回调监听器
         AMapLocationListener locationListener = new AMapLocationListener() {
@@ -105,3 +110,4 @@ public class MaiGuoErService extends Service {
 
 
 }
+*/

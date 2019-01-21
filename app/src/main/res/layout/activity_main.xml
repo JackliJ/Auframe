@@ -1,14 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="#f4f4f4"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--底部导航-->
+    <FrameLayout
+        android:background="#ffffff"
+        android:layout_gravity="bottom"
+        android:id="@+id/main_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_boddom_height">
+
+        <RadioGroup
+            android:id="@+id/rg_home_group"
+            android:clipChildren="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <RadioButton
+                android:id="@+id/rb_homepage"
+                style="@style/mge_homepage_tab_buttom_btn"
+                android:checked="true"
+                android:gravity="center"
+                android:drawableTop="@drawable/main_home_selector"
+                android:text="@string/main_home"/>
+            <RadioButton
+                android:id="@+id/rb_merchant"
+                style="@style/mge_homepage_tab_buttom_btn"
+                android:drawableTop="@drawable/main_merchant_selector"
+                android:text="@string/main_merchant" />
+            <RadioButton
+                style="@style/mge_homepage_tab_buttom_btn"
+                android:text="mid" />
+            <RadioButton
+                android:id="@+id/rb_communication"
+                style="@style/mge_homepage_tab_buttom_btn"
+                android:drawableTop="@drawable/main_communication_selector"
+                android:text="@string/main_communication" />
+            <RadioButton
+                android:id="@+id/rb_me"
+                style="@style/mge_homepage_tab_buttom_btn"
+                android:drawableTop="@drawable/main_me_selector"
+                android:text="@string/main_me" />
+        </RadioGroup>
+    </FrameLayout>
+
+
     <ImageView
+        android:id="@+id/iv_middle"
+        android:layout_gravity="center|bottom"
+        android:src="@mipmap/nav_shortcut_nor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--中间内容-->
+    <FrameLayout
+        android:id="@+id/middle_layout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/home_icon"
-        android:scaleType="fitXY" />
+        android:layout_weight="1">
+        <TextView
+            android:text="中间内容"
+            android:background="#c1c1c1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_gravity="center|bottom"
+            android:src="@mipmap/nav_shortcut_nor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
-</LinearLayout>
+</FrameLayout>

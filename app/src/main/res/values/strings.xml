@@ -10,4 +10,8 @@
     <string name="main_login_password_null">请输入登录密码</string>
     <string name="main_login_hx_error">聊天服务器登录失败</string>
     <string name="main_login_hx_success">聊天服务器登录成功</string>
+    <string name="main_home">首页</string>
+    <string name="main_merchant">商户</string>
+    <string name="main_communication">交流</string>
+    <string name="main_me">我的</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.android.maiguo.activity.event;
 
-import com.amap.api.location.AMapLocation;
 
 /**
  * Created by Sky on 2017/11/9.
@@ -10,13 +9,13 @@ import com.amap.api.location.AMapLocation;
 
 public class MapLocationSuccessEvent {
 
-    private AMapLocation aMapLocation;
+//    private AMapLocation aMapLocation;
 
-    public MapLocationSuccessEvent(AMapLocation aMapLocation) {
-        this.aMapLocation = aMapLocation;
-    }
+//    public MapLocationSuccessEvent(AMapLocation aMapLocation) {
+//        this.aMapLocation = aMapLocation;
+//    }
 
-    public AMapLocation getaMapLocation() {
-        return aMapLocation;
-    }
+//    public AMapLocation getaMapLocation() {
+//        return aMapLocation;
+//    }
 }

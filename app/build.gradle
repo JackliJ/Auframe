@@ -134,9 +134,9 @@ dependencies {
     /*   if (!isBuildModule.toBoolean()) {
                 compile project(':chat_library')
             }*/
-    if (!isBuildModule.toBoolean()) {
+    /*if (!isBuildModule.toBoolean()) {
         compile project(':map')
-    }
+    }*/
     compile project(':basis_component')
     //环信SDK  http://docs-im.easemob.com/im/android/sdk/import
     compile 'com.hyphenate:hyphenate-sdk:3.3.0'
