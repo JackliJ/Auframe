@@ -31,10 +31,10 @@ public class MaiGuoErBaseFragment extends Fragment {
      * @param args 传递的参数
      * @return
      */
-    public static <T extends Fragment> T newInstance(Class clazz, Bundle args) {
+    public static <T extends Fragment> T newInstance(Class<T> clazz, Bundle args) {
         T mFragment = null;
         try {
-            mFragment = (T) clazz.newInstance();
+            mFragment = clazz.newInstance();
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

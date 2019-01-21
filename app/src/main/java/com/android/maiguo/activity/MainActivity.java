@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -104,38 +105,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideFragments(transaction);
 
-        if (index == 0) {
+        switch (index){
             //首页
-            if (mHomePageFragment == null) {
-                mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class,null);
-                transaction.add(R.id.content_layout, mHomePageFragment);
-            } else {
-                transaction.show(mHomePageFragment);
-            }
-        } else if (index == 1) {
+            case 0:
+                if (mHomePageFragment == null) {
+                    mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class,null);
+                    transaction.add(R.id.content_layout, mHomePageFragment);
+                } else {
+                    transaction.show(mHomePageFragment);
+                }
+                break;
             //商户
-            if (mMerchantFragment == null) {
-                mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class,null);
-                transaction.add(R.id.content_layout, mMerchantFragment);
-            } else {
-                transaction.show(mMerchantFragment);
-            }
-        } else if(index == 2){
+            case 1:
+                if (mMerchantFragment == null) {
+                    mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class,null);
+                    transaction.add(R.id.content_layout, mMerchantFragment);
+                } else {
+                    transaction.show(mMerchantFragment);
+                }
+                break;
             //交流
-            if(mCommunicationFragment == null){
-                mCommunicationFragment = CommunicationFragment.newInstance(CommunicationFragment.class,null);
-                transaction.add(R.id.content_layout, mCommunicationFragment);
-            }else{
-                transaction.show(mCommunicationFragment);
-            }
-        } else if(index == 3){
+            case 2:
+                if(mCommunicationFragment == null){
+                    mCommunicationFragment = CommunicationFragment.newInstance(CommunicationFragment.class,null);
+                    transaction.add(R.id.content_layout, mCommunicationFragment);
+                }else{
+                    transaction.show(mCommunicationFragment);
+                }
+                break;
             //我的
-            if(mMeFragment == null){
-                mMeFragment = MeFragment.newInstance(MeFragment.class,null);
-                transaction.add(R.id.content_layout, mMeFragment);
-            }else{
-                transaction.show(mMeFragment);
-            }
+            case 3:
+                if(mMeFragment == null){
+                    mMeFragment = MeFragment.newInstance(MeFragment.class,null);
+                    transaction.add(R.id.content_layout, mMeFragment);
+                }else{
+                    transaction.show(mMeFragment);
+                }
+                break;
         }
         //开启动画
         startAnimal(mBtns.get(index));
@@ -150,9 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(rb, "scaleX", 1, 1.2f,1);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(rb, "scaleY", 1, 1.2f,1);
-        scaleX.setDuration(500);
-        scaleY.setDuration(500);
+        scaleX.setDuration(300);
+        scaleY.setDuration(300);
         animatorSet.playTogether(scaleX,scaleY);
+        //由快到慢
+        animatorSet.setInterpolator(new AccelerateInterpolator());
         animatorSet.start();
     }
     /**
