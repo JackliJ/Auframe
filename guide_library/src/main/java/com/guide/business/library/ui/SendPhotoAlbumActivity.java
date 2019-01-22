@@ -4,10 +4,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,14 +33,16 @@ import java.util.List;
  * 仿QQ相册上滑发送
  */
 @Route(path = "/guide/SendPhotoAlbumActivity")
-public class SendPhotoAlbumActivity extends FragmentActivity{
+public class SendPhotoAlbumActivity extends FragmentActivity implements PhotoAdapter.onToucherListener {
 
     View vStatusBarV;
     RecyclerView mRecyclerView;
     ArrayList<String> mImageLists = new ArrayList<>();
     private PhotoAdapter mAdapter;
     private ImageView thumbImg;
+    //记录当前下标位置
     private int mcurPosition;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,10 +58,10 @@ public class SendPhotoAlbumActivity extends FragmentActivity{
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         thumbImg = (ImageView)findViewById(R.id.iv_image);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,1, OrientationHelper.HORIZONTAL,false));
-        mAdapter = new PhotoAdapter(this,mImageLists);
+        mAdapter = new PhotoAdapter(this,mImageLists,this);
         mRecyclerView.setAdapter(mAdapter);
         //item长按处理
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(new TouchCallback());
+        mItemTouchHelper = new ItemTouchHelper(new TouchCallback());
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
     }
@@ -86,6 +90,11 @@ public class SendPhotoAlbumActivity extends FragmentActivity{
         vStatusBarV.setLayoutParams(mLayoutParams);
     }
 
+    @Override
+    public void onToucher(PhotoAdapter.ViewHolder holder) {
+        mItemTouchHelper.startDrag(holder);
+    }
+
     /**
      * 长按可以排序
      */
@@ -98,10 +107,14 @@ public class SendPhotoAlbumActivity extends FragmentActivity{
             return TouchCallback.makeMovementFlags(dragFlags, swipeFlags);
         }
 
+        public boolean isLongPressDragEnabled() {
+            return false;
+        }
+
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
 
-            return true;
+            return false;
         }
 
         @Override
@@ -131,8 +144,7 @@ public class SendPhotoAlbumActivity extends FragmentActivity{
         @Override
         public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             LogUtils.e("--松开时"+"Y==" + viewHolder.itemView.getY(),"<<<x="+ viewHolder.itemView.getX());
-            viewHolder.itemView.setBackgroundColor(Color.WHITE);
-            viewHolder.itemView.setVisibility(View.VISIBLE);
+            viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
             if(viewHolder.itemView.getY() < 596){
                 Glide.with(SendPhotoAlbumActivity.this).load(mImageLists.get(mcurPosition)).into(thumbImg);
             }

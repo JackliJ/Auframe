@@ -21,7 +21,7 @@ public class MeFragment extends MaiGuoErBaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mView =  inflater.inflate(R.layout.fragment_home_main, container, false);
+        mView =  inflater.inflate(R.layout.fragment_me, container, false);
         return mView;
     }
 }

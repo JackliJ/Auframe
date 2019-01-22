@@ -13,7 +13,7 @@ import com.android.maiguo.base.MaiGuoErBaseFragment;
 /**
  * Created by zhangxiaodong on 2019/1/21 15:31.
  * <br/>
- * 我的
+ * 商户
  */
 
 public class MerchantFragment extends MaiGuoErBaseFragment {
