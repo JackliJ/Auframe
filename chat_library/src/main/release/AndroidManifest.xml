@@ -3,14 +3,11 @@
 
     <application>
         <activity
-            android:name=".MainActivity"
-            android:label="用于library的测试页面">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-            </intent-filter>
-        </activity>
+            android:name=".test.ChatLoginActivity"
+            android:label="用于测试的环信登录页"></activity>
+        <activity
+            android:name=".ui.ChatMessageActivity"
+            android:label="交流单聊页"></activity>
     </application>
-
+    
 </manifest>

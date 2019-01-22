@@ -31,6 +31,7 @@ public class MaiGuoErBaseFragment extends Fragment {
      * @param args 传递的参数
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Fragment> T newInstance(Class clazz, Bundle args) {
         T mFragment = null;
         try {

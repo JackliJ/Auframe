@@ -29,6 +29,12 @@
         android:text="跳转到聊天"/>
 
     <Button
+        android:id="@+id/chat_main_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转到主页"/>
+
+    <Button
         android:id="@+id/chat_test_qx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_secretary"
+            android:layout_width="match_parent"
+            android:layout_height="62dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.maiguoer.widget.ShapedImageView
+                    android:id="@+id/iv_secretary"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/communication_dynamicnotification"
+                    app:shape_mode="circle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/chat_dynamic_notification"
+                    android:textColor="@color/T7"
+                    android:textSize="@dimen/sp_15" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_secretary_message_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/message_oval_red"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_11"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <View style="@style/DividerStyle"></View>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_frend_system"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/T5"
+        android:onClick="onClick"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.maiguoer.widget.ShapedImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/communication_systemmessage"
+                app:shape_mode="circle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/system_title_Notice"
+                android:textColor="@color/T7"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/system_message_convertion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/message_oval_red"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_11"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View style="@style/DividerStyle"></View>
+
+    <RelativeLayout
+        android:id="@+id/chat_announcement"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/T5"
+        android:onClick="onClick"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/communication_theannouncementtoinform" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/chat_announcement"
+                    android:textColor="@color/T7"
+                    android:textSize="@dimen/sp_15" />
+
+                <TextView
+                    android:id="@+id/tv_annount_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/T7"
+                    android:textSize="@dimen/sp_11"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_annount_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/message_oval_red"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_11"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <View
+        style="@style/DividerStyle"
+        android:layout_marginBottom="10dp"></View>
+</LinearLayout>
