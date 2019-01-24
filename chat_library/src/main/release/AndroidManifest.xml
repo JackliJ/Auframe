@@ -9,5 +9,5 @@
             android:name=".ui.ChatMessageActivity"
             android:label="交流单聊页"></activity>
     </application>
-    
+
 </manifest>

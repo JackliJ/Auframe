@@ -107,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideFragments(transaction);
 
-        switch (index){
+        switch (index) {
             case 0:
                 if (mHomePageFragment == null) {
-                    mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class,null);
+                    mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class, null);
                     transaction.add(R.id.content_layout, mHomePageFragment);
                 } else {
                     transaction.show(mHomePageFragment);
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //商户
             case 1:
                 if (mMerchantFragment == null) {
-                    mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class,null);
+                    mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class, null);
                     transaction.add(R.id.content_layout, mMerchantFragment);
                 } else {
                     transaction.show(mMerchantFragment);
@@ -127,19 +127,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //交流
             case 2:
-                if(mCommunicationFragment == null){
-                    mCommunicationFragment = CommunicationFragment.newInstance(CommunicationFragment.class,null);
+                if (mCommunicationFragment == null) {
+                    mCommunicationFragment = CommunicationFragment.newInstance(ChatMessageListFragment.class, null);
                     transaction.add(R.id.content_layout, mCommunicationFragment);
-                }else{
+                } else {
                     transaction.show(mCommunicationFragment);
                 }
                 break;
             //我的
             case 3:
-                if(mMeFragment == null){
-                    mMeFragment = MeFragment.newInstance(MeFragment.class,null);
+                if (mMeFragment == null) {
+                    mMeFragment = MeFragment.newInstance(MeFragment.class, null);
                     transaction.add(R.id.content_layout, mMeFragment);
-                }else{
+                } else {
                     transaction.show(mMeFragment);
                 }
                 break;
@@ -155,11 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startAnimal(RadioButton rb) {
         //多个动画 动画集
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(rb, "scaleX", 1, 1.2f,1);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(rb, "scaleY", 1, 1.2f,1);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(rb, "scaleX", 1, 1.2f, 1);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(rb, "scaleY", 1, 1.2f, 1);
         scaleX.setDuration(300);
         scaleY.setDuration(300);
-        animatorSet.playTogether(scaleX,scaleY);
+        animatorSet.playTogether(scaleX, scaleY);
         //由快到慢
         animatorSet.setInterpolator(new AccelerateInterpolator());
         animatorSet.start();

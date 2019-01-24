@@ -35,6 +35,24 @@ public class ConversationBean {
     private boolean isReceiveSend;//是发送方(true) 还是 接收方(false)
     private EMMessage.ChatType chatType;//聊天类型
     private String TextType;//文本扩展类型
+    private int userTopStatus;//是否置顶 0没有置顶 1置顶
+    private long userTopTime;//被置顶的时间
+
+    public long getUserTopTime() {
+        return userTopTime;
+    }
+
+    public void setUserTopTime(long userTopTime) {
+        this.userTopTime = userTopTime;
+    }
+
+    public int getUserTopStatus() {
+        return userTopStatus;
+    }
+
+    public void setUserTopStatus(int userTopStatus) {
+        this.userTopStatus = userTopStatus;
+    }
 
     public EMMessage.ChatType getChatType() {
         return chatType;

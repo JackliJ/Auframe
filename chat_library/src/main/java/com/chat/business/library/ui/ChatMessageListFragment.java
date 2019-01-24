@@ -25,7 +25,10 @@ import com.chat.business.library.util.OnStartDragListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.maiguoer.component.http.app.BaseHttpApplication;
 import com.maiguoer.component.http.base.BasisFragment;
+import com.maiguoer.component.http.data.TopDataBase;
+import com.maiguoer.component.http.data.User;
 import com.maiguoer.component.http.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,15 +104,49 @@ ChatMessageListFragment extends BasisFragment implements ChatItemClickListener, 
     private int MesgCount = 0;
 
     /**
-     * 将消息数据按照时间排序  最新的消息在最上面
+     * 排序  置顶按照时间排序 最后添加的在最前面  普通消息按照时间排序 最新的在最前面
      *
      * @param list
      */
-    private static void ListSort(List<ConversationBean> list) {
+    private static void ListSorts(List<ConversationBean> list) {
+        //先将数组分为置顶和普通消息
+        List<ConversationBean> topList = new ArrayList<>();
+        List<ConversationBean> orList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUserTopStatus() == 1) {
+                topList.add(list.get(i));
+            } else {
+                orList.add(list.get(i));
+            }
+        }
+        //分别排序
+        SortsTop(topList);
+        SortsTime(orList);
+        list.clear();
+        //重新添加数据
+        list.addAll(topList);
+        list.addAll(orList);
+    }
+
+    private static void SortsTop(List<ConversationBean> list) {
         Collections.sort(list, new Comparator<ConversationBean>() {
             @Override
             public int compare(ConversationBean o1, ConversationBean o2) {
+                if (o1.getUserTopTime() == o2.getUserTopTime()) {
+                    return 0;
+                } else if (o2.getUserTopTime() > o1.getUserTopTime()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+    }
 
+    private static void SortsTime(List<ConversationBean> list) {
+        Collections.sort(list, new Comparator<ConversationBean>() {
+            @Override
+            public int compare(ConversationBean o1, ConversationBean o2) {
                 if (o1.getEndtime() == o2.getEndtime()) {
                     return 0;
                 } else if (o2.getEndtime() > o1.getEndtime()) {
@@ -120,6 +157,7 @@ ChatMessageListFragment extends BasisFragment implements ChatItemClickListener, 
             }
         });
     }
+
 
     private void sdy() {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -243,6 +281,8 @@ ChatMessageListFragment extends BasisFragment implements ChatItemClickListener, 
          */
         @Override
         protected List<ConversationBean> doInBackground(Void... voids) {
+            //读取数据库 查询保存的置顶数据
+            List<TopDataBase> mTopList = BaseHttpApplication.getInstances().getDaoSession().getTopDataBaseDao().loadAll();
             if (mData != null) {
                 mData.clear();
             } else {
@@ -319,15 +359,22 @@ ChatMessageListFragment extends BasisFragment implements ChatItemClickListener, 
                 mConversation.setAuthStatus("1");
                 mConversation.setBusinessAuthStatus("1");
                 mConversation.setOtherNamgeCardBgImage("");
-                mConversation.setUuid("8059316");//赋值环信用户ID
+                mConversation.setUuid("805931" + i);//赋值环信用户ID
                 mConversation.setEndtime(1548149630);//赋值最后一条消息的时间
                 mConversation.setUsercontext("8059316\\\"测试消息" + i);//赋值最后一条消息
                 mConversation.setType(EMMessage.Type.TXT.toString());//赋值消息类型
                 mConversation.setChatType(EMMessage.ChatType.Chat);
                 mConversation.setTextType(null);//扩展类型
                 mConversation.setUserunread(0);
+                //判断数据库数组中是否包含置顶数据
+                for (int j = 0; j < mTopList.size(); j++) {
+                    if (mTopList.get(j).getTagId().equals(mConversation.getUuid())) {
+                        mConversation.setUserTopStatus(1);
+                        mConversation.setUserTopTime(mTopList.get(j).getTagTime());
+                    }
+                }
                 mData.add(mConversation);
-                ListSort(mData);
+                ListSorts(mData);
             }
             return mData;
         }

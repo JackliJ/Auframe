@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chat.business.library.R;
+import com.chat.business.library.eventbus.ChatReceivedEventBus;
 import com.chat.business.library.model.ConversationBean;
 import com.chat.business.library.util.ChatItemClickListener;
 import com.chat.business.library.util.EmotionUtils;
@@ -21,6 +22,8 @@ import com.chat.business.library.util.SpanStringUtils;
 import com.chat.business.library.util.TimeUtils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.maiguoer.component.http.app.BaseHttpApplication;
+import com.maiguoer.component.http.data.TopDataBase;
 import com.maiguoer.component.http.utils.CalendarUtil;
 import com.maiguoer.component.http.utils.Constant;
 import com.maiguoer.component.http.utils.ImageUtils;
@@ -28,7 +31,11 @@ import com.maiguoer.component.http.utils.SharedPreferencesUtils;
 import com.maiguoer.widget.ShapedImageView;
 
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
+
+import mge_data.TopDataBaseDao;
 
 /**
  * Created by Sky on 2017/8/30.
@@ -100,8 +107,8 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                 break;
             case CHAT_MESSAGE_ITEM://列表
                 //文本
-                //=================================================群聊========================================================
                 holder.vTdelete.setText(mContext.getResources().getString(R.string.chat_cp_delete));
+                //删除点击
                 holder.vItemDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -127,6 +134,42 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                         }
                     }
                 });
+                //置顶点击
+                holder.vItemPlacedTop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TopDataBase topDataBase;
+                        //获取当前的环信ID 保存到本地置顶数组中
+                        String mHxId = mConverdata.get(position - 1).getUuid();
+                        if (mConverdata.get(position - 1).getUserTopStatus() == 0) {
+                            if (!TextUtils.isEmpty(mHxId)) {
+                                topDataBase = new TopDataBase();
+                                topDataBase.setTagId(mHxId);
+                                topDataBase.setTagTime(System.currentTimeMillis());
+                                //插入数据库
+                                BaseHttpApplication.getInstances().getDaoSession().getTopDataBaseDao().insertOrReplace(topDataBase);
+                            }
+                        } else {
+                            if (!TextUtils.isEmpty(mHxId)) {
+                                //删除包含当前ID的数据集
+                                TopDataBase mTopBean = BaseHttpApplication.getInstances().getDaoSession().getTopDataBaseDao().queryBuilder().where(TopDataBaseDao.Properties.TagId.eq(mHxId)).unique();
+                                BaseHttpApplication.getInstances().getDaoSession().getTopDataBaseDao().delete(mTopBean);
+                            }
+                        }
+                        //通知刷新数据
+                        EventBus.getDefault().post(new ChatReceivedEventBus());
+                    }
+                });
+                if (mConverdata.get(position - 1).getUserTopStatus() == 1) {
+                    holder.vTItemPlacedTop.setBackground(mContext.getResources().getDrawable(R.drawable.chat_color_a));
+                    holder.vTItemPlacedTop.setText("取消置顶");
+                    holder.vLContent.setBackground(mContext.getResources().getDrawable(R.drawable.chat_color_b));
+                } else {
+                    holder.vTItemPlacedTop.setBackground(mContext.getResources().getDrawable(R.drawable.chat_color_c));
+                    holder.vTItemPlacedTop.setText("置顶");
+                    holder.vLContent.setBackground(mContext.getResources().getDrawable(R.drawable.chat_color_d));
+                }
+                //头像点击
                 holder.vLContent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -136,6 +179,7 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
                     }
                 });
                 if (mConverdata.size() > 0 && mConverdata != null && !(position > mConverdata.size())) {
+                    //=================================================群聊========================================================
                     if (mConverdata.get(position - 1).getChatType().toString().equals(EMMessage.ChatType.GroupChat.toString())) {
                         //设置红点颜色
                         holder.vMessageCountTv.setBackgroundResource(R.drawable.message_oval_red);
@@ -297,10 +341,17 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
          */
         LinearLayout vItemDelete;
         /**
+         * 侧滑置顶
+         */
+        LinearLayout vItemPlacedTop;
+        /**
          * 主布局区域
          */
         LinearLayout vLContent;
+        //删除文本
         TextView vTdelete;
+        //置顶文本
+        TextView vTItemPlacedTop;
 
 
         public ViewHolder(View itemView, ChatItemClickListener listener) {
@@ -310,6 +361,8 @@ public class ChatMessageListAdapter extends RecyclerView.Adapter<ChatMessageList
             vTdelete = itemView.findViewById(R.id.chat_message_delete_tv);
             vLContent = itemView.findViewById(R.id.chat_message_content);
             vItemDelete = itemView.findViewById(R.id.chat_del);
+            vTItemPlacedTop = itemView.findViewById(R.id.chat_placed_top_tv);
+            vItemPlacedTop = itemView.findViewById(R.id.chat_placed_top);
             vSystemMessage = itemView.findViewById(R.id.system_message_convertion);
             vMessageCountTv = itemView.findViewById(R.id.tv_message_count);
             vMessageTimeTv = itemView.findViewById(R.id.tv_message_time);

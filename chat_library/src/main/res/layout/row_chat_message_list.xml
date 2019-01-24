@@ -36,8 +36,8 @@
                         android:id="@+id/iv_message_avatar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:shape_mode="circle"
-                        android:src="@mipmap/general_thedefault_headportrait"/>
+                        android:src="@mipmap/general_thedefault_headportrait"
+                        app:shape_mode="circle" />
 
                 </RelativeLayout>
 
@@ -152,11 +152,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/chat_placed_top"
         android:layout_width="75dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/chat_placed_top_tv"
             android:layout_width="match_parent"
             android:layout_height="62dp"
             android:background="#F39D21"
