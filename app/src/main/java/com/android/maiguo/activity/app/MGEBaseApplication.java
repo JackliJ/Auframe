@@ -61,6 +61,7 @@ public class MGEBaseApplication extends BaseHttpApplication {
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
+
     private void initChat() {
         //初始化环信
         Context appContext = this;
@@ -110,6 +111,9 @@ public class MGEBaseApplication extends BaseHttpApplication {
 
         //注册环信网络和离线监听
         initnoetowork();
+
+        //注册获取消息的监听
+        initaddListener();
     }
 
     private String getAppName(int pID) {
@@ -134,6 +138,11 @@ public class MGEBaseApplication extends BaseHttpApplication {
 
     private void initnoetowork() {
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
+    }
+
+
+    private void initaddListener() {
+//        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
     //实现ConnectionListener接口
@@ -172,6 +181,7 @@ public class MGEBaseApplication extends BaseHttpApplication {
             }
         }
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

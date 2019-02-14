@@ -145,4 +145,7 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     pre_releaseCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+
+    //侧滑删除 https://github.com/mcxtzhang/SwipeDelMenuLayout
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 }

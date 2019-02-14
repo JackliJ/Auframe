@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">mgev5_android</string>
-    
+    <string name="app_name">脉果儿</string>
+
     <string name="main_test_component_demo">组件演示</string>
 
     <string name="guide_login_tv_account">账户：</string>

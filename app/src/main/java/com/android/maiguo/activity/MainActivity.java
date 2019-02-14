@@ -14,20 +14,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.android.maiguo.fragments.CommunicationFragment;
 import com.android.maiguo.fragments.HomeMainFragment;
 import com.android.maiguo.fragments.MeFragment;
 import com.android.maiguo.fragments.MerchantFragment;
+import com.chat.business.library.ui.ChatMessageListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by zhangxiaodong on 2019/1/21.
- *  首页界面
+ * 首页界面
  * 应用主页 用于启动项目 这里展示项目主页  完成初始化后 跳转到引导广告页面
  */
-
+@Route(path = "/app/ChatLoginActivity")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * fragment管理器
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 交流
      */
-    private CommunicationFragment mCommunicationFragment;
+    private ChatMessageListFragment mCommunicationFragment;
     /**
      * 我的
      */
@@ -54,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private FrameLayout vMiddleLayout;
     /**
-     *中间+号
+     * 中间+号
      */
     private ImageView vAdd;
     /**
      * 底部按扭对应的资源ID
      */
-    private int[] mBtnRes = {R.id.rb_homepage, R.id.rb_merchant,R.id.rb_communication, R.id.rb_me};
+    private int[] mBtnRes = {R.id.rb_homepage, R.id.rb_merchant, R.id.rb_communication, R.id.rb_me};
     /**
-     *底部底部控件集合
+     * 底部底部控件集合
      */
     private List<RadioButton> mBtns = new ArrayList<RadioButton>();
 
@@ -74,19 +76,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void init(){
+    private void init() {
         mFragmentManager = this.getSupportFragmentManager();
 
         //初始化控件
-        for (int i = 0 ;i < mBtnRes.length;i++){
+        for (int i = 0; i < mBtnRes.length; i++) {
             RadioButton layout = (RadioButton) findViewById(mBtnRes[i]);
             layout.setOnClickListener(this);
             mBtns.add(layout);
         }
         //中间加号
-        vAdd = (ImageView)findViewById(R.id.iv_middle);
+        vAdd = (ImageView) findViewById(R.id.iv_middle);
         //中间加号对应的内容
-        vMiddleLayout = (FrameLayout)findViewById(R.id.middle_layout);
+        vMiddleLayout = (FrameLayout) findViewById(R.id.middle_layout);
         vAdd.setOnClickListener(this);
         //默认
         setTabSelect(0);
@@ -94,9 +96,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //设置当前显示哪个页面
-    private void setTabSelect(int index){
+    private void setTabSelect(int index) {
         //设置所有按扭为非选择状态
-        for (int i= 0 ; i < mBtnRes.length;i++){
+        for (int i = 0; i < mBtnRes.length; i++) {
             mBtns.get(i).setSelected(false);
         }
         //设置当前按扭为选中状态
@@ -105,11 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideFragments(transaction);
 
-        switch (index){
-            //首页
+        switch (index) {
             case 0:
                 if (mHomePageFragment == null) {
-                    mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class,null);
+                    mHomePageFragment = HomeMainFragment.newInstance(HomeMainFragment.class, null);
                     transaction.add(R.id.content_layout, mHomePageFragment);
                 } else {
                     transaction.show(mHomePageFragment);
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //商户
             case 1:
                 if (mMerchantFragment == null) {
-                    mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class,null);
+                    mMerchantFragment = MerchantFragment.newInstance(MerchantFragment.class, null);
                     transaction.add(R.id.content_layout, mMerchantFragment);
                 } else {
                     transaction.show(mMerchantFragment);
@@ -126,19 +127,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             //交流
             case 2:
-                if(mCommunicationFragment == null){
-                    mCommunicationFragment = CommunicationFragment.newInstance(CommunicationFragment.class,null);
+                if (mCommunicationFragment == null) {
+                    mCommunicationFragment = CommunicationFragment.newInstance(ChatMessageListFragment.class, null);
                     transaction.add(R.id.content_layout, mCommunicationFragment);
-                }else{
+                } else {
                     transaction.show(mCommunicationFragment);
                 }
                 break;
             //我的
             case 3:
-                if(mMeFragment == null){
-                    mMeFragment = MeFragment.newInstance(MeFragment.class,null);
+                if (mMeFragment == null) {
+                    mMeFragment = MeFragment.newInstance(MeFragment.class, null);
                     transaction.add(R.id.content_layout, mMeFragment);
-                }else{
+                } else {
                     transaction.show(mMeFragment);
                 }
                 break;
@@ -151,20 +152,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 开启动画
      */
-    private void startAnimal(RadioButton rb){
+    private void startAnimal(RadioButton rb) {
         //多个动画 动画集
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(rb, "scaleX", 1, 1.2f,1);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(rb, "scaleY", 1, 1.2f,1);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(rb, "scaleX", 1, 1.2f, 1);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(rb, "scaleY", 1, 1.2f, 1);
         scaleX.setDuration(300);
         scaleY.setDuration(300);
-        animatorSet.playTogether(scaleX,scaleY);
+        animatorSet.playTogether(scaleX, scaleY);
         //由快到慢
         animatorSet.setInterpolator(new AccelerateInterpolator());
         animatorSet.start();
     }
+
     /**
      * 隐藏所有的fragment
+     *
      * @param transaction
      */
     private void hideFragments(FragmentTransaction transaction) {
@@ -174,10 +177,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mMerchantFragment != null) {
             transaction.hide(mMerchantFragment);
         }
-        if(mCommunicationFragment != null){
+        if (mCommunicationFragment != null) {
             transaction.hide(mCommunicationFragment);
         }
-        if(mMeFragment != null){
+        if (mMeFragment != null) {
             transaction.hide(mMeFragment);
         }
     }
@@ -185,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rb_homepage:
                 //首页
                 setTabSelect(0);
@@ -204,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.iv_middle:
                 //中间加号
-                if(vMiddleLayout.getVisibility() == View.GONE){
+                if (vMiddleLayout.getVisibility() == View.GONE) {
                     vMiddleLayout.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     vMiddleLayout.setVisibility(View.GONE);
                 }
                 break;

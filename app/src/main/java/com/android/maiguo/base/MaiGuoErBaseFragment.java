@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.zhy.m.permission.MPermissions;
 
 /**
@@ -31,6 +32,7 @@ public class MaiGuoErBaseFragment extends Fragment {
      * @param args 传递的参数
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Fragment> T newInstance(Class<T> clazz, Bundle args) {
         T mFragment = null;
         try {

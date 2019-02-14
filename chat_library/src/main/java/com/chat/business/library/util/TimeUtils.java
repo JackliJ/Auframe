@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.chat.business.library.R;
+import com.maiguoer.component.http.utils.CalendarUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -579,6 +580,22 @@ public final class TimeUtils {
         istimer = false;
         handler.removeCallbacks(mBackgroundRunnable);
         return recLen;
+    }
+
+
+    public static String GetTimerubbing(long mTime) {
+        //时间戳转化为Sting或Date
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Long time = new Long(mTime);
+        String d = df.format(time);
+        Date date = null;
+        try {
+            date = df.parse(d);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String times = CalendarUtil.ConverToString(date);
+        return times;
     }
 
 }

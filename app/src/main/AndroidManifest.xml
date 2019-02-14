@@ -63,7 +63,7 @@
     <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--8.0 以上静默安装权限-->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- 更改用户音频设置 -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
@@ -90,7 +90,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name=".MainShowActivity"
+            android:label="启动页">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,43 +101,47 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.android.maiguo.service.MaiGuoErService"
-            android:enabled="true"
-            android:exported="true" />
+        <!--<service-->
+        <!--android:name="com.android.maiguo.service.MaiGuoErService"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true" />-->
 
-        <!-- 高德地图 配置 begin -->
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="b9d69d94c45c706137f7082fc2a4e756" />
-        <!-- 定位需要的服务 -->
-        <service android:name="com.amap.api.location.APSService" />
-        <!-- 高德地图 配置 end -->
-
+        <!--&lt;!&ndash; 高德地图 配置 begin &ndash;&gt;-->
+        <!--<meta-data-->
+        <!--android:name="com.amap.api.v2.apikey"-->
+        <!--android:value="b9d69d94c45c706137f7082fc2a4e756" />-->
+        <!--&lt;!&ndash; 定位需要的服务 &ndash;&gt;-->
+        <!--<service android:name="com.amap.api.location.APSService" />-->
+        <!--&lt;!&ndash; 高德地图 配置 end &ndash;&gt;-->
 
 
         <!-- 设置环信应用的AppKey -->
-        <meta-data android:name="EASEMOB_APPKEY"  android:value="maiguoer#maiguoer" />
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="maiguoer#maiguoer" />
         <!-- 声明SDK所需的service SDK核心功能-->
-        <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
-        <service android:name="com.hyphenate.chat.EMJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"
-            />
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
-                <data android:scheme="package"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.LoginActivity"
+        <activity
+            android:name=".ui.LoginActivity"
             android:label="登录页"></activity>
 
         <activity

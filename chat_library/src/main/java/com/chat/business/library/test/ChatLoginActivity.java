@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
 import com.chat.business.library.R;
 import com.chat.business.library.ui.ChatMessageActivity;
@@ -19,12 +21,13 @@ import com.zhy.m.permission.MPermissions;
  * Create by www.lijin@foxmail.com on 2019/1/4 0004.
  * <br/>
  */
-
+@Route(path = "/chat/ChatLoginActivity")
 public class ChatLoginActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ARouter.getInstance().inject(this);
         setContentView(R.layout.chat_login_layout);
         findViewById(R.id.chat_test_qx).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +65,7 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
                                     @Override
                                     public void run() {
                                         EMClient.getInstance().logout(false);
-                                        Toast.makeText(ChatLoginActivity.this, "login error", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChatLoginActivity.this, "login error is code:" + i + " and note:" + s, Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
@@ -100,6 +103,13 @@ public class ChatLoginActivity extends BaseSwipeBackActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ChatLoginActivity.this, ChatMessageActivity.class));
+            }
+        });
+        findViewById(R.id.chat_main_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //登录成功后 跳转到主页
+                ARouter.getInstance().build("/app/ChatLoginActivity").navigation();
             }
         });
     }
