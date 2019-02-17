@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +15,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,6 +35,7 @@ import com.smallvideo.maiguo.MainActivity;
 import com.smallvideo.maiguo.R;
 import com.smallvideo.maiguo.aliyun.bean.ActionInfo;
 import com.smallvideo.maiguo.aliyun.bean.AliyunSvideoActionConfig;
+import com.smallvideo.maiguo.aliyun.media.MediaActivity;
 import com.smallvideo.maiguo.aliyun.util.Common;
 import com.smallvideo.maiguo.aliyun.util.FixedToastUtils;
 import com.smallvideo.maiguo.aliyun.util.NotchScreenUtil;
@@ -75,6 +75,8 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
     private int mFrame = 30;
     private VideoDisplayMode mCropMode = VideoDisplayMode.SCALE;
     private static final int REQUEST_CODE_PLAY = 2002;
+    /*视频扫描刷新*/
+    private MediaScannerConnection msc;
     /**
      * 判断是否电话状态
      * true: 响铃, 通话
@@ -125,6 +127,10 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         if (!checkResult) {
             PermissionUtils.requestPermissions(this, permission, PERMISSION_REQUEST_CODE);
         }
+        //初始化视频扫描
+        msc = new MediaScannerConnection(this, null);
+        msc.connect();
+
         videoRecordView = findViewById(R.id.testRecordView);
         videoRecordView.setActivity(this);
         videoRecordView.setGop(mGop);
@@ -135,7 +141,6 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         videoRecordView.setVideoQuality(mVideoQuality);
         videoRecordView.setResolutionMode(mResolutionMode);
         videoRecordView.setVideoCodec(mVideoCodec);
-
 
     }
 
@@ -329,6 +334,14 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         videoRecordView.startPreview();
+        //选择本地视频
+        videoRecordView.setOnSelectLocalListener(new AliyunSVideoRecordView.OnSelectLocalListener() {
+            @Override
+            public void onSelectLocal() {
+                startActivity(new Intent(AlivcSvideoRecordActivity.this, MediaActivity.class));
+            }
+        });
+        //返回
         videoRecordView.setBackClickListener(new AliyunSVideoRecordView.OnBackClickListener() {
             @Override
             public void onClick() {
@@ -339,6 +352,8 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         videoRecordView.setCompleteListener(new AliyunSVideoRecordView.OnFinishListener() {
             @Override
             public void onComplete(String path,int duration) {
+                //刷新刚录制的视频
+                scanFile(path);
                 AliyunIImport mImport= AliyunImportCreator.getImportInstance(AlivcSvideoRecordActivity.this);
                 mImport.setVideoParam(mVideoParam);
                 mImport.addMediaClip(new AliyunVideoClip.Builder()
@@ -360,6 +375,12 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void scanFile(String path) {
+        if (msc != null && msc.isConnected()) {
+            msc.scanFile(path, "video/mp4");
+        }
     }
 
     @Override

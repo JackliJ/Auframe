@@ -155,7 +155,7 @@
     <color name="aliyun_tools_bar_color">#881B2133</color>
     <color name="aliyun_color_red">#ff0000</color>
     <color name="aliyun_music_select_actionbar_bg">#373d41</color>
-    <color name="aliyun_color_record_duraton">#fd4646</color>
+    <color name="aliyun_color_record_duraton">#F39D21</color>
     <color name="alivc_svideo_action_bar_bg">#232A42</color>
     <color name="alivc_chooser_pager_bg">#B3000000</color>
     <color name="alivc_chooser_indicator_bg">#B3000000 </color>

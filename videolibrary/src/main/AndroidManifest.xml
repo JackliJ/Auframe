@@ -40,6 +40,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+
+        <activity
+            android:label="选择本地视频"
+            android:name=".aliyun.media.MediaActivity"/>
     </application>
 
 </manifest>

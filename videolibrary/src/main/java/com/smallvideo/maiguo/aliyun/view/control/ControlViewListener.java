@@ -65,4 +65,8 @@ public interface ControlViewListener {
      * 删除点击事件
      */
     void onDeleteClick();
+    /**
+     * 选择本地视频
+     */
+    void onSelectLocal();
 }

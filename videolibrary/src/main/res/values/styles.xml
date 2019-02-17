@@ -22,24 +22,24 @@
         <item name="qusnap_timeline_del_backgound_color">@color/aliyun_timeline_background_del_color</item>
         <item name="qusnap_back_icon">@mipmap/aliyun_svideo_icon_back</item>
         <item name="qusnap_switch_light_icon">@drawable/aliyun_svideo_snap_switch_light_selector</item>
-        <item name="qusnap_switch_light_icon_disable">@mipmap/aliyun_svideo_icon_light_dis</item>
+        <item name="qusnap_switch_light_icon_disable">@mipmap/video_flash_shut</item>
         <item name="qusnap_switch_light_icon_visibility">visible</item>
         <item name="qusnap_switch_camera_icon">@drawable/aliyun_svideo_snap_switch_camera</item>
         <item name="qusnap_switch_camera_icon_visibility">visible</item>
-        <item name="qusnap_beauty_icon">@drawable/aliyun_svideo_snap_switch_beauty</item>
+        <!--<item name="qusnap_beauty_icon">@drawable/aliyun_svideo_snap_switch_beauty</item>-->
         <item name="qusnap_beauty_icon_visibility">visible</item>
         <item name="qusnap_record_icon">@drawable/aliyun_svideo_snap_record_state_selector</item>
-        <item name="qusnap_delete_icon">@drawable/aliyun_svideo_snap_icon_delete</item>
-        <item name="qusnap_complete_icon">@drawable/aliyun_svideo_snap_icon_complete</item>
-        <item name="qusnap_gallery_icon">@mipmap/aliyun_svideo_icon_default</item>
+        <!--<item name="qusnap_delete_icon">@drawable/aliyun_svideo_snap_icon_delete</item>-->
+        <!--<item name="qusnap_complete_icon">@drawable/aliyun_svideo_snap_icon_complete</item>-->
+        <!--<item name="qusnap_gallery_icon">@mipmap/aliyun_svideo_icon_default</item>-->
         <item name="qusnap_gallery_icon_visibility">visible</item>
         <item name="qusnap_time_txt_color">@android:color/white</item>
         <item name="qusnap_time_txt_size">15dp</item>
         <item name="qusnap_time_txt_visibility">visible</item>
         <item name="qusnap_time_line_pos_y">0dp</item>
-        <item name="qusnap_crop_sweep_left">@mipmap/aliyun_svideo_icon_sweep_left</item>
-        <item name="qusnap_crop_sweep_right">@mipmap/aliyun_svideo_icon_sweep_right</item>
-        <item name="qusnap_crop_seek_frame">@mipmap/aliyun_svideo_icon_frame</item>
+        <!--<item name="qusnap_crop_sweep_left">@mipmap/aliyun_svideo_icon_sweep_left</item>-->
+       <!-- <item name="qusnap_crop_sweep_right">@mipmap/aliyun_svideo_icon_sweep_right</item>-->
+        <!--<item name="qusnap_crop_seek_frame">@mipmap/aliyun_svideo_icon_frame</item>-->
         <item name="qusnap_crop_seek_padding_color">@android:color/holo_red_dark</item>
         <item name="qusnap_crop_icon_transform">@drawable/aliyun_svideo_snap_transform_selector</item>
         <item name="qusnap_crop_icon_transform_visibility">visible</item>
@@ -158,33 +158,33 @@
     <!--录制模块的UI配置（专业版）-->
     <style name="AlivcRecordUIStyle" parent="Theme.AppCompat.NoActionBar">
         <!--音乐按钮图片-->
-        <item name="musicImage">@mipmap/alivc_svideo_icon_magic_music</item>
+        <!--<item name="musicImage">@mipmap/alivc_svideo_icon_magic_music</item>-->
         <!--闪光灯按钮图片 - 开启-->
-        <item name="lightImageOpen">@mipmap/aliyun_svideo_icon_magic_light</item>
+        <item name="lightImageOpen">@mipmap/video_flash_open</item>
         <!--闪光灯按钮图片 - 自动-->
-        <item name="lightImageAuto">@mipmap/aliyun_svideo_icon_magic_light_auto</item>
+        <item name="lightImageAuto">@mipmap/video_flash_open</item>
         <!--闪光灯按钮图片 - 关闭-->
-        <item name="lightImageClose">@mipmap/aliyun_svideo_icon_magic_light_off</item>
+        <item name="lightImageClose">@mipmap/video_flash_shut</item>
         <!--闪光灯按钮图片 - 不可用/与关闭的图标相同自动加color过滤-->
-        <item name="lightImageUnable">@mipmap/aliyun_svideo_icon_magic_light_off</item>
+        <item name="lightImageUnable">@mipmap/video_flash_shut</item>
         <!--倒计时图片-->
-        <item name="countdownImage">@mipmap/alivc_svideo_icon_magic</item>
+        <!--<item name="countdownImage">@mipmap/alivc_svideo_icon_magic</item>-->
         <!--切换摄像头的图片-->
         <item name="switchCameraImage">@mipmap/alivc_svideo_icon_magic_turn</item>
         <!--完成的按钮图片 - 不可用-->
-        <item name="finishImageUnable">@mipmap/alivc_svideo_icon_next_not_ready</item>
+        <!--<item name="finishImageUnable">@mipmap/alivc_svideo_icon_next_not_ready</item>-->
         <!--完成的按钮图片 - 可用-->
-        <item name="finishImageAble">@mipmap/alivc_svideo_icon_next_complete</item>
+        <!--<item name="finishImageAble">@mipmap/alivc_svideo_icon_next_complete</item>-->
         <!--底部滤镜，美颜，美肌对应的按钮图片-->
         <item name="faceImage">@mipmap/alivc_svideo_icon_beauty_face</item>
         <!--底部动图mv对应的按钮图片-->
-        <item name="magicImage">@mipmap/alivc_svideo_icon_gif_effect</item>
+       <!-- <item name="magicImage">@mipmap/alivc_svideo_icon_gif_effect</item>-->
         <!--拍摄按钮图片 - 未开始拍摄-->
-        <item name="videoShootImageNormal">@mipmap/alivc_svideo_bg_record_storp</item>
+        <!--<item name="videoShootImageNormal">@mipmap/alivc_svideo_bg_record_storp</item>-->
         <!--拍摄按钮图片 - 拍摄中-->
-        <item name="videoShootImageShooting">@mipmap/alivc_svideo_bg_record_pause</item>
+        <!--<item name="videoShootImageShooting">@mipmap/alivc_svideo_bg_record_pause</item>-->
         <!--拍摄按钮图片 - 长按中-->
-        <item name="videoShootImageLongPressing">@mipmap/alivc_svideo_bg_record_start</item>
+        <!--<item name="videoShootImageLongPressing">@mipmap/alivc_svideo_bg_record_start</item>-->
         <!--回删对应的图片-->
         <item name="deleteImage">@mipmap/alivc_svideo_icon_delete</item>
         <!--拍摄中红点对应的图片-->

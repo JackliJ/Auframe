@@ -2,6 +2,7 @@ package com.smallvideo.maiguo.aliyun.view;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
@@ -21,7 +22,6 @@ import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import com.aliyun.common.global.AliyunTag;
 import com.aliyun.common.utils.CommonUtil;
 import com.aliyun.recorder.AliyunRecorderCreator;
 import com.aliyun.recorder.supply.AliyunIClipManager;
@@ -51,6 +51,7 @@ import com.smallvideo.maiguo.aliyun.listener.OnBeautyModeChangeListener;
 import com.smallvideo.maiguo.aliyun.listener.OnBeautyParamsChangeListener;
 import com.smallvideo.maiguo.aliyun.listener.OnBeautySkinItemSeletedListener;
 import com.smallvideo.maiguo.aliyun.listener.OnViewClickListener;
+import com.smallvideo.maiguo.aliyun.media.MediaActivity;
 import com.smallvideo.maiguo.aliyun.util.DensityUtil;
 import com.smallvideo.maiguo.aliyun.util.FixedToastUtils;
 import com.smallvideo.maiguo.aliyun.util.OrientationDetector;
@@ -365,7 +366,8 @@ public class AliyunSVideoRecordView extends RelativeLayout
 
     private void initRecordTimeView() {
         mRecordTimeView = new RecordTimelineView(getContext());
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtil.dip2px(getContext(), 10));
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, DensityUtil.dip2px(getContext(), 4));
+        params.setMargins(6,6,6,0);
         mRecordTimeView.setColor(R.color.aliyun_color_record_duraton, R.color.aliyun_colorPrimary, R.color.aliyun_white,
             R.color.alivc_bg_record_time);
         mRecordTimeView.setMaxDuration(clipManager.getMaxDuration());
@@ -410,19 +412,26 @@ public class AliyunSVideoRecordView extends RelativeLayout
     private void initControlView() {
         mControlView = new ControlView(getContext());
         mControlView.setControlViewListener(new ControlViewListener() {
+           //返回事件
             @Override
             public void onBackClick() {
                 if (mBackClickListener != null) {
                     mBackClickListener.onClick();
                 }
             }
-
+            //选择本地视频
+            @Override
+            public void onSelectLocal() {
+                if (mBackClickListener != null) {
+                    mSelectLocalListener.onSelectLocal();
+                }
+            }
+            //下一步 即完成录制
             @Override
             public void onNextClick() {
-                // 完成录制
                 finishRecording();
             }
-
+            //美颜弹窗
             @Override
             public void onBeautyFaceClick() {
                 showBeautyFaceView();
@@ -456,6 +465,7 @@ public class AliyunSVideoRecordView extends RelativeLayout
 
             @Override
             public void onLightSwitch(FlashType flashType) {
+
                 if (recorder != null) {
                     for (com.aliyun.svideo.sdk.external.struct.recorder.FlashType type : com.aliyun.svideo.sdk
                         .external.struct.recorder.FlashType
@@ -464,7 +474,6 @@ public class AliyunSVideoRecordView extends RelativeLayout
                             recorder.setLight(type);
                         }
                     }
-
                 }
             }
 
@@ -1510,10 +1519,15 @@ public class AliyunSVideoRecordView extends RelativeLayout
         addView(view, params);//添加到布局中
     }
 
-    /**
-     * 录制界面返回按钮click listener
-     */
+    //录制界面返回按钮click listener
     private OnBackClickListener mBackClickListener;
+
+    //选择本地视频
+    private OnSelectLocalListener mSelectLocalListener;
+
+    public void setOnSelectLocalListener(OnSelectLocalListener selectLocalListener){
+        this.mSelectLocalListener = selectLocalListener;
+    }
 
     public void setBackClickListener(OnBackClickListener listener) {
         this.mBackClickListener = listener;
@@ -1590,6 +1604,12 @@ public class AliyunSVideoRecordView extends RelativeLayout
      */
     public interface OnBackClickListener {
         void onClick();
+    }
+    /**
+     * 选择本地视频
+     */
+    public interface OnSelectLocalListener{
+        void onSelectLocal();
     }
 
     /**
@@ -1734,12 +1754,10 @@ public class AliyunSVideoRecordView extends RelativeLayout
         if (recorder != null) {
             recorder.setMediaInfo(getMediaInfo());
         }
-
     }
 
     /**
      * 设置视频码率
-     *
      * @param mResolutionMode
      */
     public void setResolutionMode(int mResolutionMode) {

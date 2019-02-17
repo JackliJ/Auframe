@@ -29,31 +29,33 @@ import java.util.List;
 public class ControlView extends RelativeLayout implements View.OnTouchListener {
     private static final String TAG = ControlView.class.getSimpleName();
     private static final int MAX_ITEM_COUNT = 5;
-    private LinearLayout llBeautyFace;
-    private LinearLayout llGifEffect;
+    //滤镜
+    private TextView vFilterFace;
+    /*美颜*/
+    private TextView vBeauty;
+    /*倒计时拍摄*/
     private ImageView ivReadyRecord;
+    //闪光灯
     private ImageView aliyunSwitchLight;
     private ImageView aliyunSwitchCamera;
+    /*回删*/
+    private ImageView aliyunDelete;
+    /*选择本地视频*/
+    private ImageView vSelectLocal;
+    /*下一步*/
     private ImageView aliyunComplete;
+    //返回
     private ImageView aliyunBack;
     private LinearLayout aliyunRecordLayoutBottom;
-    private LinearLayout aliyunRateBar;
-    private TextView aliyunRateQuarter;
-    private TextView aliyunRateHalf;
-    private TextView aliyunRateOrigin;
-    private TextView aliyunRateDouble;
-    private TextView aliyunRateDoublePower2;
     private TextView aliyunRecordDuration;
+    /*录制按扭*/
     private FrameLayout aliyunRecordBtn;
 //    private FanProgressBar aliyunRecordProgress;
-    private TextView aliyunDelete;
-    private ImageView mAlivcMusic;
     private TextView mRecordTipTV;
     private FrameLayout mTitleView;
-    private StringScrollPicker mPickerView;
     private ControlViewListener mListener;
     //录制模式
-    private RecordMode recordMode = RecordMode.LONG_PRESS;
+    private RecordMode recordMode = RecordMode.SINGLE_CLICK;
     //是否有录制片段，true可以删除，不可选择音乐、拍摄模式view消失
     private boolean hasRecordPiece = false;
     //是否可以完成录制，录制时长大于最小录制时长时为true
@@ -106,51 +108,41 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
         aliyunSwitchLight = (ImageView) findViewById(R.id.aliyun_switch_light);
         aliyunSwitchCamera = (ImageView) findViewById(R.id.aliyun_switch_camera);
         aliyunComplete = (ImageView) findViewById(R.id.aliyun_complete);
+        //返回
         aliyunBack = (ImageView) findViewById(R.id.aliyun_back);
         aliyunRecordLayoutBottom = (LinearLayout) findViewById(R.id.aliyun_record_layout_bottom);
-        aliyunRateBar = (LinearLayout) findViewById(R.id.aliyun_rate_bar);
-        aliyunRateQuarter = (TextView) findViewById(R.id.aliyun_rate_quarter);
-        aliyunRateHalf = (TextView) findViewById(R.id.aliyun_rate_half);
-        aliyunRateOrigin = (TextView) findViewById(R.id.aliyun_rate_origin);
-        aliyunRateDouble = (TextView) findViewById(R.id.aliyun_rate_double);
-        aliyunRateDoublePower2 = (TextView) findViewById(R.id.aliyun_rate_double_power2);
         aliyunRecordDuration = (TextView) findViewById(R.id.aliyun_record_duration);
         aliyunRecordBtn = (FrameLayout) findViewById(R.id.aliyun_record_bg);
 //        aliyunRecordProgress = (FanProgressBar) findViewById(R.id.aliyun_record_progress);
-        aliyunDelete = (TextView) findViewById(R.id.aliyun_delete);
-        llBeautyFace = findViewById(R.id.ll_beauty_face);
-        llGifEffect = findViewById(R.id.ll_gif_effect);
-        mPickerView = findViewById(R.id.alivc_video_picker_view);
+        //回删
+        aliyunDelete = (ImageView) findViewById(R.id.aliyun_delete);
+        //选择本地视频
+        vSelectLocal = (ImageView) findViewById(R.id.iv_select_local);
+        //滤镜
+        vFilterFace = findViewById(R.id.tv_beauty_face);
+        //美颜
+        vBeauty = findViewById(R.id.tv_beauty);
         mTitleView = findViewById(R.id.alivc_record_title_view);
         mRecordTipTV = findViewById(R.id.alivc_record_tip_tv);
-        mAlivcMusic = findViewById(R.id.alivc_music);
-        //uiStyleConfig
-        //音乐按钮
-        //倒计时
-        //完成的按钮图片 - 不可用
-        //底部滤镜，美颜，美肌对应的按钮图片
-        //底部动图mv对应的按钮图片
+        //设置图片
         UIConfigManager.setImageResourceConfig(
-                new ImageView[]{mAlivcMusic, ivReadyRecord, aliyunComplete, findViewById(R.id.iv_beauty_face), findViewById(R.id.iv_gif_effect)}
-                , new int[]{R.attr.musicImage, R.attr.countdownImage, R.attr.finishImageUnable, R.attr.faceImage, R.attr.magicImage}
-                , new int[]{R.mipmap.alivc_svideo_icon_magic_music, R.mipmap.alivc_svideo_icon_magic, R.mipmap.alivc_svideo_icon_next_not_ready, R.mipmap.alivc_svideo_icon_beauty_face, R.mipmap.alivc_svideo_icon_gif_effect}
+                new ImageView[]{ ivReadyRecord, aliyunComplete}
+                , new int[]{ R.attr.countdownImage, R.attr.finishImageUnable}
+                , new int[]{ R.mipmap.video_time_off, R.mipmap.video_next}
         );
 
         //回删对应的图片
         //拍摄中红点对应的图片
         UIConfigManager.setImageResourceConfig(
-                new TextView[]{aliyunDelete, aliyunRecordDuration}
-                , new int[]{0, 0}
-                , new int[]{R.attr.deleteImage, R.attr.dotImage}
-                , new int[]{R.mipmap.alivc_svideo_icon_delete, R.mipmap.alivc_svideo_record_time_tip});
+                new TextView[]{aliyunRecordDuration}
+                , new int[]{ 0}
+                , new int[]{ R.attr.dotImage}
+                , new int[]{R.mipmap.alivc_svideo_record_time_tip});
         //切换摄像头的图片
         aliyunSwitchCamera.setImageDrawable(getSwitchCameraDrawable());
         List<String> strings = new ArrayList<>(2);
         strings.add(getResources().getString(R.string.alivc_record_click));
         strings.add(getResources().getString(R.string.alivc_record_long_press));
-        mPickerView.setData(strings);
-        //向上的三角形对应的图片
-        mPickerView.setCenterItemBackground(UIConfigManager.getDrawableResources(getContext(), R.attr.triangleImage, R.mipmap.alivc_svideo_icon_selected_indicator));
     }
 
     /**
@@ -175,21 +167,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
      * 给各个view设置监听
      */
     private void setViewListener() {
-        mPickerView.setOnSelectedListener(new BaseScrollPickerView.OnSelectedListener() {
-            @Override
-            public void onSelected(BaseScrollPickerView baseScrollPickerView, int position) {
-                Log.i(TAG, "onSelected:" + position);
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                if (position == 0) {
-                    recordMode = RecordMode.SINGLE_CLICK;
-                } else {
-                    recordMode = RecordMode.LONG_PRESS;
-                }
-                updateRecordBtnView();
-            }
-        });
+        //返回
         aliyunBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +179,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 }
             }
         });
-
+        //倒计时拍摄
         ivReadyRecord.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,28 +201,27 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                         mListener.onReadyRecordClick(true);
                     }
                 }
-
             }
         });
+        //闪光灯
         aliyunSwitchLight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (FastClickUtil.isFastClick()) {
                     return;
                 }
-
                 if (flashType == FlashType.ON) {
                     flashType = FlashType.OFF;
                 } else {
                     flashType = FlashType.ON;
                 }
-
                 updateLightSwitchView();
                 if (mListener != null) {
                     mListener.onLightSwitch(flashType);
                 }
             }
         });
+        //前后摄像头切换
         aliyunSwitchCamera.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +233,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 }
             }
         });
+        //下一步
         aliyunComplete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,73 +245,8 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 }
             }
         });
-        aliyunRateQuarter.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                recordRate = RecordRate.VERY_FLOW;
-                if (mListener != null) {
-                    mListener.onRateSelect(recordRate.getRate());
-                }
-                updateRateItemView();
-            }
-        });
-        aliyunRateHalf.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                recordRate = RecordRate.FLOW;
-                if (mListener != null) {
-                    mListener.onRateSelect(recordRate.getRate());
-                }
-                updateRateItemView();
-            }
-        });
-        aliyunRateOrigin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                recordRate = RecordRate.STANDARD;
-                if (mListener != null) {
-                    mListener.onRateSelect(recordRate.getRate());
-                }
-                updateRateItemView();
-            }
-        });
-        aliyunRateDouble.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                recordRate = RecordRate.FAST;
-                if (mListener != null) {
-                    mListener.onRateSelect(recordRate.getRate());
-                }
-                updateRateItemView();
-            }
-        });
-        aliyunRateDoublePower2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                recordRate = RecordRate.VERY_FAST;
-                if (mListener != null) {
-                    mListener.onRateSelect(recordRate.getRate());
-                }
-                updateRateItemView();
-            }
-        });
-        llBeautyFace.setOnClickListener(new OnClickListener() {
-
+        //滤镜
+        vFilterFace.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
@@ -344,17 +257,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 }
             }
         });
-        mAlivcMusic.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                if (mListener != null) {
-                    mListener.onMusicClick();
-                }
-            }
-        });
+        //回删
         aliyunDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -363,15 +266,11 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 }
             }
         });
-        llGifEffect.setOnClickListener(new OnClickListener() {
+        //选择本地视频
+        vSelectLocal.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (FastClickUtil.isFastClick()) {
-                    return;
-                }
-                if (mListener != null) {
-                    mListener.onGifEffectClick();
-                }
+                mListener.onSelectLocal();
             }
         });
         aliyunRecordBtn.setOnTouchListener(this);
@@ -440,18 +339,6 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
     }
 
     /**
-     * 改变录制按钮大小
-     *
-     * @param scaleRate
-     */
-    private void recordBtnScale(float scaleRate) {
-        LayoutParams recordBgLp = (LayoutParams) aliyunRecordBtn.getLayoutParams();
-        recordBgLp.width = (int) (itemWidth * scaleRate);
-        recordBgLp.height = (int) (itemWidth * scaleRate);
-        aliyunRecordBtn.setLayoutParams(recordBgLp);
-    }
-
-    /**
      * 获取录制按钮宽高
      */
     private void calculateItemWidth() {
@@ -478,7 +365,6 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
         if (recordState == RecordState.STOP) {
             mTitleView.setVisibility(VISIBLE);
             updateLightSwitchView();
-            updateMusicSelView();
             updateCompleteView();
         } else {
             mTitleView.setVisibility(GONE);
@@ -490,37 +376,18 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
      */
     private void updateCompleteView() {
         if (canComplete) {
+            //完成的按钮图片 - 可用
             aliyunComplete.setSelected(true);
             aliyunComplete.setEnabled(true);
-            //完成的按钮图片 - 可用
-            UIConfigManager.setImageResourceConfig(aliyunComplete, R.attr.finishImageAble, R.mipmap.alivc_svideo_icon_next_complete);
+            UIConfigManager.setImageResourceConfig(aliyunComplete, R.attr.finishImageAble, R.mipmap.video_next);
         } else {
+            //完成的按钮图片 - 不可用
             aliyunComplete.setSelected(false);
             aliyunComplete.setEnabled(false);
-            //完成的按钮图片 - 不可用
-            UIConfigManager.setImageResourceConfig(aliyunComplete, R.attr.finishImageUnable, R.mipmap.alivc_svideo_icon_next_not_ready);
+            UIConfigManager.setImageResourceConfig(aliyunComplete, R.attr.finishImageUnable, R.mipmap.video_next);
         }
     }
 
-    /**
-     * 更新音乐弹窗按钮
-     */
-    private void updateMusicSelView() {
-        if (hasRecordPiece) {
-            //已经开始录制不允许更改音乐
-            mAlivcMusic.setClickable(false);
-            mAlivcMusic.setColorFilter(ContextCompat.getColor(getContext(), R.color.alivc_svideo_gray));
-        } else {
-            mAlivcMusic.setColorFilter(null);
-            mAlivcMusic.setClickable(true);
-        }
-    }
-
-    private void setImageColorFilter(ImageView imageView, int colorResId) {
-        if (imageView != null) {
-            imageView.setColorFilter(ContextCompat.getColor(getContext(), colorResId));
-        }
-    }
 
     /**
      * 更新底部控制按钮
@@ -530,70 +397,13 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
             aliyunRecordLayoutBottom.setVisibility(GONE);
         } else {
             aliyunRecordLayoutBottom.setVisibility(VISIBLE);
-            updateModeSelView();
-            updateRateItemView();
             updateRecordBtnView();
             updateDeleteView();
+            //设置滤镜可见性
             if (recordState == RecordState.STOP) {
-                //其他按钮现实
-                llBeautyFace.setVisibility(VISIBLE);
-                llGifEffect.setVisibility(VISIBLE);
+                vFilterFace.setVisibility(VISIBLE);
             } else {
-                llGifEffect.setVisibility(INVISIBLE);
-                llBeautyFace.setVisibility(INVISIBLE);
-            }
-        }
-
-    }
-
-    /**
-     * 更新速录选择按钮
-     */
-    private void updateRateItemView() {
-        if (recordState == RecordState.RECORDING || recordState == RecordState.COUNT_DOWN_RECORDING) {
-            aliyunRateBar.setVisibility(INVISIBLE);
-        } else {
-            aliyunRateBar.setVisibility(VISIBLE);
-            aliyunRateQuarter.setSelected(false);
-            aliyunRateHalf.setSelected(false);
-            aliyunRateOrigin.setSelected(false);
-            aliyunRateDouble.setSelected(false);
-            aliyunRateDoublePower2.setSelected(false);
-            switch (recordRate) {
-                case VERY_FLOW:
-                    aliyunRateQuarter.setSelected(true);
-                    break;
-                case FLOW:
-                    aliyunRateHalf.setSelected(true);
-                    break;
-                case STANDARD:
-                    aliyunRateOrigin.setSelected(true);
-                    break;
-                case FAST:
-                    aliyunRateDouble.setSelected(true);
-                    break;
-                case VERY_FAST:
-                    aliyunRateDoublePower2.setSelected(true);
-                    break;
-                default:
-                    aliyunRateOrigin.setSelected(true);
-            }
-        }
-
-    }
-
-    /**
-     * 更新拍摄模式选择view
-     */
-    private void updateModeSelView() {
-        if (hasRecordPiece || recordState == RecordState.RECORDING || recordState == RecordState.COUNT_DOWN_RECORDING) {
-            mPickerView.setVisibility(GONE);
-        } else {
-            mPickerView.setVisibility(VISIBLE);
-            if (recordMode == RecordMode.SINGLE_CLICK) {
-                mPickerView.setSelectedPosition(0);
-            } else {
-                mPickerView.setSelectedPosition(1);
+                vFilterFace.setVisibility(INVISIBLE);
             }
         }
     }
@@ -602,12 +412,22 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
      * 更新删除按钮
      */
     private void updateDeleteView() {
-
         if (!hasRecordPiece || recordState == RecordState.RECORDING
                 || recordState == RecordState.COUNT_DOWN_RECORDING) {
             aliyunDelete.setVisibility(GONE);
+            aliyunComplete.setVisibility(GONE);
+
         } else {
             aliyunDelete.setVisibility(VISIBLE);
+            aliyunComplete.setVisibility(VISIBLE);
+        }
+
+        if(hasRecordPiece){
+            //如果有片段，则隐藏选择本地视频图标
+            vSelectLocal.setVisibility(GONE);
+        }else{
+            //否则，显示选择本地视频图标
+            vSelectLocal.setVisibility(VISIBLE);
         }
     }
 
@@ -616,11 +436,9 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
      */
     private void updateRecordBtnView() {
 
-
         if (recordState == RecordState.STOP) {
-            recordBtnScale(1f);
             //拍摄按钮图片 - 未开始拍摄
-            UIConfigManager.setImageBackgroundConfig(aliyunRecordBtn, R.attr.videoShootImageNormal, R.mipmap.alivc_svideo_bg_record_storp);
+            aliyunRecordBtn.setBackgroundResource(R.mipmap.video_start_record);
             aliyunRecordDuration.setVisibility(GONE);
             mRecordTipTV.setVisibility(VISIBLE);
             if (recordMode == RecordMode.LONG_PRESS) {
@@ -631,23 +449,17 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
         } else if (recordState == RecordState.COUNT_DOWN_RECORDING) {
             mRecordTipTV.setVisibility(GONE);
             aliyunRecordDuration.setVisibility(VISIBLE);
-            recordBtnScale(1.25f);
-            aliyunRecordBtn.setBackgroundResource(R.mipmap.alivc_svideo_bg_record_pause);
             //拍摄按钮图片 - 拍摄中
-            UIConfigManager.setImageBackgroundConfig(aliyunRecordBtn, R.attr.videoShootImageShooting, R.mipmap.alivc_svideo_bg_record_pause);
-
+            aliyunRecordBtn.setBackgroundResource(R.mipmap.video_stop_record);
         } else {
             mRecordTipTV.setVisibility(GONE);
             aliyunRecordDuration.setVisibility(VISIBLE);
-            recordBtnScale(1.25f);
             if (recordMode == RecordMode.LONG_PRESS) {
-                aliyunRecordBtn.setBackgroundResource(R.mipmap.alivc_svideo_bg_record_start);
                 //拍摄按钮图片 - 长按中
-                UIConfigManager.setImageBackgroundConfig(aliyunRecordBtn, R.attr.videoShootImageLongPressing, R.mipmap.alivc_svideo_bg_record_start);
+                aliyunRecordBtn.setBackgroundResource(R.mipmap.video_stop_record);
             } else {
-                aliyunRecordBtn.setBackgroundResource(R.mipmap.alivc_svideo_bg_record_pause);
                 //拍摄按钮图片 - 拍摄中
-                UIConfigManager.setImageBackgroundConfig(aliyunRecordBtn, R.attr.videoShootImageShooting, R.mipmap.alivc_svideo_bg_record_pause);
+                aliyunRecordBtn.setBackgroundResource(R.mipmap.video_stop_record);
             }
         }
     }
@@ -660,7 +472,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
             aliyunSwitchLight.setClickable(false);
             // 前置摄像头状态, 闪光灯图标变灰
             aliyunSwitchLight.setColorFilter(ContextCompat.getColor(getContext(), R.color.alivc_svideo_gray));
-            UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageUnable, R.mipmap.aliyun_svideo_icon_magic_light_off);
+            UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageUnable, R.mipmap.video_flash_shut);
 
         } else if (cameraType == CameraType.BACK) {
             aliyunSwitchLight.setClickable(true);
@@ -670,12 +482,12 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 case ON:
                     aliyunSwitchLight.setSelected(true);
                     aliyunSwitchLight.setActivated(false);
-                    UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageOpen, R.mipmap.aliyun_svideo_icon_magic_light);
+                    UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageOpen, R.mipmap.video_flash_open);
                     break;
                 case OFF:
                     aliyunSwitchLight.setSelected(true);
                     aliyunSwitchLight.setActivated(true);
-                    UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageClose, R.mipmap.aliyun_svideo_icon_magic_light_off);
+                    UIConfigManager.setImageResourceConfig(aliyunSwitchLight, R.attr.lightImageClose, R.mipmap.video_flash_shut);
                     break;
                 default:
                     break;
@@ -727,9 +539,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
      */
     public void setHasRecordPiece(boolean hasRecordPiece) {
         this.hasRecordPiece = hasRecordPiece;
-        updateModeSelView();
         updateDeleteView();
-        updateMusicSelView();
     }
 
     public boolean isHasRecordPiece() {
