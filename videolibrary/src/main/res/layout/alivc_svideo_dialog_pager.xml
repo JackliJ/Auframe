@@ -7,7 +7,9 @@
     android:layout_gravity="bottom"
     android:gravity="bottom"
     android:layout_height="match_parent">
+    <!--指示器：美颜 滤镜 美em-->
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:background="@color/alivc_chooser_indicator_bg"
         android:layout_height="40dp">
@@ -19,7 +21,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_height="match_parent"
-
             android:background="@color/alivc_line_gray"/>
 
         <com.smallvideo.maiguo.aliyun.widget.PagerSlidingTabStrip
@@ -32,18 +33,19 @@
             app:pstsDividerColor="@color/aliyun_transparent"
             app:pstsUnderlineColor="@color/aliyun_transparent"
             app:pstsTabBackground="@color/aliyun_transparent"
-            app:pstsIndicatorHeight="2dp"
-            >
-        </com.smallvideo.maiguo.aliyun.widget.PagerSlidingTabStrip>
+            app:pstsIndicatorHeight="2dp"/>
+
     </LinearLayout>
+
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/alivc_line_gray_light"/>
     <com.smallvideo.maiguo.aliyun.view.WrapContentHeightViewPager
         android:id="@+id/alivc_dialog_container"
         android:layout_width="match_parent"
-        android:background="@color/alivc_chooser_pager_bg"
+        android:background="#ffffff"
         android:layout_height="wrap_content">
     </com.smallvideo.maiguo.aliyun.view.WrapContentHeightViewPager>
 

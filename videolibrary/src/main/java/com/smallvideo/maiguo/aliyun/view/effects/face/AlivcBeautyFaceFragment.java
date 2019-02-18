@@ -51,10 +51,9 @@ public class AlivcBeautyFaceFragment extends Fragment implements IPageTab, OnBea
     }
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
 
-        beautySettingView = new AlivcBeautySettingView(getContext(), true);
+        beautySettingView = new AlivcBeautySettingView(getContext(), false);
         beautySettingView.setOnBeautyLevelChangeListener(this);
         beautySettingView.setOnBeautyItemSelecedtListener(this);
         beautySettingView.setParams(beautyParams);

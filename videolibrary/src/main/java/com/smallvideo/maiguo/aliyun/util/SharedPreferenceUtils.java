@@ -47,6 +47,8 @@ public class SharedPreferenceUtils {
     private static final boolean DEFAULT_VALUE_AUTO_FOCUS = false;
     private static final boolean DEFAULT_VALUE_PUSH_MIRROR = false;
 
+    private static final String PAGE_INDEX = "index";
+
     public static void setNetconfig(Context context, int netConfig) {
         SharedPreferences mySharedPreferences = context.getSharedPreferences(SHAREDPRE_FILE, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = mySharedPreferences.edit();
@@ -426,6 +428,21 @@ public class SharedPreferenceUtils {
         editor.commit();
     }
 
-
+    /**
+     * zxd  设置viewpage下标索引
+     */
+    public static void setPageIndex(Context context, int index){
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(SHAREDPRE_FILE, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putInt(PAGE_INDEX, index);
+        editor.commit();
+    }
+    /**
+     *获取当前viewpager下标
+     */
+    public static int getPageIndex(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHAREDPRE_FILE, Activity.MODE_PRIVATE);
+        return sharedPreferences.getInt(PAGE_INDEX, 3);
+    }
 
 }

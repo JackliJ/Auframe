@@ -24,7 +24,7 @@
             android:padding="2dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:src="@mipmap/alivc_beauty_icon_detail" />
+             />
         <com.aliyun.svideo.base.widget.CircleProgressBar
             android:id="@+id/download_progress"
             android:layout_width="48dp"

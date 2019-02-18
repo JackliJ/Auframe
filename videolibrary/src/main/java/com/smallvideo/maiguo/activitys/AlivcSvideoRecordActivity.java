@@ -31,6 +31,7 @@ import com.aliyun.svideo.sdk.external.struct.common.VideoDisplayMode;
 import com.aliyun.svideo.sdk.external.struct.common.VideoQuality;
 import com.aliyun.svideo.sdk.external.struct.encoder.VideoCodecs;
 import com.aliyun.svideo.sdk.external.struct.snap.AliyunSnapVideoParam;
+import com.maiguoer.widget.dialog.CustomDialog;
 import com.smallvideo.maiguo.MainActivity;
 import com.smallvideo.maiguo.R;
 import com.smallvideo.maiguo.aliyun.bean.ActionInfo;
@@ -327,7 +328,35 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    /**
+     * 弹出确认退出框
+     */
+    private void showExitDialog(){
+        //弹出退出确认按钮
+        CustomDialog vCustomViewDialognew = new CustomDialog.Builder(this, CustomDialog.MODE_MESSAGE)
+                .setTitle(getResources().getString(R.string.video_record_give_up))
+                .setMessage(getResources().getString(R.string.video_record_exit_tip))
+                .setSingleLineMsg(true)
+                .setConfirm(getResources().getString(R.string.video_give_up), new CustomDialog.DlgCallback() {
+                    @Override
+                    public void onClick(CustomDialog dialog) {
+                        dialog.dismiss();
+                        //删除所有临时文件
+                        videoRecordView.deleteAllPart();
+                        //放回上一个页面
+                        finish();
+                    }
+                })
+                .setCancel(getResources().getString(R.string.video_cancel), new CustomDialog.DlgCallback() {
+                    @Override
+                    public void onClick(CustomDialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+        vCustomViewDialognew.show();
     }
 
     @Override
@@ -345,7 +374,7 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         videoRecordView.setBackClickListener(new AliyunSVideoRecordView.OnBackClickListener() {
             @Override
             public void onClick() {
-                finish();
+                showExitDialog();
             }
         });
         //设置录制完成回调
@@ -415,6 +444,10 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         if (initAssetPath != null) {
             initAssetPath.cancel(true);
             initAssetPath = null;
+        }
+        //释放媒体扫描库
+        if(msc != null){
+            msc.disconnect();
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,7 @@ import com.aliyun.svideo.sdk.external.struct.encoder.VideoCodecs;
 import com.aliyun.svideo.sdk.external.struct.recorder.MediaInfo;
 import com.aliyun.svideo.sdk.external.struct.snap.AliyunSnapVideoParam;
 import com.google.gson.Gson;
+import com.maiguoer.component.http.utils.SharedPreferencesUtils;
 import com.qu.preview.callback.OnFrameCallBack;
 import com.qu.preview.callback.OnTextureIdCallBack;
 import com.smallvideo.maiguo.R;
@@ -66,7 +68,9 @@ import com.smallvideo.maiguo.aliyun.view.control.RecordState;
 import com.smallvideo.maiguo.aliyun.view.countdown.AlivcCountDownView;
 import com.smallvideo.maiguo.aliyun.view.dialog.BeautyEffectChooser;
 import com.smallvideo.maiguo.aliyun.view.dialog.DialogVisibleListener;
+import com.smallvideo.maiguo.aliyun.view.effects.face.AlivcBeautyFaceFragment;
 import com.smallvideo.maiguo.aliyun.view.effects.face.BeautyFaceDetailChooser;
+import com.smallvideo.maiguo.aliyun.view.effects.filter.AlivcFilterChooseFragment;
 import com.smallvideo.maiguo.aliyun.view.effects.filter.EffectInfo;
 import com.smallvideo.maiguo.aliyun.view.effects.filter.interfaces.OnFilterItemClickListener;
 import com.smallvideo.maiguo.aliyun.view.effects.skin.BeautySkinDetailChooser;
@@ -433,8 +437,8 @@ public class AliyunSVideoRecordView extends RelativeLayout
             }
             //美颜弹窗
             @Override
-            public void onBeautyFaceClick() {
-                showBeautyFaceView();
+            public void onBeautyFaceClick(int index) {
+                showBeautyFaceView(index);
             }
 
             @Override
@@ -595,9 +599,7 @@ public class AliyunSVideoRecordView extends RelativeLayout
                 && mControlView.getCameraType() == CameraType.BACK) {
                 recorder.setLight(com.aliyun.svideo.sdk.external.struct.recorder.FlashType.TORCH);
             }
-
         }
-
     }
 
     /**
@@ -637,7 +639,6 @@ public class AliyunSVideoRecordView extends RelativeLayout
             if (effectMv != null && !TextUtils.isEmpty(effectMv.getPath())) {
                 recorder.pauseMv();
             }
-
         }
     }
 
@@ -659,120 +660,10 @@ public class AliyunSVideoRecordView extends RelativeLayout
         }
     }
 
-    /**
-     * 显示音乐选择的控件
-     */
-   /* private void showMusicSelView() {
-        if (musicChooseView == null) {
-            musicChooseView = new MusicChooser();
-
-            musicChooseView.setRecordTime(getMaxRecordTime());
-
-            musicChooseView.setMusicSelectListener(new MusicSelectListener() {
-
-                @Override
-                public void onMusicSelect(MusicFileBean musicFileBean, long startTime) {
-                    if (musicFileBean != null) {
-                        if (effectMusic != null) {
-                            mConflictEffects.remove(TYPE_MUSIC);
-                        }
-                        effectMusic = new EffectBean();
-                        effectMusic.setPath(musicFileBean.getPath());
-                        effectMusic.setStartTime(startTime);
-                        effectMusic.setDuration(getMaxRecordTime());
-
-                        mConflictEffects.put(TYPE_MUSIC, effectMusic);
-                        //recorder.setMusic(musicFileBean.path, startTime, getMaxRecordTime());
-                        //if (TextUtils.isEmpty(musicFileBean.path) || !new File(musicFileBean.path).exists()) {
-                        //    mConflictEffects.remove(TYPE_MUSIC);
-                        //
-                        //} else {
-                        //    mConflictEffects.put(TYPE_MUSIC, effectMusic);
-                        //}
-                    }
-                }
-            });
-
-            musicChooseView.setDismissListener(new DialogVisibleListener() {
-                @Override
-                public void onDialogDismiss() {
-                    mControlView.setMusicSelViewShow(false);
-                    isMusicViewShowing = false;
-                    restoreConflictEffect();
-                }
-
-                @Override
-                public void onDialogShow() {
-                    mControlView.setMusicSelViewShow(true);
-                    recorder.applyMv(new EffectBean());
-                    isMusicViewShowing = true;
-                }
-            });
-        }
-        musicChooseView.show(getFragmentManager(), TAG_MUSIC_CHOOSER);
-    }*/
-
-    /**
-     * 显示动图效果调节控件
-     */
-    /*private void showGifEffectView() {
-        if (gifEffectChooser == null) {
-            gifEffectChooser = new GIfEffectChooser();
-            gifEffectChooser.setDismissListener(this);
-            gifEffectChooser.setMvSelectListener(new MvSelectListener() {
-                @Override
-                public void onMvSelected(IMVForm imvForm) {
-                    if (isAllowChangeMv) {
-                        if (effectMv == null) {
-                            effectMv = new EffectBean();
-                        }
-                        effectMv.setId(imvForm.getId());
-                        String path = null;
-                        if (imvForm.getAspectList() != null) {
-                            path = Common.getMVPath(imvForm.getAspectList(), mGLSurfaceView.getWidth(),
-                                mGLSurfaceView.getHeight());
-                        }
-                        effectMv.setPath(path);
-                        mConflictEffects.remove(TYPE_MV);
-
-                        recorder.applyMv(effectMv);
-                        if (TextUtils.isEmpty(path)) {
-
-                            restoreConflictEffect();
-                        } else {
-                            mConflictEffects.put(TYPE_MV, effectMv);
-                        }
-                    } else {
-                        FixedToastUtils.show(mActivity, getResources().getString(R.string.alivc_not_allow_change_mv));
-                    }
-                }
-            });
-            gifEffectChooser.setPasterSelectListener(new PasterSelectListener() {
-                @Override
-                public void onPasterSelected(PreviewPasterForm imvForm) {
-                    String path;
-                    if (imvForm.getId() == 150) {
-                        //id=150的动图为自带动图
-                        path = imvForm.getPath();
-                    } else {
-                        path = DownloadFileUtils.getAssetPackageDir(getContext(),
-                            imvForm.getName(), imvForm.getId()).getAbsolutePath();
-                    }
-
-                    addEffectToRecord(path);
-
-                }
-            });
-        }
-        gifEffectChooser.show(getFragmentManager(), TAG_GIF_CHOOSER);
-    }*/
-
     private void addEffectToRecord(String path) {
-
         if (effectPaster != null) {
             recorder.removePaster(effectPaster);
         }
-
         effectPaster = new EffectPaster(path);
         recorder.addPaster(effectPaster);
 
@@ -794,10 +685,12 @@ public class AliyunSVideoRecordView extends RelativeLayout
     /**
      * 显示美颜调节的控件
      */
-    private void showBeautyFaceView() {
+    private void showBeautyFaceView(int position) {
         if (beautyEffectChooser == null) {
             beautyEffectChooser = new BeautyEffectChooser();
         }
+        //保存当前要显示的下标
+        SharedPreferenceUtils.setPageIndex(getContext(),position);
         // 滤镜改变listener
         beautyEffectChooser.setOnFilterItemClickListener(new OnFilterItemClickListener() {
             @Override
@@ -816,7 +709,6 @@ public class AliyunSVideoRecordView extends RelativeLayout
         });
         // 美颜item选中listener
         beautyEffectChooser.setOnBeautyFaceItemSeletedListener(new OnBeautyFaceItemSeletedListener() {
-
             @Override
             public void onNormalSelected(int postion, BeautyLevel beautyLevel) {
                 defaultBeautyLevel = beautyLevel;
@@ -840,11 +732,10 @@ public class AliyunSVideoRecordView extends RelativeLayout
                     faceUnityManager.setFaceBeautyBlurLevel(beautyBlurLevel);
                 }
             }
-
         });
 
         // 美肌item选中
-        beautyEffectChooser.setOnBeautySkinSelectedListener(new OnBeautySkinItemSeletedListener() {
+        /*beautyEffectChooser.setOnBeautySkinSelectedListener(new OnBeautySkinItemSeletedListener() {
             @Override
             public void onItemSelected(int postion) {
                 currentBeautySkinPosition = postion;
@@ -861,9 +752,9 @@ public class AliyunSVideoRecordView extends RelativeLayout
                 }
 
             }
-        });
+        });*/
         // 美颜微调dialog
-        beautyEffectChooser.setOnBeautyFaceDetailClickListener(new OnBeautyDetailClickListener() {
+        /*beautyEffectChooser.setOnBeautyFaceDetailClickListener(new OnBeautyDetailClickListener() {
             @Override
             public void onDetailClick() {
                 beautyEffectChooser.dismiss();
@@ -871,20 +762,20 @@ public class AliyunSVideoRecordView extends RelativeLayout
                 showBeautyFaceDetailDialog();
 
             }
-        });
+        });*/
 
         // 美肌微调dialog
-        beautyEffectChooser.setOnBeautySkinDetailClickListener(new OnBeautyDetailClickListener() {
+        /*beautyEffectChooser.setOnBeautySkinDetailClickListener(new OnBeautyDetailClickListener() {
             @Override
             public void onDetailClick() {
                 beautyEffectChooser.dismiss();
                 mControlView.setEffectSelViewShow(true);
                 showBeautySkinDetailDialog();
             }
-        });
+        });*/
 
         // 美颜普通和高级模式切换
-        beautyEffectChooser.setOnBeautyModeChangeListener(new OnBeautyModeChangeListener() {
+        /*beautyEffectChooser.setOnBeautyModeChangeListener(new OnBeautyModeChangeListener() {
             @Override
             public void onModeChange(RadioGroup group, int checkedId) {
                 float tempColorLevel = 0;
@@ -915,9 +806,8 @@ public class AliyunSVideoRecordView extends RelativeLayout
                     // 磨皮faceUnity的值范围0~10.0f
                     faceUnityManager.setFaceBeautyBlurLevel(tempBlurLevel);
                 }
-
             }
-        });
+        });*/
 
         beautyEffectChooser.setDismissListener(new DialogVisibleListener() {
             @Override
@@ -1068,7 +958,7 @@ public class AliyunSVideoRecordView extends RelativeLayout
                 }
                 saveBeautyParams(currentBeautySkinPosition, AliyunSVideoRecordView.this.beautyParams);
                 isbeautyDetailBack = false;
-                showBeautyFaceView();
+                showBeautyFaceView(3);
             }
 
             @Override
@@ -1560,8 +1450,6 @@ public class AliyunSVideoRecordView extends RelativeLayout
             }
             if (clipManager.getDuration() == 0) {
                 // 音乐可以选择
-                //                    musicBtn.setVisibility(View.VISIBLE);
-                //                    magicMusic.setVisibility(View.VISIBLE);
                 //recorder.restartMv();
                 mRecordTimeView.clear();
                 mControlView.setHasRecordPiece(false);

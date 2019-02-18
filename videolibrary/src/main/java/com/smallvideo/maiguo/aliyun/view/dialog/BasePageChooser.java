@@ -11,23 +11,22 @@ import android.widget.LinearLayout;
 
 
 import com.smallvideo.maiguo.R;
+import com.smallvideo.maiguo.aliyun.util.SharedPreferenceUtils;
 import com.smallvideo.maiguo.aliyun.widget.PagerSlidingTabStrip;
 
 import java.util.List;
 
 public abstract class BasePageChooser extends BaseChooser{
     private static final String ARG_FRAGMENT = "fragments";
-    private ViewPager mViewPager;
+    protected ViewPager mViewPager;
     protected List<Fragment> mPageList ;
     private PagerSlidingTabStrip mTabPageIndicator;
 
     private int[] tabIcons;
     private LinearLayout llBlank;
-
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.alivc_svideo_dialog_pager, container);
         return view;
     }
@@ -43,9 +42,12 @@ public abstract class BasePageChooser extends BaseChooser{
         mTabPageIndicator.setTextColorResource(R.color.aliyun_svideo_tab_text_color_selector);
         mTabPageIndicator.setTabViewId(R.layout.aliyun_svideo_layout_tab_top);
 
-        if (mPageList==null){
+        /*if (mPageList==null){
             mPageList = createPagerFragmentList();
-        }
+        }*/
+        //zxd 这里每次都重新加载，根据position加载不同的fragment
+        mPageList = createPagerFragmentList(SharedPreferenceUtils.getPageIndex(getContext()));
+
         mViewPager.setAdapter(new DialogPageAdapter(getChildFragmentManager(), mPageList));
         mTabPageIndicator.setViewPager(mViewPager);
 
@@ -63,7 +65,7 @@ public abstract class BasePageChooser extends BaseChooser{
      * 初始化ViewPager包含的fragment
      *
      */
-    public abstract List<Fragment>  createPagerFragmentList();
+    public abstract List<Fragment>  createPagerFragmentList(int index);
 
     @Override
     public void onStart() {

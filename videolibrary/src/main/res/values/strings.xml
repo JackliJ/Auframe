@@ -95,7 +95,7 @@
     <string name="alivc_not_allow_change_mv">录制过程中, 不能更改MV效果</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="alivc_filter_none">无效果</string>
+    <string name="alivc_filter_none">原图</string>
     <string name="alivc_record_click">单击拍</string>
     <string name="alivc_record_long_press">长按拍</string>
     <string name="alivc_record_press">按住拍</string>
@@ -122,8 +122,11 @@
     <string name="message_max_duration_import">视频总时长不能超过5分钟，请裁剪后继续!</string>
 
     <string name="video_cancel">取消</string>
+    <string name="video_give_up">放弃</string>
     <string name="video_ok">确定</string>
     <string name="video_select">选择视频</string>
     <string name="video_filter_face">滤镜</string>
     <string name="video_beauty_face">美颜</string>
+    <string name="video_record_exit_tip">是否放弃当前拍摄</string>
+    <string name="video_record_give_up">放弃拍摄</string>
 </resources>

@@ -101,8 +101,8 @@
         <item name="android:background">@drawable/alivc_beauty_default_bt_selector</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#A5A4A4</item>
+        <item name="android:textSize">18dp</item>
     </style>
 
     <style name="aliyun_video_bottom_dialog_animation">

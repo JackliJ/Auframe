@@ -82,11 +82,14 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mSelectedPos = 0;
         }
 
+        //当前item被选择时改变图片及文字显示样式
         if (mSelectedPos == position) {
             filterViewHolder.mImage.setSelected(true);
+            filterViewHolder.mName.setSelected(true);
             mSelectedHolder = filterViewHolder;
         } else {
             filterViewHolder.mImage.setSelected(false);
+            filterViewHolder.mName.setSelected(false);
         }
         filterViewHolder.mName.setText(name);
         filterViewHolder.itemView.setTag(holder);

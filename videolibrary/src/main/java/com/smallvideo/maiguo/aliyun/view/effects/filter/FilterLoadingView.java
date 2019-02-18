@@ -60,6 +60,8 @@ public class FilterLoadingView extends FrameLayout {
         alivcFilterAdapter = new FilterAdapter(getContext(), dataList);
 
         recyclerView.setAdapter(alivcFilterAdapter);
+        //防止全局刷新时图片闪动
+        recyclerView.setItemAnimator(null);
         // item点击事件
         alivcFilterAdapter.setOnItemClickListener(new OnFilterItemClickListener() {
             @Override

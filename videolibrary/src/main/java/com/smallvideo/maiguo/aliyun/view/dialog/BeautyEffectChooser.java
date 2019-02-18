@@ -1,6 +1,11 @@
 package com.smallvideo.maiguo.aliyun.view.dialog;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 
@@ -73,30 +78,33 @@ public class BeautyEffectChooser extends BasePageChooser implements OnFilterItem
      */
     public int currentTabPosition;
     @Override
-    public List<Fragment> createPagerFragmentList() {
+    public List<Fragment> createPagerFragmentList(int index) {
         List<Fragment> fragments = new ArrayList<>();
         filterChooseFragment = new AlivcFilterChooseFragment();
         beautyFaceFragment = new AlivcBeautyFaceFragment();
-        beautySkinFragment = new AlivcBeautySkinFragment();
+//        beautySkinFragment = new AlivcBeautySkinFragment();
 
         filterChooseFragment.setOnFilterItemClickListener(this);
         beautyFaceFragment.setOnBeautyFaceItemSeletedListener(this);
-        beautySkinFragment.setOnBeautySkinItemSelectedlistener(this);
-        fragments.add(filterChooseFragment);
-        fragments.add(beautyFaceFragment);
-        fragments.add(beautySkinFragment);
-
+//        beautySkinFragment.setOnBeautySkinItemSelectedlistener(this);
+        if(index == 1){
+            fragments.add(beautyFaceFragment);
+            fragments.add(filterChooseFragment);
+        }else{
+            fragments.add(filterChooseFragment);
+            fragments.add(beautyFaceFragment);
+        }
+//        fragments.add(beautySkinFragment);
         beautyFaceFragment.setBeautyParams(beautyParams);
-        beautySkinFragment.setBeautyParams(beautyParams);
+//        beautySkinFragment.setBeautyParams(beautyParams);
         // dialog的tab切换监听
         setOnUpdatePageSelectedListener(new OnUpdatePageSelectedListener(){
-
 
             @Override
             public void onPageSelected(int position) {
                 currentTabPosition = position;
                 beautyFaceFragment.updatePageIndex(position);
-                beautySkinFragment.updatePageIndex(position);
+//                beautySkinFragment.updatePageIndex(position);
             }
         });
 
@@ -109,14 +117,14 @@ public class BeautyEffectChooser extends BasePageChooser implements OnFilterItem
             }
         });
 
-        beautySkinFragment.setOnBeautyDetailClickListener(new OnBeautyDetailClickListener() {
+        /*beautySkinFragment.setOnBeautyDetailClickListener(new OnBeautyDetailClickListener() {
             @Override
             public void onDetailClick() {
                 if (onBeautySkinDetailClickListener != null) {
                     onBeautySkinDetailClickListener.onDetailClick();
                 }
             }
-        });
+        });*/
 
         beautyFaceFragment.setOnBeautyModeChangeListener(new OnBeautyModeChangeListener() {
             @Override

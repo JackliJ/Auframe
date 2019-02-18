@@ -19,9 +19,6 @@ import android.widget.TextView;
 import com.smallvideo.maiguo.R;
 import com.smallvideo.maiguo.aliyun.util.FastClickUtil;
 import com.smallvideo.maiguo.aliyun.util.UIConfigManager;
-import com.smallvideo.maiguo.aliyun.view.BaseScrollPickerView;
-import com.smallvideo.maiguo.aliyun.view.StringScrollPicker;
-import com.smallvideo.maiguo.aliyun.widget.FanProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,26 +137,19 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                 , new int[]{R.mipmap.alivc_svideo_record_time_tip});
         //切换摄像头的图片
         aliyunSwitchCamera.setImageDrawable(getSwitchCameraDrawable());
-        List<String> strings = new ArrayList<>(2);
-        strings.add(getResources().getString(R.string.alivc_record_click));
-        strings.add(getResources().getString(R.string.alivc_record_long_press));
     }
 
     /**
      * 获取切换摄像头的图片的selector
-     *
      * @return Drawable
      */
     private Drawable getSwitchCameraDrawable() {
-
         Drawable drawable = UIConfigManager.getDrawableResources(getContext(), R.attr.switchCameraImage, R.mipmap.alivc_svideo_icon_magic_turn);
         Drawable pressDrawable = drawable.getConstantState().newDrawable().mutate();
         pressDrawable.setAlpha(66);//透明度60%
         StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed},
-                pressDrawable);
-        stateListDrawable.addState(new int[]{},
-                drawable);
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressDrawable);
+        stateListDrawable.addState(new int[]{},drawable);
         return stateListDrawable;
     }
 
@@ -253,7 +243,19 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
                     if (FastClickUtil.isFastClick()) {
                         return;
                     }
-                    mListener.onBeautyFaceClick();
+                    mListener.onBeautyFaceClick(0);
+                }
+            }
+        });
+        //美颜
+        vBeauty.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    if (FastClickUtil.isFastClick()) {
+                        return;
+                    }
+                    mListener.onBeautyFaceClick(1);
                 }
             }
         });
@@ -399,11 +401,13 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
             aliyunRecordLayoutBottom.setVisibility(VISIBLE);
             updateRecordBtnView();
             updateDeleteView();
-            //设置滤镜可见性
+            //设置滤镜、美颜的可见性
             if (recordState == RecordState.STOP) {
                 vFilterFace.setVisibility(VISIBLE);
+                vBeauty.setVisibility(VISIBLE);
             } else {
                 vFilterFace.setVisibility(INVISIBLE);
+                vBeauty.setVisibility(INVISIBLE);
             }
         }
     }

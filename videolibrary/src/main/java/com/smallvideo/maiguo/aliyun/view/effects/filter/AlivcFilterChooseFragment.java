@@ -41,8 +41,7 @@ public class AlivcFilterChooseFragment extends Fragment implements IPageTab {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,  @Nullable Bundle savedInstanceState) {
         filterLoadingView = new FilterLoadingView(getContext());
         return filterLoadingView;
     }

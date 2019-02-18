@@ -16,8 +16,9 @@ public interface ControlViewListener {
 
     /**
      * 显示美颜选择view
+     * index  索引位置
      */
-    void onBeautyFaceClick();
+    void onBeautyFaceClick(int index);
 
     void onMusicClick();
 

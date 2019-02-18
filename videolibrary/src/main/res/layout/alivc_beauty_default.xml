@@ -14,7 +14,7 @@
         android:layout_gravity="center_vertical|right"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@mipmap/alivc_beauty_icon_detail" />
+        />
 
     <FrameLayout
         android:layout_width="345dp"
