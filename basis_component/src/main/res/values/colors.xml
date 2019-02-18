@@ -14,6 +14,12 @@
     <color name="T5">#FFFFFF</color>
     <color name="T6">#A5A4A4</color>
     <color name="T7">#434343</color>
+    <color name="T9">#666666</color>
+    <color name="T10">#999999</color>
+    <color name="T11">#CCCCCC</color>
+    <color name="T12">#FFFFFF</color>
+    <color name="T13">#2E5299</color>
+    <color name="T14">#4F4F4F</color>
 
     <!-- 02 线条 -->
     <color name="d1">#F3F4F5</color> <!--分割线通用色-->

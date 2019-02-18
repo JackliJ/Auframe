@@ -9,4 +9,12 @@
     <dimen name="fout_size_36px">18sp</dimen>
     <dimen name="alivc_record_title_icon_padding">5dp</dimen>
     <dimen name="alivc_record_title_icon_margin">8dp</dimen>
+
+    <dimen name="alivc_svideo_title_height">64dp</dimen>
+    <dimen name="alivc_svideo_btn_player_margin_b">115.5dp</dimen>
+    <dimen name="right_margin_profile_toolbar">15dp</dimen>
+    <dimen name="action_bar_profile_title_drawablePadding">4dp</dimen>
+    <dimen name="alivc_svideo_btn_player_height">33dp</dimen>
+    <dimen name="alivc_svideo_btn_player_width">100dp</dimen>
+    <dimen name="alivc_svideo_btn_radius">16.5dp</dimen>
 </resources>

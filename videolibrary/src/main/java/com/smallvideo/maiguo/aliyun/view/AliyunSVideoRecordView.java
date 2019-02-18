@@ -219,19 +219,6 @@ public class AliyunSVideoRecordView extends RelativeLayout
                     case TYPE_FILTER:
                         recorder.applyFilter((EffectFilter)entry.getValue());
                         break;
-                    case TYPE_MV:
-                        if (!isMusicViewShowing) {
-                            recorder.applyMv((EffectBean)entry.getValue());
-                        }
-                        break;
-                    case TYPE_MUSIC:
-                        EffectBean music = (EffectBean)entry.getValue();
-                        if (music != null) {
-                            recorder.setMusic(music.getPath(), music.getStartTime(), music.getDuration());
-                        }
-                        break;
-                    default:
-                        break;
                 }
             }
         }

@@ -129,4 +129,13 @@
     <string name="video_beauty_face">美颜</string>
     <string name="video_record_exit_tip">是否放弃当前拍摄</string>
     <string name="video_record_give_up">放弃拍摄</string>
+    <string name="aliyun_svideo_editor_init_failed">编辑器初始化失败</string>
+    <string name="alivc_svideo_play_film">play</string>
+    <string name="alivc_svideo_pause_film">pause</string>
+    <string name="play_video_error">该视频为错误视频</string>
+    <string name="not_supported_audio">不支持的音频格式</string>
+    <string name="not_supported_video">不支持的视频格式</string>
+    <string name="not_supported_pixel_format">不支持的文件</string>
+    <string name="res_copy">资源拷贝中</string>
+    <string name="video_finish">完成</string>
 </resources>

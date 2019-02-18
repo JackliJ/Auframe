@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/alivc_svideo_title_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/action_bar_bg"
+    android:minHeight="@dimen/alivc_svideo_title_height">
+
+    <ImageView
+        android:id="@+id/iv_left"
+        android:src="@mipmap/app_back"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="30dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:text="@string/video_finish"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/video_edit_pre_finish_bg"
+        android:layout_width="70dp"
+        android:layout_height="26dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/T12"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp" />
+
+    <!--圆形加载进度-->
+    <com.maiguoer.widget.CustomCircleProgressBar
+        android:visibility="gone"
+        android:id="@+id/custom_progress"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:inside_color="@color/T12"
+        app:outside_color="@color/T2"
+        app:outside_radius="40dp"
+        app:progress="0"
+        app:progress_text_color="@color/T12"
+        app:progress_text_size="13sp"
+        app:progress_width="1dp" />
+</RelativeLayout>

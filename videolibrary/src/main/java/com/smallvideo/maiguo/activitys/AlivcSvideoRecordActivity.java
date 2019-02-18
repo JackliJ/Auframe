@@ -36,7 +36,10 @@ import com.smallvideo.maiguo.MainActivity;
 import com.smallvideo.maiguo.R;
 import com.smallvideo.maiguo.aliyun.bean.ActionInfo;
 import com.smallvideo.maiguo.aliyun.bean.AliyunSvideoActionConfig;
+import com.smallvideo.maiguo.aliyun.edit.AlivcEditorRoute;
+import com.smallvideo.maiguo.aliyun.media.AlivcSvideoEditParam;
 import com.smallvideo.maiguo.aliyun.media.MediaActivity;
+import com.smallvideo.maiguo.aliyun.media.MediaInfo;
 import com.smallvideo.maiguo.aliyun.util.Common;
 import com.smallvideo.maiguo.aliyun.util.FixedToastUtils;
 import com.smallvideo.maiguo.aliyun.util.NotchScreenUtil;
@@ -47,6 +50,7 @@ import com.smallvideo.maiguo.aliyun.widget.ProgressDialog;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 public class AlivcSvideoRecordActivity extends AppCompatActivity {
     public static final String NEED_GALLERY = "need_gallery";
@@ -173,7 +177,6 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
     private void setAssetPath() {
         String path = StorageUtils.getCacheDirectory(this).getAbsolutePath() + File.separator + Common.QU_NAME
             + File.separator;
-        Log.e("--path="+path,"<<<");
         File filter = new File(new File(path), "filter");
         String[] list = filter.list();
         if (list == null || list.length == 0) {
@@ -193,7 +196,6 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
     }
 
     public static class CopyAssetsTask extends AsyncTask<Void, Void, Void> {
-
         private WeakReference<AlivcSvideoRecordActivity> weakReference;
         ProgressDialog progressBar;
         CopyAssetsTask(AlivcSvideoRecordActivity activity) {
@@ -271,9 +273,9 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
                 width = 540;
                 break;
         }
-
         return width;
     }
+
     private int getVideoHeight(){
         int width = getVideoWidth();
         int height = 0;
@@ -392,16 +394,26 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
                     .displayMode(AliyunDisplayMode.DEFAULT)
                     .build());
                 String projectJsonPath = mImport.generateProjectConfigure();
-                Intent intent = new Intent();
-                ActionInfo action = AliyunSvideoActionConfig.getInstance().getAction();
                 //获取录制完成的配置页面
-                String tagClassName = action.getTagClassName(ActionInfo.SVideoAction.RECORD_TARGET_CLASSNAME);
+//                String tagClassName = action.getTagClassName(ActionInfo.SVideoAction.RECORD_TARGET_CLASSNAME);
 //                intent.setClassName(AlivcSvideoRecordActivity.this,tagClassName);
-                intent.setClass(AlivcSvideoRecordActivity.this, MainActivity.class);
-                intent.putExtra("video_param", mVideoParam);
-                intent.putExtra("project_json_path", projectJsonPath);
-                intent.putExtra(INTENT_PARAM_KEY_ENTRANCE, entrance);
-                startActivity(intent);
+//                intent.setClass(AlivcSvideoRecordActivity.this, MainActivity.class);
+//                intent.putExtra("video_param", mVideoParam);
+//                intent.putExtra("project_json_path", projectJsonPath);
+//                intent.putExtra(INTENT_PARAM_KEY_ENTRANCE, entrance);
+//                startActivity(intent);
+                //跳编辑预览界面
+                ArrayList<MediaInfo> resultVideos = new ArrayList<>();
+                MediaInfo info = new MediaInfo();
+                info.filePath = path;
+                resultVideos.add(info);
+                AlivcSvideoEditParam mSvideoParam = new AlivcSvideoEditParam.Build()
+                        .setRatio(AlivcSvideoEditParam.RATIO_MODE_9_16)
+                        .setResolutionMode(mResolutionMode)
+                        .setEntrance(entrance)
+                        .setBitrate(mBitrate)
+                        .build();
+                AlivcEditorRoute.startEditorActivity(AlivcSvideoRecordActivity.this, mSvideoParam,resultVideos,projectJsonPath);
             }
         });
     }

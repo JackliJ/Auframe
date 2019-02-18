@@ -25,11 +25,14 @@ import com.aliyun.svideo.sdk.external.struct.common.VideoDisplayMode;
 import com.aliyun.svideo.sdk.external.struct.common.VideoQuality;
 import com.aliyun.svideo.sdk.external.struct.encoder.VideoCodecs;
 import com.duanqu.transcode.NativeParser;
+import com.maiguoer.component.http.utils.SharedPreferencesUtils;
 import com.smallvideo.maiguo.R;
+import com.smallvideo.maiguo.aliyun.edit.AlivcEditorRoute;
 import com.smallvideo.maiguo.aliyun.util.FixedToastUtils;
 import com.smallvideo.maiguo.aliyun.widget.ProgressDialog;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +62,8 @@ public class MediaActivity extends Activity implements View.OnClickListener {
 
     private int requestWidth;
     private int requestHeight;
+    //本地选择的信息
+    List<MediaInfo> resultVideos = new ArrayList<>();
 
     private AlivcSvideoEditParam mSvideoParam;
 
@@ -268,10 +273,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
                         mTransCoder.addMedia(index, mCurrMediaInfo);
                     }
                     break;
-                default:
-                    break;
             }
-
         }
     }
     private String convertDuration2Text(long duration) {
@@ -297,10 +299,13 @@ public class MediaActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == vBack) {
             //取消
-            finish();
+//            finish();
+            resultVideos.add(storage.getCurrentMedia());
+            AlivcEditorRoute.startEditorActivity(MediaActivity.this, mSvideoParam, (ArrayList<MediaInfo>) resultVideos,null);
         } else if(v == vOk){
             //确定
-
+            resultVideos.add(storage.getCurrentMedia());
+            AlivcEditorRoute.startEditorActivity(MediaActivity.this, mSvideoParam, (ArrayList<MediaInfo>) resultVideos,null);
         }
     }
 

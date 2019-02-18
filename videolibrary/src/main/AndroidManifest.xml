@@ -44,6 +44,10 @@
         <activity
             android:label="选择本地视频"
             android:name=".aliyun.media.MediaActivity"/>
+
+        <activity
+            android:label="小视频预览编辑界面"
+            android:name=".aliyun.edit.EditorActivity"/>
     </application>
 
 </manifest>
