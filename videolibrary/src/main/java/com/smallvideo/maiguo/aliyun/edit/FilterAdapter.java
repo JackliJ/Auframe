@@ -1,11 +1,14 @@
 /*
  * Copyright (C) 2010-2017 Alibaba Group Holding Limited.
  */
-
+/**
+ * 预览编辑界面的滤镜
+ */
 package com.smallvideo.maiguo.aliyun.edit;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,12 +74,10 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         if (mSelectedPos == position) {
-            filterViewHolder.mImage.setVisibility(View.GONE);
-            filterViewHolder.mIvSelectState.setVisibility(View.VISIBLE);
+            filterViewHolder.mImage.setSelected(true);
             mSelectedHolder = filterViewHolder;
         } else {
-            filterViewHolder.mImage.setVisibility(View.VISIBLE);
-            filterViewHolder.mIvSelectState.setVisibility(View.GONE);
+            filterViewHolder.mImage.setSelected(false);
         }
         filterViewHolder.mName.setText(name);
         filterViewHolder.itemView.setTag(holder);
@@ -92,7 +93,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static class FilterViewHolder extends RecyclerView.ViewHolder {
 
         FrameLayout frameLayout;
-        ImageView mIvSelectState;
+//        ImageView mIvSelectState;
         CircularImageView mImage;
         TextView mName;
 
@@ -100,7 +101,7 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
             mImage = (CircularImageView) itemView.findViewById(R.id.resource_image_view);
             mName = (TextView) itemView.findViewById(R.id.resource_name);
-            mIvSelectState = itemView.findViewById(R.id.iv_select_state);
+//            mIvSelectState = itemView.findViewById(R.id.iv_select_state);
         }
 
     }
@@ -117,11 +118,9 @@ public class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             int position = viewHolder.getAdapterPosition();
             if (mSelectedPos != position) {
                 if(mSelectedHolder != null && mSelectedHolder.mImage != null){
-                    mSelectedHolder.mImage.setVisibility(View.VISIBLE);
-                    mSelectedHolder.mIvSelectState.setVisibility(View.GONE);
+                    mSelectedHolder.mImage.setSelected(false);
                 }
-                viewHolder.mImage.setVisibility(View.GONE);
-                viewHolder.mIvSelectState.setVisibility(View.VISIBLE);
+                viewHolder.mImage.setSelected(true);
                 mSelectedPos = position;
                 mSelectedHolder = viewHolder;
 

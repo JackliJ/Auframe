@@ -9,8 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aliyun.svideo.sdk.external.struct.common.VideoDisplayMode;
+import com.aliyun.svideo.sdk.external.struct.common.VideoQuality;
+import com.aliyun.svideo.sdk.external.struct.encoder.VideoCodecs;
 import com.smallvideo.maiguo.R;
+import com.smallvideo.maiguo.aliyun.edit.AlivcEditorRoute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +26,7 @@ public class GalleryMediaChooser {
     private RecyclerView mRecyclerView;
     private GalleryAdapter adapter;
     private MediaStorage mStorage;
+    private MediaInfo mCurrentInfo;
 
     public GalleryMediaChooser(RecyclerView recyclerView, final GalleryDirChooser dirChooser,
                                MediaStorage storage, ThumbnailGenerator thumbnailGenerator,final TextView ok){
@@ -52,10 +58,8 @@ public class GalleryMediaChooser {
             @Override
             public boolean onItemClick(GalleryAdapter adapter, int adapterPosition) {
                 if (adapter.getItemCount() > adapterPosition) {
-                    MediaInfo info = adapter.getItem(adapterPosition);
-                    if (info != null) {
-                        //保存当前被点击的视频信息
-                        mStorage.setCurrentMedia(info);
+                    mCurrentInfo = adapter.getItem(adapterPosition);
+                    if (mCurrentInfo != null) {
                         //改变确定按扭颜色
                         ok.setClickable(true);
                         ok.setTextColor(ok.getContext().getResources().getColor(R.color.T4));
@@ -68,7 +72,21 @@ public class GalleryMediaChooser {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCurrentMediaInfo();
+                ArrayList<MediaInfo> videos = new ArrayList<>();
+                AlivcSvideoEditParam mSvideoParam = new AlivcSvideoEditParam.Build()
+                        .setRatio(AlivcSvideoEditParam.RATIO_MODE_9_16)
+                        .setResolutionMode(AlivcSvideoEditParam.RESOLUTION_720P)
+                        .setHasTailAnimation(false)
+                        .setEntrance(AlivcSvideoEditParam.INTENT_PARAM_KEY_ENTRANCE)
+                        .setCropMode(VideoDisplayMode.FILL)
+                        .setFrameRate(25)
+                        .setGop(125)
+                        .setBitrate(0)
+                        .setVideoQuality(VideoQuality.SSD)
+                        .setVideoCodec(VideoCodecs.H264_HARDWARE)
+                        .build();
+                videos.add(mCurrentInfo);
+                AlivcEditorRoute.startEditorActivity(mRecyclerView.getContext(), mSvideoParam, videos,null);
             }
         });
     }

@@ -10,17 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.android.maiguo.activity.R;
-import com.blankj.utilcode.util.LogUtils;
 import com.maiguoer.component.http.utils.Utils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
 
 import skin.support.SkinCompatManager;
 import skin.support.utils.SkinPreference;

@@ -67,7 +67,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:src">@drawable/btn_white_back</item>
+        <item name="android:src">@mipmap/app_back</item>
         <item name="android:clickable">true</item>
     </style>
 

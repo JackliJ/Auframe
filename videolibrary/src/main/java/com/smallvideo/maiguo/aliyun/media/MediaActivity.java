@@ -55,17 +55,14 @@ public class MediaActivity extends Activity implements View.OnClickListener {
     private TextView vOk;
     private TextView vTitle;
 
-    private Transcoder mTransCoder;
+//    private Transcoder mTransCoder;
     private MediaInfo mCurrMediaInfo;
     private int mCropPosition;
     private boolean mIsReachedMaxDuration = false;
 
     private int requestWidth;
     private int requestHeight;
-    //本地选择的信息
-    List<MediaInfo> resultVideos = new ArrayList<>();
 
-    private AlivcSvideoEditParam mSvideoParam;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,24 +92,12 @@ public class MediaActivity extends Activity implements View.OnClickListener {
         if(videoCodecs == null){
             videoCodecs = VideoCodecs.H264_HARDWARE;
         }
-        mSvideoParam = new AlivcSvideoEditParam.Build()
-            .setRatio(mRatio)
-            .setResolutionMode(mResolutionMode)
-            .setHasTailAnimation(hasTailAnimation)
-            .setEntrance(entrance)
-            .setCropMode(scaleMode)
-            .setFrameRate(frameRate)
-            .setGop(gop)
-            .setBitrate(mBitrate)
-            .setVideoQuality(quality)
-            .setVideoCodec(videoCodecs)
-            .build();
     }
 
     private void init() {
-        mTransCoder = new Transcoder();
-        mTransCoder.init(this);
-        mTransCoder.setTransCallback(new Transcoder.TransCallback() {
+//        mTransCoder = new Transcoder();
+//        mTransCoder.init(this);
+        /*mTransCoder.setTransCallback(new Transcoder.TransCallback() {
             @Override
             public void onError(Throwable e, final int errorCode) {
                 runOnUiThread(new Runnable() {
@@ -162,7 +147,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
                     }
                 });
             }
-        });
+        });*/
 
         RecyclerView galleryRecycler = (RecyclerView) findViewById(R.id.gallery_media);
         vTitle = (TextView)findViewById(R.id.gallery_title);
@@ -244,7 +229,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
                 }
                 mSelectedVideoAdapter.addMedia(infoCopy);*/
                 //                mImport.addVideo(infoCopy.filePath, 3000, AliyunDisplayMode.DEFAULT);    //导入器中添加视频
-                mTransCoder.addMedia(infoCopy);
+//                mTransCoder.addMedia(infoCopy);
             }
         });
     }
@@ -252,7 +237,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        /*if (resultCode == Activity.RESULT_OK) {
             String path = data.getStringExtra(CropKey.RESULT_KEY_CROP_PATH);
             switch (requestCode) {
                 case REQUEST_CODE_VIDEO_CROP:
@@ -274,7 +259,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
                     }
                     break;
             }
-        }
+        }*/
     }
     private String convertDuration2Text(long duration) {
         int sec = Math.round(((float)duration) / 1000);
@@ -291,7 +276,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
         storage.saveCurrentDirToCache();
         storage.cancelTask();
-        mTransCoder.release();
+//        mTransCoder.release();
         thumbnailGenerator.cancelAllTask();
     }
 
@@ -299,13 +284,7 @@ public class MediaActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == vBack) {
             //取消
-//            finish();
-            resultVideos.add(storage.getCurrentMedia());
-            AlivcEditorRoute.startEditorActivity(MediaActivity.this, mSvideoParam, (ArrayList<MediaInfo>) resultVideos,null);
-        } else if(v == vOk){
-            //确定
-            resultVideos.add(storage.getCurrentMedia());
-            AlivcEditorRoute.startEditorActivity(MediaActivity.this, mSvideoParam, (ArrayList<MediaInfo>) resultVideos,null);
+            finish();
         }
     }
 
@@ -323,9 +302,9 @@ public class MediaActivity extends Activity implements View.OnClickListener {
         @Override
         public void onCancel(DialogInterface dialog) {
             MediaActivity mediaActivity = weakReference.get();
-            if(mediaActivity != null){
+            /*if(mediaActivity != null){
                 mediaActivity.mTransCoder.cancel();
-            }
+            }*/
         }
     }
 

@@ -21,6 +21,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +38,14 @@ import com.aliyun.svideo.sdk.external.struct.effect.EffectBase;
 import com.aliyun.svideo.sdk.external.struct.effect.EffectBean;
 import com.maiguoer.widget.CustomCircleProgressBar;
 import com.smallvideo.maiguo.R;
+import com.smallvideo.maiguo.activitys.VideoPublishActivity;
 import com.smallvideo.maiguo.aliyun.util.FixedToastUtils;
 import com.smallvideo.maiguo.aliyun.util.UIConfigManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -111,19 +115,13 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
      * 控制UI变动
      */
     private ViewOperator mViewOperate;
-    //用户滑动thumbLineBar时的监听器
-//    private ThumbLineBar.OnBarSeekListener mBarSeekListener;
     //播放时间、显示时间、缩略图位置同步接口
     private PlayerListener mPlayerListener;
     private Toast showToast;
-
-    /*
-     *  判断是编辑模块进入还是通过社区模块的编辑功能进入
-     *  svideo: 短视频
-     *  community: 社区
+    /**
+     * 合成时的路径
      */
-    private String entrance;
-
+    private String mPath = "/sdcard/output_compose.mp4";
     /**
      * 线程池
      */
@@ -132,6 +130,10 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
      * 合成进度
      */
     private CustomCircleProgressBar mCircleProgress;
+    /**
+     * 滤镜
+     */
+    private TextView mFilter;
 
     public AlivcEditView(Context context) {
         this(context, null);
@@ -165,6 +167,7 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
 
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
+        mFilter = findViewById(R.id.tv_beauty);
         resCopy = (FrameLayout)findViewById(R.id.copy_res_tip);
 //        mTransCodeTip = (FrameLayout)findViewById(R.id.transcode_tip);
 //        mTransCodeProgress = (ProgressBar)findViewById(R.id.transcode_progress);
@@ -247,9 +250,7 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
         } else {
             percent = (float)outputHeight / outputWidth;
         }
-        /*
-          指定surfaceView的宽高比是有必要的，这样可以避免某些非标分辨率下造成显示比例不对的问题
-         */
+        //指定surfaceView的宽高比是有必要的，这样可以避免某些非标分辨率下造成显示比例不对的问题
         surfaceLayout.width = mScreenWidth;
         surfaceLayout.height = Math.round((float)outputHeight * mScreenWidth / outputWidth);
 
@@ -313,9 +314,14 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
                 mIvRight.setEnabled(false);
                 //显示合成进度条
                 mCircleProgress.setVisibility(VISIBLE);
+                //删除之前合并的文件
+                File file = new File(mPath);
+                if(file.exists()){
+                    file.delete();
+                }
                 //合成方式分为两种，当前页面合成（前台页面）和其他页面合成（后台合成，这里后台并不是真正的app退到后台）
                 //前台合成如下：如果要直接合成（当前页面合成），请打开注释，参考注释代码这种方式
-                int ret = mAliyunIEditor.compose(mVideoParam, "/sdcard/output_compose.mp4", new
+                int ret = mAliyunIEditor.compose(mVideoParam, mPath, new
                  AliyunIComposeCallBack() {
                                     @Override
                                     public void onComposeError(int errorCode) {
@@ -331,7 +337,14 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
                                     @Override
                                     public void onComposeCompleted() {
                                         Log.e(AliyunTag.TAG, "Compose complete");
-                                        mCircleProgress.setVisibility(GONE);
+                                        post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mCircleProgress.setVisibility(GONE);
+                                                //跳发布界面
+                                                VideoPublishActivity.nativeToVideoPublishActivity(getContext(),mPath);
+                                            }
+                                        });
                                     }
                                 });
                                 if(ret != AliyunErrorCode.OK) {
@@ -385,7 +398,6 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
         });
 
         mPlayerListener = new PlayerListener() {
-
             @Override
             public long getCurrDuration() {
                 return mAliyunIEditor.getCurrentStreamPosition();
@@ -447,16 +459,11 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
     @Override
     public void onTabChange() {
         Log.d(TAG, "onTabChange: ");
-
     }
-
-
-    private List<EffectBase> mPasterEffecCachetList = new ArrayList<>();
 
     protected void playingPause() {
         if (mAliyunIEditor.isPlaying()) {
             mAliyunIEditor.pause();
-
             switchPlayStateUI(true);
         }
     }
@@ -465,7 +472,6 @@ public class AlivcEditView extends RelativeLayout  implements View.OnClickListen
         if (!mAliyunIEditor.isPlaying()) {
             mAliyunIEditor.play();
             mAliyunIEditor.resume();
-
             switchPlayStateUI(false);
         }
     }

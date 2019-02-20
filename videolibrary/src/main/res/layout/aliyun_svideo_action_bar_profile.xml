@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/alivc_svideo_title_height"
+    android:layout_height="64dp"
+    android:minHeight="64dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/action_bar_bg"
-    android:minHeight="@dimen/alivc_svideo_title_height">
+    android:background="@color/action_bar_bg">
 
     <ImageView
         android:id="@+id/iv_left"
@@ -28,19 +28,16 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp" />
 
-    <!--圆形加载进度-->
-    <com.maiguoer.widget.CustomCircleProgressBar
-        android:visibility="gone"
-        android:id="@+id/custom_progress"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:inside_color="@color/T12"
-        app:outside_color="@color/T2"
-        app:outside_radius="40dp"
-        app:progress="0"
-        app:progress_text_color="@color/T12"
-        app:progress_text_size="13sp"
-        app:progress_width="1dp" />
+        <!--<TextView
+            android:id="@+id/tv_beauty"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="26dp"
+            android:layout_marginTop="200dp"
+            android:text="@string/video_beauty_face"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:drawableTop="@mipmap/video_beauty_icon"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />-->
 </RelativeLayout>

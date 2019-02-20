@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.aliyun.common.utils.FileUtils;
 import com.aliyun.common.utils.ToastUtil;
@@ -290,6 +291,7 @@ public class MediaStorage {
     //zxd 保存当前视频的视频信息
     public void setCurrentMedia(MediaInfo info){
         currentMedia = info;
+        Log.e("--","info=="+currentMedia.id);
     }
 
     public void setCurrentDisplayMediaData(MediaInfo info) {

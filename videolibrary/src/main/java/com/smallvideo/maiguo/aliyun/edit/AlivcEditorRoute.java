@@ -1,6 +1,7 @@
 package com.smallvideo.maiguo.aliyun.edit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
@@ -24,14 +25,12 @@ public class AlivcEditorRoute {
 
     /**
      * 打开编辑Activity
-     *
-     * @param activity   在该activity的onActivityResult接收到合成视频的路径
+     * @param context   在该activity的onActivityResult接收到合成视频的路径
      * @param param      {@link AlivcSvideoEditParam}
      * @param mediaInfos 需要编辑的视频信息<>这里只保证我们自己录制的视频，对其他途径的视频有可能会出现无法编辑的问题</>
      */
-    public static void startEditorActivity(Activity activity, AlivcSvideoEditParam param, ArrayList<MediaInfo> mediaInfos,String projectJsonPath) {
-        Intent intent = new Intent(activity,EditorActivity.class);
-//        intent.setClassName(activity, "com.aliyun.demo.editor.EditorActivity");
+    public static void startEditorActivity(Context context, AlivcSvideoEditParam param, ArrayList<MediaInfo> mediaInfos, String projectJsonPath) {
+        Intent intent = new Intent(context,EditorActivity.class);
         param.setMediaInfo(mediaInfos.get(0));
         AliyunVideoParam mVideoParam = param.generateVideoParam();
         intent.putExtra("video_param", mVideoParam);
@@ -41,7 +40,7 @@ public class AlivcEditorRoute {
         if(!TextUtils.isEmpty(projectJsonPath)){
             intent.putExtra(KEY_PROJECT_JSON_PATH, projectJsonPath);
         }
-        activity.startActivity(intent);
+        context.startActivity(intent);
     }
 
     /**

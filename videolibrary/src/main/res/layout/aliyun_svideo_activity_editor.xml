@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_editor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,14 +15,6 @@
             layout="@layout/aliyun_svideo_action_bar_profile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/alivc_svideo_title_height" />
-
-        <!--<com.aliyun.demo.editor.thumblinebar.OverlayThumbLineBar
-            android:id="@+id/simplethumblinebar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            />-->
-
     </LinearLayout>
 
     <FrameLayout
@@ -43,6 +36,7 @@
 
     <TextView
         android:id="@+id/play_button"
+        android:visibility="invisible"
         android:layout_width="@dimen/alivc_svideo_btn_player_width"
         android:layout_height="@dimen/alivc_svideo_btn_player_height"
         android:layout_alignParentRight="true"
@@ -55,26 +49,13 @@
         android:textColor="@color/white"
         android:gravity="center"/>
 
+    <!--滤镜-->
     <include
         android:id="@+id/edit_bottom_tab"
         layout="@layout/aliyun_svideo_activity_editor_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
-   <!-- <TextView
-        android:id="@+id/tv_curr_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bar_linear"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
-        android:alpha="0.8"
-        android:background="@drawable/aliyun_svideo_shape_timeline_duration_bg"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:text="00:00"
-        android:textColor="@color/white"
-        android:textSize="8sp" />-->
+        android:layout_marginTop="200dp" />
 
     <FrameLayout
         android:id="@+id/copy_res_tip"
@@ -82,20 +63,33 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:clickable="true">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/res_copy"/>
-
         <ProgressBar
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center" />
     </FrameLayout>
 
+    <!--圆形加载进度-->
+    <com.maiguoer.widget.CustomCircleProgressBar
+        android:visibility="gone"
+        android:id="@+id/custom_progress"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:inside_color="@color/T12"
+        app:outside_color="@color/T2"
+        app:outside_radius="40dp"
+        app:progress="0"
+        app:progress_text_color="@color/T12"
+        app:progress_text_size="13sp"
+        app:progress_width="1dp" />
    <!-- <FrameLayout
         android:id="@+id/transcode_tip"
         android:layout_width="match_parent"
@@ -103,14 +97,12 @@
         android:layout_centerInParent="true"
         android:clickable="true"
         android:visibility="gone">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/transcode" />
-
         <ProgressBar
             android:id="@+id/transcode_progress"
             style="?android:progressBarStyleHorizontal"

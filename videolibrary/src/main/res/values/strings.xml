@@ -138,4 +138,9 @@
     <string name="not_supported_pixel_format">不支持的文件</string>
     <string name="res_copy">资源拷贝中</string>
     <string name="video_finish">完成</string>
+    <string name="video_publish_video">发布视频</string>
+    <string name="video_edit_tip">这一刻的想法(20字以内)</string>
+    <string name="video_delete">删除</string>
+    <string name="video_add_good">添加商品</string>
+    <string name="video_publish">发布</string>
 </resources>

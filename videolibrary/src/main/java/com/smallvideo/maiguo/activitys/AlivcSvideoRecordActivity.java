@@ -515,8 +515,6 @@ public class AlivcSvideoRecordActivity extends AppCompatActivity {
         intent.putExtra(AliyunSnapVideoParam.VIDEO_BITRATE, param.getVideoBitrate());
         intent.putExtra(AliyunSnapVideoParam.SORT_MODE,param.getSortMode());
         intent.putExtra(AliyunSnapVideoParam.VIDEO_CODEC, param.getVideoCodec());
-
-
         intent.putExtra(AliyunSnapVideoParam.VIDEO_FRAMERATE,param.getFrameRate());
         intent.putExtra(AliyunSnapVideoParam.CROP_MODE, param.getScaleMode());
         intent.putExtra(AliyunSnapVideoParam.MIN_CROP_DURATION,param.getMinCropDuration());

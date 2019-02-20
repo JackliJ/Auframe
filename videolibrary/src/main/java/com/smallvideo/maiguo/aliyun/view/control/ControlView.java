@@ -125,7 +125,7 @@ public class ControlView extends RelativeLayout implements View.OnTouchListener 
         UIConfigManager.setImageResourceConfig(
                 new ImageView[]{ ivReadyRecord, aliyunComplete}
                 , new int[]{ R.attr.countdownImage, R.attr.finishImageUnable}
-                , new int[]{ R.mipmap.video_time_off, R.mipmap.video_next}
+                , new int[]{ R.mipmap.video_time_count, R.mipmap.video_next}
         );
 
         //回删对应的图片
