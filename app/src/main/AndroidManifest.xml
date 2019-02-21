@@ -94,11 +94,11 @@
         <activity
             android:name=".MainShowActivity"
             android:label="启动页">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <!--<service-->
@@ -153,6 +153,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
         </activity>
+
+
+        <!-- ************ Login start **************** -->
+        <activity
+            android:name=".login.AutoLoginActivity"
+            android:label="运营商 自动 一键 登录"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ************ Login end **************** -->
     </application>
 
 </manifest>

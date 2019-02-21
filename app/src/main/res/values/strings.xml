@@ -14,4 +14,15 @@
     <string name="main_merchant">商户</string>
     <string name="main_communication">交流</string>
     <string name="main_me">我的</string>
+
+
+    <!-- login  -->
+    <string name="login_str1">本机号码一键登录</string>
+    <string name="login_str2">账号密码登录</string>
+    <string name="login_str3">注册</string>
+    <string name="login_str4">其他方式</string>
+    <string name="login_str5"><![CDATA[<font color="#A5A4A4">同意</font><font color="#FF4D46">《脉果儿服务条款》</font>]]></string>
+    <string name="login_str6">本机号码</string>
+    <string name="login_str7">请使用移动网络数据进行一键登录</string>
+    <!-- login  -->
 </resources>
