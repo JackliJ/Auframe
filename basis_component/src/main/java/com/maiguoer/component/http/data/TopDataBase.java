@@ -25,7 +25,7 @@ public class TopDataBase {
     /**
      * 添加置顶的时间
      */
-    @Property(nameInDb = "TopTagId")
+    @Property(nameInDb = "TopTagTime")
     private long tagTime;
     @Generated(hash = 1833622195)
     public TopDataBase(Long id, String tagId, long tagTime) {

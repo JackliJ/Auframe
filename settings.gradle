@@ -1,1 +1,1 @@
-include ':app', ':demo', ':basis_component', ':guide_library', ':map', ':chat_library', ':videolibrary', ':videolibrary', ':AliyunSdk-RCE'
+include ':app', ':demo', ':basis_component', ':guide_library', ':map', ':chat_library', ':videolibrary', ':videolibrary', ':AliyunSdk-RCE', ':shop_library'

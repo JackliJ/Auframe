@@ -26,7 +26,7 @@ public class TopDataBaseDao extends AbstractDao<TopDataBase, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property TagId = new Property(1, String.class, "tagId", false, "TopTagId");
-        public final static Property TagTime = new Property(2, long.class, "tagTime", false, "TopTagId");
+        public final static Property TagTime = new Property(2, long.class, "tagTime", false, "TopTagTime");
     }
 
 
@@ -44,7 +44,7 @@ public class TopDataBaseDao extends AbstractDao<TopDataBase, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"TOP_DATA_BASE\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TopTagId\" TEXT," + // 1: tagId
-                "\"TopTagId\" INTEGER NOT NULL );"); // 2: tagTime
+                "\"TopTagTime\" INTEGER NOT NULL );"); // 2: tagTime
     }
 
     /** Drops the underlying database table. */

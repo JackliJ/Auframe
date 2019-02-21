@@ -8,4 +8,7 @@
     <string name="widget_cancel">取消</string>
     <string name="widget_ok">确定</string>
 
+    <string name="dynamic_not_good">暂无商品</string>
+    <string name="dynamic_my_buy">我的购买</string>
+    <string name="dynamic_my_store">我的店铺</string>
 </resources>
