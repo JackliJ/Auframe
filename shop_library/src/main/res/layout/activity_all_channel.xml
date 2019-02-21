@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        style="@style/TitleBarBgColorStylet">
+        <ImageView
+            android:id="@+id/btn_back"
+            style="@style/TitleBarBackStyle"
+            android:src="@mipmap/app_close"/>
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TitleBarTitleTextStyle"
+            android:text="@string/shop_all_channel" />
+        <TextView
+            android:id="@+id/tv_finish"
+            style="@style/TitleBarRightStyle"
+            android:text="@string/shop_finish" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerview"/>
+
+</LinearLayout>

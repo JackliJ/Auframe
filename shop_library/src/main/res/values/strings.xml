@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">商城</string>
+    <string name="shop_finish">完成</string>
+    <string name="shop_all_channel">全部频道</string>
+    <string name="shop_my_channel">我的频道</string>
+    <string name="shop_rec_channel">推荐频道</string>
+</resources>

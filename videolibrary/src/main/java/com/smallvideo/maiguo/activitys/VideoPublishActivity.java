@@ -37,6 +37,7 @@ import com.maiguoer.widget.dialog.CustomDialog;
 import com.smallvideo.maiguo.R;
 import com.smallvideo.maiguo.aliyun.bean.GoodCallbackEvent;
 import com.smallvideo.maiguo.aliyun.util.MediaBitMapUtil;
+import com.smallvideo.maiguo.smallvideo.SmallReleaseTagActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -263,6 +264,7 @@ public class VideoPublishActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //视频标签返回
         if (requestCode == 1122) {
             if (data != null) {
                 mTag = data.getStringExtra("mTag");
@@ -329,9 +331,8 @@ public class VideoPublishActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.tv_tag:
                 //标签
-               /* Intent in = new Intent(mContext, SmallReleaseTagActivity.class);
-                in.putExtra("type", 5);
-                startActivityForResult(in, 1122);*/
+                Intent in = new Intent(mContext, SmallReleaseTagActivity.class);
+                startActivityForResult(in, 1122);
                 break;
             case R.id.tv_publish:
                 //发布

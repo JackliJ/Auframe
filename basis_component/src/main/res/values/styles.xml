@@ -190,5 +190,10 @@
     </style>
 
 
+    <!--tablayout字体大小-->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_marginTop="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_marginTop="3dp"
+        android:background="@color/b9"
+        android:layout_width="3dp"
+        android:layout_height="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_marginLeft="5dp"
+        android:text="@string/shop_my_channel"
+        android:textSize="15sp"
+        android:textColor="@color/T4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

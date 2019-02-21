@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/b1" />
+
+    <RelativeLayout
+        android:id="@+id/titlebar"
+        style="@style/TitleBarBgColorStylet">
+
+        <TextView
+            android:id="@+id/btn_back"
+            style="@style/TitleBarBackWithOutTxtStyle" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/TitleBarTitleTextStyle"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/btn_confirm"
+            style="@style/TitleBarRightStyle"
+            android:text="" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/small_release_flowlayout"
+            zhy:max_select="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp" />
+
+    </ScrollView>
+
+</LinearLayout>
