@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <FrameLayout
+        android:id="@+id/alivc_record_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/aliyun_svideo_actionbar_bg">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/aliyun_back"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/video_exit_record" />
+            <ImageView
+                android:id="@+id/aliyun_ready_record"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/video_time_count" />
+            <ImageView
+                android:id="@+id/aliyun_switch_light"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/aliyun_switch_camera"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@mipmap/video_switch"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_beauty_face"
+            android:text="@string/video_filter_face"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:drawableTop="@mipmap/video_filter_face"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_beauty"
+            android:layout_marginTop="22dp"
+            android:text="@string/video_beauty_face"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:drawableTop="@mipmap/video_beauty_icon"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/aliyun_record_layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/aliyun_record_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:drawablePadding="5dp"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="60dp"
+            android:layout_gravity="bottom">
+
+            <FrameLayout
+                android:id="@+id/aliyun_record_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="50dp"
+                android:layout_marginLeft="50dp"
+                android:background="@mipmap/video_start_record"
+                android:visibility="visible">
+                <TextView
+                    android:id="@+id/alivc_record_tip_tv"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    tools:text="@string/alivc_record_press"
+                    android:textSize="@dimen/font_size_28px"
+                    android:textColor="@color/aliyun_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+            <ImageView
+                android:id="@+id/aliyun_delete"
+                android:layout_toLeftOf="@id/aliyun_record_bg"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/video_back_to_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_select_local"
+                android:layout_toLeftOf="@id/aliyun_record_bg"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:src="@mipmap/video_select_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/aliyun_complete"
+                android:layout_toRightOf="@id/aliyun_record_bg"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</merge>

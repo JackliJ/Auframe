@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/resource_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp">
+
+        <com.smallvideo.maiguo.aliyun.widget.CircularImageView
+            android:id="@+id/resource_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="1dp"
+            android:background="@drawable/aliyun_svideo_shape_effect_selector"
+            android:scaleType="centerInside" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/resource_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/record_video_filter_name_selector"
+        tools:text="美颜"/>
+</LinearLayout>

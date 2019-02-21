@@ -4,7 +4,6 @@ package com.maiguoer.widget;
  * Created by Jungle on 2017/8/1.
  */
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -17,16 +16,15 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.graphics.drawable.shapes.Shape;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 
 import com.maiguoer.component.http.R;
 
 import java.util.Arrays;
 
-@SuppressLint("AppCompatCustomView")
-public class ShapedImageView extends ImageView {
+public class ShapedImageView extends AppCompatImageView {
 
     public static final int SHAPE_MODE_ROUND_RECT = 1;
     public static final int SHAPE_MODE_CIRCLE = 2;

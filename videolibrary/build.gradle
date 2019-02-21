@@ -7,7 +7,6 @@ android {
     compileSdkVersion 26
 
 
-
     defaultConfig {
         minSdkVersion 20
         targetSdkVersion 26
@@ -15,8 +14,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        // 突破65536
+        multiDexEnabled true
+        /*javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                includeCompileClasspath = true
+            }
+        }*/
+        ndk {
+            abiFilters "armeabi","armeabi-v7a"
+        }
     }
+
    /* sourceSets {
         main {
             if (isBuildModule.toBoolean()) {
@@ -37,17 +47,25 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     //基础library
     compile project(':basis_component')
     //路由依赖
-    implementation 'com.alibaba:arouter-api:1.4.1'
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+//    implementation 'com.alibaba:arouter-api:1.4.1'
+//    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    //阿里云小视频
+    implementation project(':AliyunSdk-RCE')
+    implementation files('libs/AlivcCore.jar')
+//    implementation files('libs/nama.jar')
+    implementation'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.0'
+    implementation 'com.squareup.okio:okio:1.12.0'
+    api 'com.liulishuo.filedownloader:library:1.4.1'
+    //解压缩
+    compile 'org.apache.ant:ant:1.7.1'
 }
